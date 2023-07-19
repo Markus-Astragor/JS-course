@@ -1,3 +1,5 @@
+'use strict'
+
 let elements;
 const js = 'boring';
 let variable = true
@@ -68,7 +70,18 @@ switch (day) {
     );
     break
 
-    default: console.log('Invalid day nazik is great');
+  default: console.log('Invalid day nazik is great');
+}
+
+// ------------------------------------------------------functions--------------------------------------------------------------
+
+function washDishes(dishes, spoons, forks) {
+   const resultWashing = `We washed ${dishes ? dishes + ' dishes' : ''} ${spoons ? spoons + ' spoons' : ''} ${forks ? forks + ' forks': ''}`; // evrything is ok
+  // const resultWashing = `We washed ${dishes} dishes ${spoons} spoons ${forks} forks`; //ordinary using function
+  return resultWashing;
 }
 
 
+const result = washDishes(1, 3)
+
+console.log(result);

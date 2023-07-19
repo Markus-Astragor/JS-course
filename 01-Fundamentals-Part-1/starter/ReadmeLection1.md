@@ -71,3 +71,11 @@ The same situation is with division and multiplying. if we have sth like that co
                                                      if we have sth like that console.log('23' / '10') //expected output is 2,3
 
 !!! But it doesn't work with plus operator console.log('23' + '10' + 3) // expected output is '23103'
+
+## Falsy values 
+
+So these values are: 0, '', undefined, NaN, null and 'false' ---> convert to false
+
+## History of js 
+Brendan Eich created js the very first version of it in just 10 days. Firstly it had Mocha but js inharitated lots of features of Mocha.
+Then in 1996 Mocha changed its name to javaScript in order to attract java developers. However, it doesn`t have anything in common with java. 

@@ -2,13 +2,7 @@ let elements;
 const js = 'boring';
 let variable = true
 
-// if (js === 'amazing') {
-//   alert('It has lots of fun')
-// }
-// else
-// {
-//   alert('It is boring');
-// }
+
 
 function Click() {
 
@@ -23,9 +17,17 @@ function Click() {
     elements[0].innerHTML = 'Boring';
     variable = true
   }
-
-
-
-
-
 }
+
+
+const adventurer = {
+  cat: {
+    name: 'Nazik'
+  }
+}
+
+console.log('test' ,adventurer.dog?.name);
+
+console.log(2 ** 5);
+
+console.log('strings' ,'23' % '10')

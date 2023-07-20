@@ -80,17 +80,3 @@ So these values are: 0, '', undefined, NaN, null and 'false' ---> convert to fal
 Brendan Eich created js the very first version of it in just 10 days. Firstly it had Mocha but js inharitated lots of features of Mocha.
 Then in 1996 Mocha changed its name to javaScript in order to attract java developers. However, it doesn`t have anything in common with java.
 
-## Functions 
-
-if you have for examole a function which receive 3 parameters but you send only 2 parameters you need to use trinary operator in order to check if each parameter is empty or not and only in this case everyhing will be ok with this function, because if you want to try use function without one of parameter and without checkin you will ge undefined wchic is really unpleasant thing in your programm. That's why i think you can do in such way:
-
- function washDishes(dishes, spoons, forks) {
-   const resultWashing = `We washed ${dishes ? dishes + ' dishes' : ''} ${spoons ? spoons + ' spoons' : ''} ${forks ? forks + ' forks': ''}`; // evrything is ok
-   const resultWashing = `We washed ${dishes} dishes ${spoons} spoons ${forks} forks`; //ordinary using function
-  return resultWashing;
- }
-
-
-const result = washDishes(1, 3)
-
-console.log(result);

@@ -96,3 +96,29 @@ in bracket notation we can put any expression we want
 
 f.e -> const nameKey = 'Name'; 
        student[nameKey + '']; --> 'Marko'
+
+## The loops
+
+if you want to fill the empty array using loop you can do that using such algorhitm 
+
+for(let i = 0; i < arr.length; i++){
+  // first method
+  types.push(typeof jonas[i]);
+  types[i] = typeof jonas[i];
+}
+
+continue method is used to skip one iteration in loop
+break method actually stops the process
+
+We need while loop if we want to just state the condition while it will be true. For example
+
+we don't know the exact number of iterations when we reach its condtion so when it will be 6. So we can use it in array when we want to find the specific value and so on 
+
+let array = [1, 2, 3, 4, 5]
+let iterator = 0
+while(array[iterator] !== 4){
+  console.log(array[iterator]);
+  iterator++
+}
+
+but on the other side we can use a for loop instead with break

@@ -76,7 +76,7 @@ const fruitProcessor = (apples, oranges, tomatoes) => {
   const applesPieces = fruitPiecesProcessor(apples);
   const orangesPieces = fruitPiecesProcessor(oranges);
   const tomatoesPieces = fruitPiecesProcessor(tomatoes);
-  
+
   return `applesPieces ${applesPieces}, orangesPieces ${orangesPieces}, tomatoesPieces ${tomatoesPieces} `;
 }
 
@@ -98,7 +98,7 @@ console.log(years);
 const friends = ['Michael', 'Steven', 'Peter', 'Jay'];
 const newLength = friends.push('Nazlo');
 
-console.log('newLength' , newLength);
+console.log('newLength', newLength);
 
 const test = friends.unshift('Ostap');
 console.log(friends, 'test', test);
@@ -121,11 +121,16 @@ const student = {
   name: 'Marko',
   lastName: 'Dragociy',
   age: 18,
-  mybirthYear: 2004, 
-  calcAge: function(birthYear){
+  mybirthYear: 2004,
+  calcAge: function (birthYear) {
     const currentDate = new Date;
     const currentYear = currentDate.getFullYear();
-    return currentYear - this.mybirthYear;
+    this.age2 = currentYear - this.mybirthYear
+    return this.age2;
+  },
+  hasDriverLicense: false,
+  getSummary: function(){
+    console.log(`${this.name} is a ${this['age2']}-year-old and he ${this.hasDriverLicense ? 'has' : "hasn't"} driverLicense`);
   }
 }
 
@@ -151,3 +156,26 @@ console.log('studentResult', studentResult);
 const bracketStudentResult = student['calcAge'](2004);
 
 console.log('bracketStudentResult', bracketStudentResult);
+
+
+console.log('student.age2', student.age2);
+
+//Challenge in video about objects
+
+console.log(student['getSummary']());
+
+//Arrays
+
+const arrayOfNumbers = [1,2,3,4,5];
+
+for(let i = arrayOfNumbers.length - 1; i >= 0; i--){
+  console.log(arrayOfNumbers[i]);
+}
+
+
+let array = [1, 2, 3, 4, 5]
+let iterator = 0
+while(array[iterator] !== 4){
+  console.log(array[iterator]);
+  iterator++
+}

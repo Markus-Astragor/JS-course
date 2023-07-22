@@ -4,6 +4,7 @@
 const highScoreGet = localStorage.getItem('highScore');
 const highScoreGetNumber = Number(highScoreGet);
 
+let bodyStyle = document.body.style;
 let guessNumber = Math.round(Math.random() * 20);
 let scoreField = document.querySelector('.score');
 let score = 20;
@@ -15,21 +16,20 @@ let highScore;
 
 const checkResult = (number, message) => {
 
-  if (guessNumber > number) {
-    score--
-    message.innerText = 'Try again your number should be higher';
-    scoreField.innerText = score;
+  if (score === 0) {
+    message.innerText = 'You lost the game :(';
     return
   }
-  else if (guessNumber < number) {
+
+  if (guessNumber > number || guessNumber < number) {
     score--
-    message.innerText = 'Try again your number is too high';
+    number < guessNumber ? message.innerText = 'Try again your number should be higher' : message.innerText = 'Try again your number is too high';
     scoreField.innerText = score;
     return
   }
   else {
     message.innerText = `Congratulations you won this game`
-    document.body.style.backgroundColor = 'green';
+    bodyStyle.backgroundColor = 'green';
     document.querySelector('.number').innerText = number;
     if (!highScoreGetNumber || score > highScoreGetNumber) {
       highScore = score;
@@ -52,7 +52,7 @@ const again = () => {
   const messageParagrpaph = document.querySelector('.message');
   document.querySelector('.guess').value = 0
   messageParagrpaph.innerText = 'Start guessing...';
-  document.body.style.backgroundColor = '#222';
+  bodyStyle.backgroundColor = '#222';
   guessNumber = Math.round(Math.random() * 20);
   document.querySelector('.number').innerText = '?';
   scoreField.innerText = score;

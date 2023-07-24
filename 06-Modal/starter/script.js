@@ -4,7 +4,6 @@ const buttonsModals = document.querySelectorAll('.show-modal');
 const modalWindow = document.querySelector('.modal.hidden');
 let overlay = document.querySelector('.overlay.hidden');
 let btnClose = document.querySelector('.close-modal');
-console.log(modalWindow);
 
 
 const Close = () => {
@@ -19,4 +18,10 @@ buttonsModals.forEach(element => {
     overlay.classList.remove('hidden');
   })
 });
+
+document.addEventListener('keydown', (event) => {
+  if (event.key === 'Escape' && !modalWindow.classList.contains('hidden')) {
+    Close();
+  }
+})
 

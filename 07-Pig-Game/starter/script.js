@@ -15,15 +15,27 @@ const Start = () => {
 
 
 
-let guessNumber;
+let guessNumber, generalScorePlayer1, currentFieldScore;
 
 const NewGame = () => {
   Start()
+}
+
+const RollDice = () => {
   guessNumber = Math.round(Math.random() * 5) + 1;
   const cubes = document.querySelector('.dice');
   cubes.src = `dice-${guessNumber}.png`;
   cubes.style.display = 'block';
-  console.log('guessNumber', guessNumber);
+  currentFieldScore = document.querySelector('.current-score');
+  const sectionPlayer = document.querySelector('.player.player--0.player--active');
+  if (sectionPlayer) {
+    if (guessNumber === 1)
+      currentFieldScore.textContent = 0;
+
+    else
+      currentFieldScore.textContent = guessNumber;
+
+  }
 }
 
 

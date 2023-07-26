@@ -21,22 +21,41 @@ const NewGame = () => {
   Start()
 }
 
+const SwitchPlayer = (activePlayer) => {
+  let players = document.querySelectorAll('.player');
+  for (let i = 0; i < players.length; i++) {
+    if (players[i] === activePlayer) {
+      if (players[i + 1] === undefined) {
+        i = 0
+        activePlayer.classList.remove('player--active');
+        players[i].classList.add('player--active');
+      }
+      else {
+        players[i].classList.remove('player--active')
+        players[i + 1].classList.add('player--active');
+      }
+    }
+  }
+}
+
 const RollDice = () => {
   guessNumber = Math.round(Math.random() * 5) + 1;
   const cubes = document.querySelector('.dice');
   cubes.src = `dice-${guessNumber}.png`;
   cubes.style.display = 'block';
-  currentFieldScore = document.querySelector('.current-score');
-  const sectionPlayer = document.querySelector('.player.player--0.player--active');
+  let sectionPlayer = document.querySelector('.player--active');
   if (sectionPlayer) {
-    if (guessNumber === 1)
+    currentFieldScore = document.querySelector('.current-score');
+    if (guessNumber === 1) {
       currentFieldScore.textContent = 0;
-
+      SwitchPlayer(sectionPlayer);
+    }
     else
       currentFieldScore.textContent = guessNumber;
-
   }
 }
+
+
 
 
 

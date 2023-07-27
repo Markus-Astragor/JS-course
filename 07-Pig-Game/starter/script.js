@@ -3,35 +3,27 @@
 
 
 // Start with putting to zero all elements before any game
-let guessNumber, generalScorePlayer1, currentFieldScore, sectionPlayer, players, j;
-j = 0;
+let guessNumber, generalScorePlayer1, currentFieldScore, sectionPlayer, players, i;
 sectionPlayer = document.querySelector('.player--active');
 const scorePlayers = document.querySelectorAll('.score');
 const currentScores = document.querySelectorAll('.current-score');
 
-
+i = 0;
 const SwitchPlayer = (activePlayer) => {
   players = document.querySelectorAll('.player');
-  for (let i = 0; i < players.length; i++) {
-    if (players[i] === sectionPlayer) {
-      if (players[i + 1] === undefined) {
-        i = 0
-        sectionPlayer.classList.remove('player--active');
-        players[i].classList.add('player--active');
-        break;
-      }
-      else {
-        sectionPlayer.classList.remove('player--active')
-        players[i + 1].classList.add('player--active');
-      }
+  if (players[i] === sectionPlayer) {
+    if (players[i + 1] === undefined) {
+      i = 0
+      sectionPlayer.classList.remove('player--active');
+      players[i].classList.add('player--active');
     }
-    sectionPlayer = document.querySelector('.player--active');
-    if (i === 0 && j === 0) {
-      j++
-      break;
+    else {
+      sectionPlayer.classList.remove('player--active')
+      players[i + 1].classList.add('player--active');
+      i++;
     }
-
   }
+  sectionPlayer = document.querySelector('.player--active');
 }
 
 const Start = () => {

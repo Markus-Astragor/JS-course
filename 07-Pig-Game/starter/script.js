@@ -9,6 +9,8 @@ const scorePlayers = document.querySelectorAll('.score');
 const currentScores = document.querySelectorAll('.current-score');
 
 i = 0;
+score = document.querySelectorAll('.score');
+fieldscore = score[i];
 const SwitchPlayer = () => {
   players = document.querySelectorAll('.player');
   score = document.querySelectorAll('.score');
@@ -18,15 +20,18 @@ const SwitchPlayer = () => {
       sectionPlayer.classList.remove('player--active');
       players[i].classList.add('player--active');
       fieldscore = score[i];
+      cubes.style.display = 'none';
     }
     else {
       sectionPlayer.classList.remove('player--active')
       players[i + 1].classList.add('player--active');
       fieldscore = score[i + 1];
+      cubes.style.display = 'none';
       i++;
     }
   }
   sectionPlayer = document.querySelector('.player--active');
+
 }
 
 const Start = () => {
@@ -55,7 +60,7 @@ const RollDice = () => {
 }
 
 const Hold = () => {
-  fieldscore.textContent = currentFieldScore;
+  fieldscore.textContent = guessNumber;
   SwitchPlayer()
 }
 

@@ -3,14 +3,24 @@
 
 
 // Start with putting to zero all elements before any game
-let guessNumber, generalScorePlayer1, currentFieldScore, sectionPlayer, players, i, cubes, score, fieldscore;
+let guessNumber, generalScorePlayer1, currentFieldScore, sectionPlayer, players, i, cubes, score, fieldscore, sum, fieldScoreSum, currentScore;
+sum = 0;
+fieldScoreSum = 0;
 sectionPlayer = document.querySelector('.player--active');
 const scorePlayers = document.querySelectorAll('.score');
 const currentScores = document.querySelectorAll('.current-score');
+const playersScoresArray = [
+  { name: 'Player 1', scores: [] },
+  { name: 'Player 2', scores: [] }
+]
 
 i = 0;
 score = document.querySelectorAll('.score');
+currentScore = document.querySelectorAll('.current-score');
+currentFieldScore = currentScore[i];
 fieldscore = score[i];
+
+
 const SwitchPlayer = () => {
   players = document.querySelectorAll('.player');
   score = document.querySelectorAll('.score');
@@ -20,13 +30,13 @@ const SwitchPlayer = () => {
       sectionPlayer.classList.remove('player--active');
       players[i].classList.add('player--active');
       fieldscore = score[i];
-      cubes.style.display = 'none';
+      currentFieldScore = currentScore[i];
     }
     else {
       sectionPlayer.classList.remove('player--active')
       players[i + 1].classList.add('player--active');
       fieldscore = score[i + 1];
-      cubes.style.display = 'none';
+      currentFieldScore = currentScore[i + 1];
       i++;
     }
   }
@@ -49,19 +59,26 @@ const RollDice = () => {
   cubes.src = `dice-${guessNumber}.png`;
   cubes.style.display = 'block';
   if (sectionPlayer) {
-    currentFieldScore = document.querySelector('.current-score');
     if (guessNumber === 1) {
       currentFieldScore.textContent = 0;
+      sum = 0;
       SwitchPlayer();
     }
-    else
-      currentFieldScore.textContent = guessNumber;
+    else {
+      sum = sum + guessNumber;
+      currentFieldScore.textContent = sum;
+    }
+
   }
 }
 
 const Hold = () => {
-  fieldscore.textContent = guessNumber;
-  SwitchPlayer()
+  fieldScoreSum = fieldScoreSum + sum
+  fieldscore.textContent = fieldScoreSum;
+  currentFieldScore.textContent = 0;
+  SwitchPlayer();
+  sum = 0;
+  fieldScoreSum = 0;
 }
 
 

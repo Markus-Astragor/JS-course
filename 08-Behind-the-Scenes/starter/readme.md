@@ -44,3 +44,37 @@ So that's how javascript can do multiple tasks simultaneously.
 ## Engine runtime process
 
 When we ended to write a programm it convertes to AST and in this stage it is checked if it has some syntax errors or not. After that this program convertes to machine code for 0 or 1
+
+## CallStack and Heap
+
+CallStack is where functions execute and Heap is where objects store
+
+## Explanantion of the weird behaviour of objects
+
+const Marko = {
+name: 'Marko',
+age: 18
+}
+
+const Sara = Marko;
+Sara.age = 17
+
+console.log('Sara', Sara); --> {name: 'Marko', age: 17}
+console.log('Marko', Marko); --> {name: 'Marko', age: 17}
+
+We have two objects initial age is 18 but when we don't change age directly from Marko's object we have the same value as Sara's;
+
+And these objects point to the same memory cell with address(клітинка пам'яті) in which this information is contained
+when we do Sara.age = 17 we change directly the age variable in object Marko which is an initial one.
+
+When we talk about ordinary variables when we change them we create new cell in memory
+let age = 17; --> // memory cell 001
+let oldAge = age; // points to 001
+age = age + 1 --> 18 // we create new memory cell 002
+
+console.log('age', age) --> 18 points to new memory cell 002
+console.log('oldAge', oldAge) --> 17 points to old memory cell
+
+Object.assign({}, Marko);
+
+--> it creates object which merge Marko's Object and empty object

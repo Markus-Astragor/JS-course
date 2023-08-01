@@ -26,4 +26,40 @@ const restaurant = {
       close: 24,
     },
   },
+
+  order: function (starterIndex, mainIndex) {
+    return [this.starterMenu[starterIndex], this.mainMenu[mainIndex]]
+  }
 };
+
+
+// const array = [1, 2, 3];
+
+// const [a, b, c] = array;
+
+// console.log(a, b, c);
+
+// const [first, second] = restaurant.categories;
+// let [x, , z] = restaurant.categories
+// // console.log(first, second); // --> Italian Pizzeria
+// console.log(x, z); //--> displays first and third
+
+// // [x, z] = [z, x];
+
+
+// const temp = x
+// x = z
+// z = temp
+
+// console.log(x, z);
+
+
+// console.log(restaurant.order(3, 0));
+
+
+const array2 = [2, 3, 4, [5, 6, 7, 8]];
+
+const [i, , , [j, k, z, o, p = 1]] = array2;
+
+console.log(i, j, k, z, o, p); //--> 2, 5, 6, 7, 8, 1 ---> 1 we didn't have in array but it is a default value 
+

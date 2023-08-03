@@ -55,3 +55,46 @@ const array = [...arr, 10, 15, 20];
 
 Iterables: arrays, strings, maps, sets but not objects;
 It is expected to use when we pass arguments into a function or when we build new array
+
+## Short circuiting
+
+They use any data type they can return any data type, short-circuiting
+
+Example console.log(3 || 'Jonas') --> 3
+
+How does it work? if first value is truthy value it will return immediately this value.
+
+This:
+
+const guests = restaurant.guests || 10; //---> it means that if we don't have any truthy value in restaurant.guests js will automatically assign 10 to guests variable;
+
+is equal
+
+to this:
+
+const guests = restaurant.guests ? restaurant.guests : 10;
+
+## The nullish coascelling operator
+
+Introduced in ES2020
+
+Nullish values: null and undefined (not 0 or '');
+
+const guestsCorrect = restaurant.guests ?? 10;
+
+## Logical assignment operators
+
+Introduced in ES2021
+
+const rest1= {
+name: 'Markoo',
+owner: 'Markusik'
+}
+
+rest1.numGuests ||= 20
+
+we can also write like this:
+
+rest1.numGuests ??= 10;
+
+rest1.owner &&= '<Anonymous>'

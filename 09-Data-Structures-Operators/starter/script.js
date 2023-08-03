@@ -12,20 +12,20 @@
 //   starterMenu: ['Focaccia', 'Bruschetta', 'Garlic Bread', 'Caprese Salad'],
 //   mainMenu: ['Pizza', 'Pasta', 'Risotto'],
 
-//   openingHours: {
-//     thu: {
-//       open: 12,
-//       close: 22,
-//     },
-//     fri: {
-//       open: 11,
-//       close: 23,
-//     },
-//     sat: {
-//       open: 0, // Open 24 hours
-//       close: 24,
-//     },
+// openingHours: {
+//   thu: {
+//     open: 12,
+//     close: 22,
 //   },
+//   fri: {
+//     open: 11,
+//     close: 23,
+//   },
+//   sat: {
+//     open: 0, // Open 24 hours
+//     close: 24,
+//   },
+// },
 
 //   order: function (starterIndex, mainIndex) {
 //     return [this.starterMenu[starterIndex], this.mainMenu[mainIndex]]
@@ -257,10 +257,13 @@ console.log(goalkeeper, fieldPlayers);
 
 
 //punct 2
-game.team1 = {};
-game.team1.name = 'Bayern Munich'
-game.team1.gk = goalkeeper;
-game.team1.fieldPlayers = fieldPlayers;
+// game.team1 = {};
+// game.team1.name = 'Bayern Munich'
+// game.team1.gk = goalkeeper;
+// game.team1.fieldPlayers = fieldPlayers;
+
+// game.team2 = {};
+// game.team2.name = 'Borrussia Dortmund';
 
 //punct 3
 
@@ -276,9 +279,9 @@ console.log('players1Final', players1Final);
 
 // punct 5
 
-const { team1: team1, x: draw, team2: team2 } = game.odds;
+// const { team1: team1, x: draw, team2: team2 } = game.odds;
 
-console.log('team1, draw, team2', team1, draw, team2);
+// console.log('team1, draw, team2', team1, draw, team2);
 
 
 // punct 6
@@ -300,3 +303,93 @@ console.log('oddsArray', oddsArray);
 const likelyWin = Math.min(...oddsArray);
 
 console.log('likelyWin', likelyWin);
+
+const { team1, x, team2 } = game.odds
+
+team1 < team2 && console.log(`Team 1 is likely to win`);
+team2 < team1 && console.log(`Team 2 is likely`);
+
+
+// Coding Challenge 2
+// punct 1
+for (const [index, player] of game.scored.entries()) {
+  console.log(`Goal ${index + 1}: ${player}`);
+}
+
+// punct 2
+let sum = 0;
+for (const num of oddsArray) {
+  sum += num;
+}
+
+console.log('average', sum / oddsArray.length);
+
+// punct 3
+
+const teams = Object.entries(game.odds);
+console.log('teams', teams);
+
+for (const [team, result] of teams) {
+  // console.log(team);
+  console.log(`Odd of ${team !== 'x' ? 'victory' : 'draw'} ${game?.[`${team}`]} : ${result}`);
+}
+
+
+// for (const [index, element] of oddsArray.entries()) console.log(`${index + 1}: ${element}`);
+
+// const created = {
+//   date: 1998,
+//   where: 'Kyiv'
+// }
+
+// const Marok = {
+//   name: 'Ukraine',
+//   // instead of typing this created: created we can do like this
+//   created
+// }
+
+// console.log(Marok?.mon?.open);
+
+
+// const openingHours = {
+//   thu: {
+//     open: 12,
+//     close: 22,
+//   },
+//   fri: {
+//     open: 11,
+//     close: 23,
+//   },
+//   sat: {
+//     open: 0, // Open 24 hours
+//     close: 24,
+//   },
+// };
+
+// const days = ['mon', 'tue', 'wed', 'thu', 'fri', 'sat', 'sun'];
+
+// for (const day of days) {
+//   const open = openingHours[day]?.open ?? 'not opened today';
+//   console.log(`On ${day}, we ${open}`);
+// }
+
+// console.log(openingHours.change?.() ?? 'Method not exist'); // -> it is important to write like this
+
+// const users = [];
+
+// console.log(users[0]?.name ?? 'User does not exist array is empty');
+
+// const object = {
+//   name: 'object',
+//   year: 2023
+// }
+
+// console.log(Object.keys(object));
+// console.log(Object.values(object));
+// console.log(Object.entries(object));
+
+// const objectEntries = Object.entries(object);
+
+// for (const [prop, value] of objectEntries) {
+//   console.log(`This is the object with ${prop} and with value ${value}`);
+// }

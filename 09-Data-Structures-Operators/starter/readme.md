@@ -98,3 +98,60 @@ we can also write like this:
 rest1.numGuests ??= 10;
 
 rest1.owner &&= '<Anonymous>'
+
+## Looping arrays the for-of loop
+
+we type for(const item of items) console.log(item);
+
+it si simpler to use this for-of loop
+
+if we need index we can type like this for(const item of items.entries()){ } ---> item is an array of index and element itself
+
+we can destructure an array and receive all items with index like this for(const [index, item] of items.entries()){ console.log(`${index+1} ${item}`) }
+
+## Enhanced object literals
+
+ES6 literals
+
+example:
+
+const created = {
+date: 1998,
+where: Kyiv
+}
+
+const Marok = {
+name: 'Ukraine',
+// instead of typing this created: created we can do like this
+created
+}
+
+new method of creating methods in objects in js
+
+const Marok = {
+name: 'Ukraine',
+// instead of typing this created: created we can do like this
+created,
+calc(date){
+return 2023 - date;
+}
+}
+
+## Optional chaining
+
+ES 2020
+
+Marok.mon.open ---> error
+
+if we type like this: Marok?.mon?.open --> we won't receive an error
+
+## Looping Objects
+
+There are three methods Object.keys(), Object.values(), Object.entries();
+
+const object = {
+name: 'object',
+year: 2023
+}
+
+Object.keys(object) --> ['name', 'year']

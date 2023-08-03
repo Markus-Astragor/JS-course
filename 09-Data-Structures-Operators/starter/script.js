@@ -393,3 +393,14 @@ for (const [team, result] of teams) {
 // for (const [prop, value] of objectEntries) {
 //   console.log(`This is the object with ${prop} and with value ${value}`);
 // }
+
+// Sets
+
+const menuSet = new Set(['Pizza', 'Risotto', 'Pasta', 'Pizza', 'Pasta', 'Risotto']);
+const strSet = new Set('Markiian');
+strSet.clear()
+console.log(menuSet, strSet, menuSet.size, menuSet.has('Pizza'));
+
+const menuSetArray = [...menuSet];
+
+console.log('menuSetArray', menuSetArray);

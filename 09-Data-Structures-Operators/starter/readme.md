@@ -155,3 +155,20 @@ year: 2023
 }
 
 Object.keys(object) --> ['name', 'year']
+
+## Sets
+
+Order of elements is irrelevant and elements in the set are unique
+Here is an example of set:
+
+const menuSet = new Set(['Pizza', 'Risotto', 'Pasta', 'Pizza', 'Pasta', 'Risotto']);
+
+console.log(menuSet);
+
+In order to know the length of menuSet we should type menuSet.size
+
+In order to check if in set is an element we should just type in: menuSet.has('Pizza') --> true
+
+To add element to a set we should type: menuSet.add('Garlic bread');
+TO delete element we should type in: menuSet.delete('Pizza');
+To delete all elements we should do like this: menuSet.clear();

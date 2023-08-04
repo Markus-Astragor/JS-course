@@ -452,48 +452,105 @@
 
 // Coding challenge 3
 
-const gameEvents = new Map([
-  [17, '⚽ GOAL'],
-  [36, '🔁 Substitution'],
-  [47, '⚽ GOAL'],
-  [61, '🔁 Substitution'],
-  [64, '🔶 Yellow card'],
-  [69, '🔴 Red card'],
-  [70, '🔁 Substitution'],
-  [72, '🔁 Substitution'],
-  [76, '⚽ GOAL'],
-  [80, '⚽ GOAL'],
-  [92, '🔶 Yellow card'],
-]);
+// const gameEvents = new Map([
+//   [17, '⚽ GOAL'],
+//   [36, '🔁 Substitution'],
+//   [47, '⚽ GOAL'],
+//   [61, '🔁 Substitution'],
+//   [64, '🔶 Yellow card'],
+//   [69, '🔴 Red card'],
+//   [70, '🔁 Substitution'],
+//   [72, '🔁 Substitution'],
+//   [76, '⚽ GOAL'],
+//   [80, '⚽ GOAL'],
+//   [92, '🔶 Yellow card'],
+// ]);
 
-// Punct 1
-const events = new Set([]);
-for (const [key, value] of gameEvents) {
-  events.add(value);
+// // Punct 1
+// const events = new Set([]);
+// for (const [key, value] of gameEvents) {
+//   events.add(value);
+// }
+
+// // Punct 2
+// gameEvents.delete(64);
+// console.log(gameEvents);
+
+// // Punct 3
+// const timeMatch = 90;
+// const eventsCount = gameEvents.size;
+
+// console.log(`An event had happened on everage every ${timeMatch / eventsCount} minutes`);
+
+// // Punct 4  
+
+// const gameEventsArray = [...gameEvents];
+
+// for (let i = 0; i < gameEventsArray.length; i++) {
+//   const [key, value] = gameEventsArray[i];
+//   if (i < gameEventsArray.length / 2) {
+//     console.log(`[First Half]${key}: ${value}`);
+//   }
+//   else {
+//     console.log(`[Second Half]${key}: ${value}`);
+//   }
+// }
+
+// console.log([...events]);
+
+// Strings
+
+const airLine = 'Tap air Ukraine';
+const plane = 'A3200';
+
+console.log(plane[0]);
+
+const str = 'stringg';
+
+console.log(str.indexOf('r')); // ---> 2
+console.log(str.lastIndexOf('g'));
+
+console.log(str.slice(1, 4));
+console.log(str.indexOf('T'));
+// console.log(airLine.slice(airLine.indexOf('T'), airLine.indexOf('U') - 1));
+console.log(airLine.slice(airLine.lastIndexOf(' ') + 1, airLine.length));
+
+// small challenge
+
+//create a function which checks if in aiprplane is middle seat or not. if it contains B or C it is middle seat else it is not
+
+const checkMiddleSeat = (seat) => {
+  return seat.includes('C') || seat.includes('B') ? 'This is middle seat' : 'No it is not middle seat'
 }
 
-// Punct 2
-gameEvents.delete(64);
-console.log(gameEvents);
 
-// Punct 3
-const timeMatch = 90;
-const eventsCount = gameEvents.size;
+const result = checkMiddleSeat('11B');
+const newResult = checkMiddleSeat('11D');
 
-console.log(`An event had happened on everage every ${timeMatch / eventsCount} minutes`);
+console.log('result', result);
 
-// Punct 4  
+const string = 'marko';
 
-const gameEventsArray = [...gameEvents];
+const changedStr = string.toUpperCase();
+console.log('changedStr', changedStr);
 
-for (let i = 0; i < gameEventsArray.length; i++) {
-  const [key, value] = gameEventsArray[i];
-  if (i < gameEventsArray.length / 2) {
-    console.log(`[First Half]${key}: ${value}`);
+const changedStr2 = string.toLowerCase();
+console.log('changedStr2', changedStr2);
+
+const myString = 'Marko    ';
+console.log(myString.trim());
+
+console.log('Markiis'.replaceAll('i', 'u'));
+
+const checkAllowancePlane = (items) => {
+  const lowerCaseItems = items.toLowerCase();
+  if (lowerCaseItems.includes('knife') || lowerCaseItems.includes('gun')) {
+    console.log('You are not allowed');
   }
   else {
-    console.log(`[Second Half]${key}: ${value}`);
+    console.log(`Welcome to the board`);
   }
 }
 
-console.log([...events]);
+checkAllowancePlane('I have knife and gun')
+checkAllowancePlane('socks and camera, sofa')

@@ -212,3 +212,30 @@ if we don't need duplicates we can use sets
 Objects and Maps
 if we need detalied information about field we use objects, use when you need to include methods, use when you need to work with JSON
 if we want to use value as a key and return another data we can use maps if we need map key to values, use when you need keys that are not strings.
+
+## Working with strings
+
+We can know the index of current letter in a string here is an example
+
+const str = 'string';
+
+console.log(str.indexOf('r)) //---> 2
+
+slice() method - how it works?
+
+slice(2, 4) --> we passed two arguments in this method and it returns a string which will contain the string starting with 2 index and ending 4 index you should keep it in mind
+
+String.toLowerCase() --> returns a string with low case letters --> example --> 'MARKO' --> 'marko'
+String.toUpperCase() -----> returns a string with upper case letters ---> 'marko' --> 'MARKO'
+
+trim() method removes whitespaces from a string -----> Here is an example ----> 'Marko ';
+
+String.trim();
+
+Replace method takse two arguments the first one which you want to replace and the second one for which you want to replace example:
+
+console.log('Markis') --> 'Markis'.replace('i', 'u')
+
+replaceAll() method if there are several occurences it replaces all
+startsWith('starts') method --> checks if it has a string ----> 'startsMarsik' --> true
+endsWith('ending')

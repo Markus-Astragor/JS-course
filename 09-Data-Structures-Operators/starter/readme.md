@@ -186,3 +186,29 @@ rest.set(false, 'hasn't driver license')
 
 We can check if a map has the key or not
 rest.has('userName')
+in order to delete one element from map we should pass key as an argument of deleted element rest.delete('userName');
+In order to clear all elements rest.clear();
+Moreover we can use arrays and objects as keys in maps:
+
+const arr = [1, 2];
+
+rest.set(arr, 'Test');
+
+rest.get(arr) ---> 'Test';
+
+## Maps iteration
+
+if we need a map from object we can do small trick:
+
+const hoursMap = new Map(Object.entries(openingHours));
+Maps are iterables
+
+## Which data structure to use?
+
+Arrays vs Sets
+we can use arrays if we need ordered list of values and it can contain duplicates
+if we don't need duplicates we can use sets
+
+Objects and Maps
+if we need detalied information about field we use objects, use when you need to include methods, use when you need to work with JSON
+if we want to use value as a key and return another data we can use maps if we need map key to values, use when you need keys that are not strings.

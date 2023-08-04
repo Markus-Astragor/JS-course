@@ -206,133 +206,133 @@
 // Test data for 6.: First, use players 'Davies', 'Muller', 'Lewandowski' and 'Kimmich'.
 // Then, call the function again with players from game.scored
 
-const game = {
-  team1: 'Bayern Munich',
-  team2: 'Borrussia Dortmund',
-  players: [
-    [
-      'Neuer',
-      'Pavard',
-      'Martinez',
-      'Alaba',
-      'Davies',
-      'Kimmich',
-      'Goretzka',
-      'Coman',
-      'Muller',
-      'Gnarby',
-      'Lewandowski',
-    ],
-    [
-      'Burki',
-      'Schulz',
-      'Hummels',
-      'Akanji',
-      'Hakimi',
-      'Weigl',
-      'Witsel',
-      'Hazard',
-      'Brandt',
-      'Sancho',
-      'Gotze',
-    ],
-  ],
-  score: '4:0',
-  scored: ['Lewandowski', 'Gnarby', 'Lewandowski',
-    'Hummels'],
-  date: 'Nov 9th, 2037',
-  odds: {
-    team1: 1.33,
-    x: 3.25,
-    team2: 6.5,
-  },
-};
+// const game = {
+//   team1: 'Bayern Munich',
+//   team2: 'Borrussia Dortmund',
+//   players: [
+//     [
+//       'Neuer',
+//       'Pavard',
+//       'Martinez',
+//       'Alaba',
+//       'Davies',
+//       'Kimmich',
+//       'Goretzka',
+//       'Coman',
+//       'Muller',
+//       'Gnarby',
+//       'Lewandowski',
+//     ],
+//     [
+//       'Burki',
+//       'Schulz',
+//       'Hummels',
+//       'Akanji',
+//       'Hakimi',
+//       'Weigl',
+//       'Witsel',
+//       'Hazard',
+//       'Brandt',
+//       'Sancho',
+//       'Gotze',
+//     ],
+//   ],
+//   score: '4:0',
+//   scored: ['Lewandowski', 'Gnarby', 'Lewandowski',
+//     'Hummels'],
+//   date: 'Nov 9th, 2037',
+//   odds: {
+//     team1: 1.33,
+//     x: 3.25,
+//     team2: 6.5,
+//   },
+// };
 
-// punct 1
-const [players1, players2] = game['players'];
+// // punct 1
+// const [players1, players2] = game['players'];
 
-const [goalkeeper, ...fieldPlayers] = players1;
+// const [goalkeeper, ...fieldPlayers] = players1;
 
-console.log(goalkeeper, fieldPlayers);
-
-
-//punct 2
-// game.team1 = {};
-// game.team1.name = 'Bayern Munich'
-// game.team1.gk = goalkeeper;
-// game.team1.fieldPlayers = fieldPlayers;
-
-// game.team2 = {};
-// game.team2.name = 'Borrussia Dortmund';
-
-//punct 3
-
-const allPlayers = [...players1, ...players2];
-
-console.log('allPlayers', allPlayers);
-console.log('game.team1', game.team1);
-
-// punct 4
-
-const players1Final = [...players1, 'Thiago', 'Coutinho', 'Perisic'];
-console.log('players1Final', players1Final);
-
-// punct 5
-
-// const { team1: team1, x: draw, team2: team2 } = game.odds;
-
-// console.log('team1, draw, team2', team1, draw, team2);
+// console.log(goalkeeper, fieldPlayers);
 
 
-// punct 6
-const printGoals = (score, ...playerNames) => {
-  for (let i = 0; i < playerNames.length; i++) {
-    console.log(playerNames[i], score);
-  }
-}
+// //punct 2
+// // game.team1 = {};
+// // game.team1.name = 'Bayern Munich'
+// // game.team1.gk = goalkeeper;
+// // game.team1.fieldPlayers = fieldPlayers;
+
+// // game.team2 = {};
+// // game.team2.name = 'Borrussia Dortmund';
+
+// //punct 3
+
+// const allPlayers = [...players1, ...players2];
+
+// console.log('allPlayers', allPlayers);
+// console.log('game.team1', game.team1);
+
+// // punct 4
+
+// const players1Final = [...players1, 'Thiago', 'Coutinho', 'Perisic'];
+// console.log('players1Final', players1Final);
+
+// // punct 5
+
+// // const { team1: team1, x: draw, team2: team2 } = game.odds;
+
+// // console.log('team1, draw, team2', team1, draw, team2);
 
 
-printGoals(game.score, 'Davies', 'Muller', 'Lewandowski', 'Kimmich');
-printGoals(game.score, ...game.scored);
-
-// punct 7
-
-
-const oddsArray = Object.values(game.odds);
-console.log('oddsArray', oddsArray);
-const likelyWin = Math.min(...oddsArray);
-
-console.log('likelyWin', likelyWin);
-
-const { team1, x, team2 } = game.odds
-
-team1 < team2 && console.log(`Team 1 is likely to win`);
-team2 < team1 && console.log(`Team 2 is likely`);
+// // punct 6
+// const printGoals = (score, ...playerNames) => {
+//   for (let i = 0; i < playerNames.length; i++) {
+//     console.log(playerNames[i], score);
+//   }
+// }
 
 
-// Coding Challenge 2
-// punct 1
-for (const [index, player] of game.scored.entries()) {
-  console.log(`Goal ${index + 1}: ${player}`);
-}
+// printGoals(game.score, 'Davies', 'Muller', 'Lewandowski', 'Kimmich');
+// printGoals(game.score, ...game.scored);
 
-// punct 2
-let sum = 0;
-for (const num of oddsArray) {
-  sum += num;
-}
+// // punct 7
 
-console.log('average', sum / oddsArray.length);
 
-// punct 3
+// const oddsArray = Object.values(game.odds);
+// console.log('oddsArray', oddsArray);
+// const likelyWin = Math.min(...oddsArray);
 
-const teams = Object.entries(game.odds);
-console.log('teams', teams);
+// console.log('likelyWin', likelyWin);
 
-for (const [team, result] of teams) {
-  // console.log(team);
-  console.log(`Odd of ${team !== 'x' ? 'victory' : 'draw'} ${game?.[`${team}`]} : ${result}`);
-}
+// const { team1, x, team2 } = game.odds
+
+// team1 < team2 && console.log(`Team 1 is likely to win`);
+// team2 < team1 && console.log(`Team 2 is likely`);
+
+
+// // Coding Challenge 2
+// // punct 1
+// for (const [index, player] of game.scored.entries()) {
+//   console.log(`Goal ${index + 1}: ${player}`);
+// }
+
+// // punct 2
+// let sum = 0;
+// for (const num of oddsArray) {
+//   sum += num;
+// }
+
+// console.log('average', sum / oddsArray.length);
+
+// // punct 3
+
+// const teams = Object.entries(game.odds);
+// console.log('teams', teams);
+
+// for (const [team, result] of teams) {
+//   // console.log(team);
+//   console.log(`Odd of ${team !== 'x' ? 'victory' : 'draw'} ${game?.[`${team}`]} : ${result}`);
+// }
 
 
 // for (const [index, element] of oddsArray.entries()) console.log(`${index + 1}: ${element}`);
@@ -396,22 +396,104 @@ for (const [team, result] of teams) {
 
 // Sets
 
-const menuSet = new Set(['Pizza', 'Risotto', 'Pasta', 'Pizza', 'Pasta', 'Risotto']);
-const strSet = new Set('Markiian');
-strSet.clear()
-console.log(menuSet, strSet, menuSet.size, menuSet.has('Pizza'));
+// const menuSet = new Set(['Pizza', 'Risotto', 'Pasta', 'Pizza', 'Pasta', 'Risotto']);
+// const strSet = new Set('Markiian');
+// strSet.clear()
+// console.log(menuSet, strSet, menuSet.size, menuSet.has('Pizza'));
 
-const menuSetArray = [...menuSet];
+// const menuSetArray = [...menuSet];
 
-console.log('menuSetArray', menuSetArray);
+// console.log('menuSetArray', menuSetArray);
 
 
-const rest = new Map();
+// const rest = new Map();
 
-rest.set('userName', 'Marko');
-rest.set(true, 'has driver license');
-rest.set(false, 'hasn`t driver license');
+// rest.set('userName', 'Marko');
+// rest.set(true, 'has driver license');
+// rest.set(false, 'hasn`t driver license');
 
-console.log('rest', rest, rest.has('userName'));
+// console.log('rest', rest, rest.has('userName'));
 
-console.log('get', rest.get(true), rest.delete(false), rest.size(), rest.clear());
+// console.log('get', rest.get(true), rest.delete(false), rest.size, rest.clear());
+
+
+// const arr = [1, 2];
+
+// rest.set(arr, 'Test');
+
+// //---> 'Test';
+
+// console.log(rest.get(arr));
+
+
+// const quiz = new Map(
+//   [
+//     ['question', 'Does Marko has driver license'],
+//     ['Yes', 'You`re correct'],
+//     ['No', 'You are incorrect']
+//   ]
+// )
+
+
+// const question = quiz.get('question');
+// console.log('question', question);
+// for (const [key, value] of quiz) {
+//   if (key !== 'question') {
+//     console.log(`What do you think is right ${key}`);
+//   }
+//   else {
+//     continue
+//   }
+// }
+
+
+// const answer = 'Yes';
+// console.log(quiz.get(answer));
+
+// Coding challenge 3
+
+const gameEvents = new Map([
+  [17, '⚽ GOAL'],
+  [36, '🔁 Substitution'],
+  [47, '⚽ GOAL'],
+  [61, '🔁 Substitution'],
+  [64, '🔶 Yellow card'],
+  [69, '🔴 Red card'],
+  [70, '🔁 Substitution'],
+  [72, '🔁 Substitution'],
+  [76, '⚽ GOAL'],
+  [80, '⚽ GOAL'],
+  [92, '🔶 Yellow card'],
+]);
+
+// Punct 1
+const events = new Set([]);
+for (const [key, value] of gameEvents) {
+  events.add(value);
+}
+
+// Punct 2
+gameEvents.delete(64);
+console.log(gameEvents);
+
+// Punct 3
+const timeMatch = 90;
+const eventsCount = gameEvents.size;
+
+console.log(`An event had happened on everage every ${timeMatch / eventsCount} minutes`);
+
+// Punct 4  
+
+const gameEventsArray = [...gameEvents];
+
+for (let i = 0; i < gameEventsArray.length; i++) {
+  const [key, value] = gameEventsArray[i];
+  if (i < gameEventsArray.length / 2) {
+    console.log(`[First Half]${key}: ${value}`);
+  }
+  else {
+    console.log(`[Second Half]${key}: ${value}`);
+  }
+}
+
+console.log([...events]);

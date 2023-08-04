@@ -404,3 +404,14 @@ console.log(menuSet, strSet, menuSet.size, menuSet.has('Pizza'));
 const menuSetArray = [...menuSet];
 
 console.log('menuSetArray', menuSetArray);
+
+
+const rest = new Map();
+
+rest.set('userName', 'Marko');
+rest.set(true, 'has driver license');
+rest.set(false, 'hasn`t driver license');
+
+console.log('rest', rest, rest.has('userName'));
+
+console.log('get', rest.get(true), rest.delete(false), rest.size(), rest.clear());

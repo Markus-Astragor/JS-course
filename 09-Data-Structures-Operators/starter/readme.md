@@ -172,3 +172,17 @@ In order to check if in set is an element we should just type in: menuSet.has('P
 To add element to a set we should type: menuSet.add('Garlic bread');
 TO delete element we should type in: menuSet.delete('Pizza');
 To delete all elements we should do like this: menuSet.clear();
+
+## Maps
+
+we can pass there a key and value which can be different data type starting from string and ending with an object or arrays;
+
+how to create a Map?
+const rest = new Map();
+
+rest.set('userName', 'Marko');
+rest.set(true, 'has driver license');
+rest.set(false, 'hasn't driver license')
+
+We can check if a map has the key or not
+rest.has('userName')

@@ -593,3 +593,30 @@ const capitalizeName = name => {
 const stringResult = capitalizeName('marko kosyk');
 
 console.log('stringResult', stringResult);
+
+// Coding challenge 4
+
+const camelCase = word => {
+  word.toLowerCase();
+  // const indexOfUnderScore = word.indexOf('_');
+  const [splittedWord, secondPartWord] = word.split('_');
+  const capitalLetter = secondPartWord[0].toUpperCase();
+  const resultSplit = secondPartWord.replace(secondPartWord[0], capitalLetter);
+  console.log(splittedWord + '' + resultSplit);
+}
+
+
+const btn = document.createElement('button')
+const textArea = document.createElement('textarea');
+
+document.body.append(textArea);
+
+
+btn.addEventListener('click', (event) => {
+  const textContentTextArea = textArea.value;
+  camelCase(textContentTextArea);
+})
+
+btn.textContent = 'Button'
+
+document.body.appendChild(btn);

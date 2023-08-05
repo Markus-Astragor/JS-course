@@ -261,3 +261,6 @@ console.log('joinedString', joinedString);
 
 String.padStart('+') ---> 'Markus'.padStart(10,'+') --> '++++Markus'
 String.padEnd(10 , '+') ----> '++++Markus'.padEnd(15, '+') ---> '+++++Markus+++++';
+method repeat
+
+String.repeat(3) -->< 3 times >

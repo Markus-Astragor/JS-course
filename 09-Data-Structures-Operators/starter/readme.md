@@ -239,3 +239,25 @@ console.log('Markis') --> 'Markis'.replace('i', 'u')
 replaceAll() method if there are several occurences it replaces all
 startsWith('starts') method --> checks if it has a string ----> 'startsMarsik' --> true
 endsWith('ending')
+
+split() method it works by creating multiple strings by divider here is an example:
+
+---
+
+const splitString = 'a+very+tired+Markus+but+very+clever+eager';
+console.log(splitString.split('+')); // returns an array with these elements[ 'a','very','tired','Markus','but','very','clever', 'eager']
+
+---
+
+join() methods works just the opposite we give an array and divider how should we join the string and... it works:
+
+---
+
+const splittedString = splitString.split('+');
+const joinedString = splittedString.join(' ');
+console.log('joinedString', joinedString);
+
+---
+
+String.padStart('+') ---> 'Markus'.padStart(10,'+') --> '++++Markus'
+String.padEnd(10 , '+') ----> '++++Markus'.padEnd(15, '+') ---> '+++++Markus+++++';

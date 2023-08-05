@@ -553,4 +553,43 @@ const checkAllowancePlane = (items) => {
 }
 
 checkAllowancePlane('I have knife and gun')
-checkAllowancePlane('socks and camera, sofa')
+checkAllowancePlane('socks and camera, sofa');
+
+// Spilt method
+
+const splitString = 'a+very+tired+Markus+but+very+clever+eager';
+
+console.log(splitString.split('+'));
+
+// Join method
+const splittedString = splitString.split('+');
+const joinedString = splittedString.join(' ');
+
+console.log('joinedString', joinedString);
+
+// function capitalizeName
+
+const upperFirstCase = (...array) => {
+  let firstCaseArray = [];
+  for (let i = 0; i < array.length; i++) {
+    const upperFirstCase = array[i][0].toUpperCase();
+    firstCaseArray.push(upperFirstCase);
+  }
+
+  return firstCaseArray;
+
+}
+
+const capitalizeName = name => {
+  const lowerCaseName = name.toLowerCase();
+  const [splittedName, splittedSurname] = lowerCaseName.split(' ');
+  const result = upperFirstCase(...[splittedName, splittedSurname]);
+  const [firstCaseName, firstCaseSurname] = result;
+  const firstPart = splittedName.replace(splittedName[0], firstCaseName);
+  const secondPart = splittedSurname.replace(splittedSurname[0], firstCaseSurname);
+  return firstPart + ' ' + secondPart;
+}
+
+const stringResult = capitalizeName('marko kosyk');
+
+console.log('stringResult', stringResult);

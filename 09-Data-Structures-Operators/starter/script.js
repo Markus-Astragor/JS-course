@@ -598,11 +598,14 @@ console.log('stringResult', stringResult);
 
 const camelCase = word => {
   word.toLowerCase();
-  // const indexOfUnderScore = word.indexOf('_');
-  const [splittedWord, secondPartWord] = word.split('_');
-  const capitalLetter = secondPartWord[0].toUpperCase();
-  const resultSplit = secondPartWord.replace(secondPartWord[0], capitalLetter);
-  console.log(splittedWord + '' + resultSplit);
+
+  const splittedWords = word.split('\n');
+  for (let i = 0; i < splittedWords.length; i++) {
+    const [splittedWord, secondPartWord] = splittedWords[i].split('_');
+    const capitalLetter = secondPartWord[0].toUpperCase();
+    const resultSplit = secondPartWord.replace(secondPartWord[0], capitalLetter);
+    console.log((splittedWord + '' + resultSplit).padEnd(20) + `${'ok'.repeat(i + 1)}`);
+  }
 }
 
 
@@ -620,3 +623,16 @@ btn.addEventListener('click', (event) => {
 btn.textContent = 'Button'
 
 document.body.appendChild(btn);
+
+//const flights = '_Delayed_Departure;fao93766109;txl2133758440;11:25
+//+_Arrival;bru0943384722;fao93766109;11:45
+//+_Delayed_Arrival;hel7439299980;fao93766109;12:05
+//+_Departure;fao93766109;lis2323639855;12:30';
+ 
+// 🔴 Delayed Departure from FAO to TXL (11h25)
+//              Arrival from BRU to FAO (11h45)
+//   🔴 Delayed Arrival from HEL to FAO (12h05)
+//            Departure from FAO to LIS (12h30)
+
+// Strings Practice
+

@@ -632,11 +632,11 @@ const convertFlights = (string) => {
       changedString = changedString.replace('+', ' ')
     }
 
-    let dividedBySemiColon = changedString.split(';');
-    dividedBySemiColon[1] = ` from ${dividedBySemiColon[1].slice(0, 3).toUpperCase()}`;
-    dividedBySemiColon[2] = ` to ${dividedBySemiColon[2].slice(0, 3).toUpperCase()}`;
-    dividedBySemiColon[3] = ` (${dividedBySemiColon[3].replace(':', 'h')})`;
-    let joinedString = dividedBySemiColon[0] + dividedBySemiColon[1] + dividedBySemiColon[2] + dividedBySemiColon[3];
+    let [first, type, from, to] = changedString.split(';');
+    type = ` from ${type.slice(0, 3).toUpperCase()}`;
+    from = ` to ${from.slice(0, 3).toUpperCase()}`;
+    to = ` (${to.replace(':', 'h')})`;
+    let joinedString = first + type + from + to;
     joinedString.length >= 38 ? joinedString = '🔴' + joinedString : joinedString;
     console.log(joinedString);
   }

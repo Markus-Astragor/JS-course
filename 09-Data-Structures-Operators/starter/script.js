@@ -624,11 +624,30 @@ btn.textContent = 'Button'
 
 document.body.appendChild(btn);
 
-//const flights = '_Delayed_Departure;fao93766109;txl2133758440;11:25
-//+_Arrival;bru0943384722;fao93766109;11:45
-//+_Delayed_Arrival;hel7439299980;fao93766109;12:05
-//+_Departure;fao93766109;lis2323639855;12:30';
- 
+const convertFlights = (string) => {
+  const splittedBigString = string.split('\n');
+  for (const splitBigString of splittedBigString) {
+    let changedString = splitBigString.replaceAll('_', ' ');
+    if (changedString.includes('+')) {
+      changedString = changedString.replace('+', ' ')
+    }
+
+    let dividedBySemiColon = changedString.split(';');
+    dividedBySemiColon[1] = ` from ${dividedBySemiColon[1].slice(0, 3).toUpperCase()}`;
+    dividedBySemiColon[2] = ` to ${dividedBySemiColon[2].slice(0, 3).toUpperCase()}`;
+    dividedBySemiColon[3] = ` (${dividedBySemiColon[3].replace(':', 'h')})`;
+    let joinedString = dividedBySemiColon[0] + dividedBySemiColon[1] + dividedBySemiColon[2] + dividedBySemiColon[3];
+    joinedString.length >= 38 ? joinedString = '🔴' + joinedString : joinedString;
+    console.log(joinedString);
+  }
+
+}
+
+const flights = `_Delayed_Departure;fao93766109;txl2133758440;11:25
++_Arrival;bru0943384722;fao93766109;11:45
++_Delayed_Arrival;hel7439299980;fao93766109;12:05
++_Departure;fao93766109;lis2323639855;12:30`;
+
 // 🔴 Delayed Departure from FAO to TXL (11h25)
 //              Arrival from BRU to FAO (11h45)
 //   🔴 Delayed Arrival from HEL to FAO (12h05)
@@ -636,3 +655,12 @@ document.body.appendChild(btn);
 
 // Strings Practice
 
+
+// four step framework
+// 0. split up the string for four strings
+// 1. replace _ all for ' '
+// 2. if exists '+' replace it to ' ';
+// 3.  split already const divided = string.split(';')  divided[1] = ` from ${divided[1]}` divided[2] = ` to ${divided[2]}` divided[3] = ` ${divided[3].replace(':', 'h')}`
+// 4. padStart(45)
+
+convertFlights(flights);

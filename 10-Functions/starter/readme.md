@@ -67,3 +67,62 @@ A function that receives another function as an argument that returns a new func
 This is only possible because of first-class functions
 
 CallBack function is a function which will be called later
+
+## Functions Accepting Callback Functions
+
+Here is an example:
+const upCase = (str) => {
+return str.toUpperCase();
+}
+
+const lowCase = (str) => {
+return str.toLowerCase();
+}
+
+const wordProcedure = (str, fn) => {
+str.toLowerCase();
+const [splittedFirstWord, ...others] = str.split(' ');
+const firstWordChanged = fn(splittedFirstWord);
+return [firstWordChanged, ...others].join(' ');
+
+}
+
+const oneWordLowCase = (str) => {
+wordProcedure(str, lowCase);
+}
+
+const oneWordUpperCase = str => {
+return wordProcedure(str, upCase);
+}
+
+const result = oneWordUpperCase('javascript is Amazing');
+
+console.log('result', result);
+
+Functions can have methods such as name property: fn.name;
+
+## Functions Returning Functions
+
+Here is an example:
+
+// first option to write arrow function that returns another arrow function  
+const greet = greet => {
+return (name) => {
+console.log(`${greet} ${name}`);
+}
+}
+
+const greetHey = greet('Hey Master of C#');
+greetHey('Nazlo');
+
+// second variant to write such a function
+
+const greet2 = greet => name => {
+console.log(`${greet} ${name}`);
+}
+
+greet2('Hey Master of ASP.NET')('Nazikk');
+
+## The call and apply Methods
+
+Call, bind and apply methods in order to make js undestand that we need a specific object

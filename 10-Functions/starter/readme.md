@@ -126,3 +126,41 @@ greet2('Hey Master of ASP.NET')('Nazikk');
 ## The call and apply Methods
 
 Call, bind and apply methods in order to make js undestand that we need a specific object
+
+Call method looks if we have a method on object and if there is used this keyword we can use call method because if we don't we can't read properties of current objects here is an example:
+
+if we want to call call method it is looks like:
+
+const lufthansa = {
+name: 'Lufthansa',
+iataCode: '21BB',
+bookings: [],
+book(flightNum, person) {
+return this.bookings.push(`${person} booked a seat on ${this.name} flight ${flightNum}`)
+}
+}
+
+const euroWings = {
+name: 'euroWings',
+iataCode: '2233B',
+bookings: []
+}
+
+const bookMethod = lufthansa.book;
+
+bookMethod.call(lufthansa, 23, 'Sara'); ---> here we give the name of object as first argument in order to call this object
+console.log('lufthansa', lufthansa);
+
+Apply method is similar but the it takes as an argument an array. Here is an example:
+
+bookMethod.apply(euroWings, [29, 'Nazlo']);
+console.log('euroWings', euroWings);
+
+Bind method uses in order to use returned function after you called it here is an example:
+We can also define default values here in bind method here is an example:
+
+const bookNumber = bookMethod.bind(lufthansa, 2899);
+bookNumber('Nazlooo');
+bookNumber('Olenaas');
+
+console.log('lufthansa', lufthansa);

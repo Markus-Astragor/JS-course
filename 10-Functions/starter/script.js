@@ -135,3 +135,46 @@ const addUkraine2 = addTax(100)(0.23);
 
 
 console.log('resultUkraine', addUkraine2);
+
+
+// coding challenge 1
+
+const poll = {
+  question: "What is your favourite programming language?",
+  options: ["0: JavaScript", "1: Python", "2: Rust", "3:C++"],
+  // This generates [0, 0, 0, 0]. More in the next section!
+  answers: new Array(4).fill(0),
+  registerNewAnswer() {
+    const promptResult = prompt(`What is your favourite programming language?
+    0: JavaScript
+    1: Python
+    2: Rust
+    3: C++`)
+    const promptResultNumber = Number(promptResult);
+    if (promptResultNumber >= 4 || promptResultNumber < -1) {
+      console.log(`Try another number you can choose between 0, 1, 2, or 3`);
+      return
+    } else {
+      this.answers[promptResultNumber]++;
+      this.displayResults(this.answers, 'string')
+    }
+
+  },
+  displayResults(data, type) {
+    if (type === 'array') {
+      console.log('data', data);
+    } else if (type === 'string') {
+      console.log('Poll results are', ...data);
+    } else {
+      console.log('Not allowable type');
+    }
+  }
+}
+
+
+// bonus
+const displayMethod = poll.displayResults;
+displayMethod.call(poll, [5, 2, 3], 'array');
+displayMethod.call(poll, [1, 5, 3, 9, 6, 1], 'array');
+
+document.querySelector('.poll').addEventListener('click', poll.registerNewAnswer.bind(poll));

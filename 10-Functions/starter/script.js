@@ -177,4 +177,87 @@ const displayMethod = poll.displayResults;
 displayMethod.call(poll, [5, 2, 3], 'array');
 displayMethod.call(poll, [1, 5, 3, 9, 6, 1], 'array');
 
-document.querySelector('.poll').addEventListener('click', poll.registerNewAnswer.bind(poll));
+// document.querySelector('.poll').addEventListener('click', poll.registerNewAnswer.bind(poll));
+
+// Immediately invoked function expression
+
+// An example of ordinary function
+
+(function () {
+  console.log(`It won't show again`);
+})();
+
+
+(() => {
+  console.log('This also won`t show again');
+})();
+
+
+// Closures
+const secureBooker = () => {
+  let bookerCount = 0;
+
+  return () => {
+    bookerCount++;
+    console.log(`${bookerCount} passengers`);
+  }
+}
+
+const secureBookerResult = secureBooker();
+secureBookerResult();
+secureBookerResult();
+
+// More examples about closure
+
+let f;
+
+const g = () => {
+  const a = 23;
+  f = () => {
+    console.log(a * 2);
+  }
+}
+
+const h = () => {
+  const b = 77;
+  f = () => {
+    console.log(b * 2);
+  }
+}
+
+g();
+f(); // 46
+h();
+f(); // 154
+
+
+// In this case when function calls it sees its scope first of all and then if it doesn't it looks into outer scope
+const perGroup = 20
+
+const boardPassengers = (n, wait) => {
+  const perGroup = n / 3;
+
+  setTimeout(() => {
+    console.log(`We are boarding ${n} passengers here are ${perGroup} passengers`);
+  }, wait * 1000);
+
+  console.log(`Will start boarding in ${wait} seconds`);
+}
+
+
+boardPassengers(12, 2);
+
+// coding challenge 2
+
+
+
+(function () {
+  const buyBtn = document.querySelector('.buy');
+  const changeBtnColor = () => {
+    buyBtn.style.backgroundColor = 'blue'
+  }
+  buyBtn.addEventListener('click', changeBtnColor)
+})();
+
+
+

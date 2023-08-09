@@ -164,3 +164,33 @@ bookNumber('Nazlooo');
 bookNumber('Olenaas');
 
 console.log('lufthansa', lufthansa);
+
+## Immediately invoked function expression
+
+That is the function which executes only 1 time
+
+(function () {
+console.log(`It won't show again`);
+})();
+
+(() => {
+console.log('This also won`t show again');
+})();
+
+## Closures
+
+How i see it? Here is an example:
+// Closures
+const secureBooker = () => {
+let bookerCount = 0;
+return () => {
+bookerCount++;
+console.log(`${bookerCount} passengers`);
+}
+}
+
+const secureBookerResult = secureBooker();
+secureBookerResult();
+secureBookerResult();
+
+When we first call parent function secureBooker() we assign its returned value to variable secureBookerResult. Then we call its returned value which is a function. Closure means in this sentence that we can access to variable in body in parent function because it is a property of this function.

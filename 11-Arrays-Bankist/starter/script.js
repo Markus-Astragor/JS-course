@@ -77,31 +77,61 @@
 
 // Simple Array Methods
 
-const arr = ['a', 'b', 'c', 'd', 'e'];
+// const arr = ['a', 'b', 'c', 'd', 'e'];
 
-// console.log(arr.slice(0, 3)); // ---> ['a', 'b', 'c']
-console.log(arr.slice(1, -2)); // ---> [ 'b', 'c' ]
-console.log(arr.slice()); // shallow copy
+// // console.log(arr.slice(0, 3)); // ---> ['a', 'b', 'c']
+// console.log(arr.slice(1, -2)); // ---> [ 'b', 'c' ]
+// console.log(arr.slice()); // shallow copy
 
-// Method splice
+// // Method splice
 
-const splicedArr = arr.splice(1);
-console.log('splicedArr', splicedArr);
-console.log(splicedArr.splice(1, 2)); // [b, e]
+// const splicedArr = arr.splice(1);
+// console.log('splicedArr', splicedArr);
+// console.log(splicedArr.splice(1, 2)); // [b, e]
 
-// Reverse
+// // Reverse
 
-const irregularArr = ['e', 'd', 'c', 'b', 'a'];
-const correctOrder = irregularArr.reverse();
-console.log('correctOrder', correctOrder);
+// const irregularArr = ['e', 'd', 'c', 'b', 'a'];
+// const correctOrder = irregularArr.reverse();
+// console.log('correctOrder', correctOrder);
 
-// Concat 
+// // Concat 
 
-const letters = arr.concat(correctOrder);
-console.log('letters', letters);
+// const letters = arr.concat(correctOrder);
+// console.log('letters', letters);
 
-// join method 
+// // join method 
 
-console.log(irregularArr.join('-'));
+// console.log(irregularArr.join('-'));
 
 // Es 2022 method 
+
+const movements = [200, 450, -400, 3000, -650, -130, 70, 1300];
+
+// forEach loop
+
+movements.forEach((movement, index, arr) => {
+  if (movement > 0) {
+    console.log(`Movement ${index} You deposited your money ${movement}`);
+  } else {
+    console.log(`Movement ${index} You withdrew your money :( ${Math.abs(movement)}`);
+  }
+})
+
+// forEach With Maps and Sets
+
+const currencies = new Map([
+  ['USD', 'United States dollar'],
+  ['EUR', 'Euro'],
+  ['GBP', 'Pound sterling'],
+]);
+
+currencies.forEach((currency, i, map) => {
+  console.log(`${i}: ${currency}`);
+})
+
+const uniqueValues = new Set([1, 3, 3, 3, 5, 6, 9, 2]);
+
+uniqueValues.forEach((value, index, arr) => {
+  console.log(`${index}: ${value}`);
+})

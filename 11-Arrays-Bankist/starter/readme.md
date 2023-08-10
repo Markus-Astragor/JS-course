@@ -27,3 +27,10 @@ arr.at(-1) - we receive last element of array
 arr.at(-2) - we receive pre last
 
 This method also works on strings
+
+## Looping Arrays: forEach
+
+Math.abs method transfers value to absolute so if we give value -100 it returns 100
+
+You can use either the for of loop or forEach but the problem is that you can't use countinue and break in forEach loop
+but you can in for of loop

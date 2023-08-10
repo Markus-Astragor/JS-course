@@ -34,3 +34,27 @@ Math.abs method transfers value to absolute so if we give value -100 it returns 
 
 You can use either the for of loop or forEach but the problem is that you can't use countinue and break in forEach loop
 but you can in for of loop
+
+## Dom manipulation
+
+insertAdjacentHTML passes two arguments('afterbegin', templateOfHTML)
+
+ <!-- beforebegin -->
+<p>
+<!-- afterbegin -->
+foo
+<!-- beforeend -->
+</p>
+<!-- afterend -->
+
+## Data Transformations: map, filter, reduce
+
+Map returns a new changed array containig the results of the previous one
+
+arr.map((el) => el \* 2)
+
+Filter method returns only elements which satisfy condition here is an example:
+
+arr.filter((el) => el > 3)
+
+Reduce method boils all array elements to one single value

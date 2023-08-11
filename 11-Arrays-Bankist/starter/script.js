@@ -110,10 +110,10 @@ const calcPrintBalance = (infoMovements) => infoMovements.reduce((acc, mov) => {
 
 
 
-const calcDisplaySum = (movements) => {
-  labelSumIn.textContent = movements.filter(mov => mov > 0).reduce((acc, curValue) => { return acc + curValue }, 0) + '€';
-  labelSumOut.textContent = Math.abs(movements.filter(mov => mov < 0).reduce((acc, curValue) => { return acc + curValue }, 0)) + '€' || '0'
-  labelSumInterest.textContent = movements.filter(mov => mov > 0).map(deposit => (deposit * 1.2 / 100)).reduce((acc, curValue) => acc + curValue) + '€';
+const calcDisplaySum = (infoUser) => {
+  labelSumIn.textContent = infoUser.movements.filter(mov => mov > 0).reduce((acc, curValue) => { return acc + curValue }, 0) + '€';
+  labelSumOut.textContent = Math.abs(infoUser.movements.filter(mov => mov < 0).reduce((acc, curValue) => { return acc + curValue }, 0)) + '€' || '0'
+  labelSumInterest.textContent = infoUser.movements.filter(mov => mov > 0).map(deposit => (deposit * infoUser.interestRate / 100)).reduce((acc, curValue) => acc + curValue) + '€';
 }
 
 
@@ -133,8 +133,10 @@ const validateUser = (userName, password) => {
 const contentUser = (infoUser) => {
   containerApp.style.opacity = '1';
   displayMovements(infoUser.movements);
-  calcDisplaySum(infoUser.movements);
+  calcDisplaySum(infoUser);
   labelBalance.textContent = calcPrintBalance(infoUser.movements) + '€';
+  inputLoginUsername.value = inputLoginPin.value = '';
+  labelWelcome.textContent = 'Welcome, ' + infoUser.owner;
 }
 
 btnLogin.addEventListener('click', (event) => {

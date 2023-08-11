@@ -73,11 +73,11 @@ const currencies = new Map([
 
 const movements = [200, 450, -400, 3000, -650, -130, 70, 1300];
 
-
+// Display movements
 const displayMovements = (movements) => {
   containerMovements.innerHTML = ''
 
-  movements.forEach((mov, index, array) => {
+  movements.forEach((mov, index) => {
     const type = mov > 0 ? 'deposit' : 'withdrawal';
 
     const html = ` <div class="movements__row">
@@ -90,8 +90,35 @@ const displayMovements = (movements) => {
 
 }
 
-displayMovements(account1.movements)
+displayMovements(account1.movements);
 
+
+const receiveInitials = (string) => {
+  const [name, surname] = string.split(' ');
+  return name[0] + surname[0];
+}
+
+
+accounts.forEach((account) => {
+  account.userName = receiveInitials(account.owner);
+})
+
+console.log(account1);
+
+// Balance
+const calcPrintBalance = (movements) => {
+  return movements.reduce((acc, mov) => acc + mov)
+}
+
+const balance = calcPrintBalance(movements);
+labelBalance.textContent = balance + '€';
+
+const calcDisplaySum = (movements) => {
+  labelSumIn.textContent = movements.filter(mov => mov > 0).reduce((acc, curValue) => acc + curValue) + '€';
+  labelSumOut.textContent = movements.filter(mov => mov < 0).reduce((acc, curValue) => acc + curValue) + '€';
+}
+
+calcDisplaySum(account1.movements);
 /////////////////////////////////////////////////
 
 // Simple Array Methods
@@ -171,14 +198,70 @@ const checkDogs = (dogsJulia, dogsKate) => {
 checkDogs([3, 5, 2, 12, 7], [4, 1, 15, 8, 3]);
 checkDogs([9, 16, 6, 8, 3], [10, 5, 6, 1, 4]);
 
+const calcAverageHumanAge = (dogAges) => {
+  let humanAge;
+  const humanAges = dogAges.map((dogAge, index, arr) => {
+    if (dogAge <= 2) {
+      humanAge = 2 * dogAge;
+    } else {
+      humanAge = 16 + (dogAge * 4);
+    }
 
-// The map Method
+    if (humanAge < 18) {
+      return
+    } else {
+      return humanAge
+    }
+  })
 
-const euroToUSD = 1.1;
+  const filteredHumanAges = humanAges.filter((humanAge) => {
+    return humanAge !== undefined;
+  })
 
-const euros = movements.map((mov) => {
-  return mov * euroToUSD
+  const sumHumanAges = filteredHumanAges.reduce((acc, curValue) => acc + curValue);
+  const avg = sumHumanAges / filteredHumanAges.length;
+
+  return avg;
+}
+
+const avgHumanResult = calcAverageHumanAge([5, 2, 4, 1, 15, 8, 3]);
+const avgHumanResult2 = calcAverageHumanAge([16, 6, 10, 5, 6, 1, 4]);
+
+console.log('avgHumanResult', avgHumanResult);
+// // The map Method
+
+// const euroToUSD = 1.1;
+
+// const euros = movements.map((mov) => {
+//   return mov * euroToUSD
+// });
+
+// console.log('euros', euros);
+
+// Filter
+
+const deposits = movements.filter(movement => movement > 0)
+
+console.log('deposits', deposits);
+
+const withdrawalsArr = movements.filter(mov => mov < 0)
+console.log('withdrawalsArr', withdrawalsArr);
+
+const accountBalance = movements.reduce((accumulator, curValue, index, array) => { return accumulator + curValue }, 0);
+
+console.log(accountBalance);
+
+
+const max = movements.reduce((acc, mov) => {
+  if (acc > mov) return acc;
+  else return mov
 });
 
-console.log('euros', euros);
+console.log(max);
 
+let maxValue = movements[0];
+for (let i = 0; i < movements.length; i++) {
+  if (movements[i] > maxValue) maxValue = movements[i];
+}
+
+console.log('maxValue', maxValue);

@@ -123,7 +123,7 @@ const validateUser = (userName, password) => {
 
   const account = accounts.find(account => account.userName === userName);
 
-  if (account) {
+  if (account.pin === Number(password)) {
     return account
   } else return
 }

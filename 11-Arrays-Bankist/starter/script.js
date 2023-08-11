@@ -82,7 +82,7 @@ const displayMovements = (movements) => {
 
     const html = ` <div class="movements__row">
                       <div class="movements__type movements__type--${type}">${index + 1} ${type}</div>
-                       <div class="movements__value">${mov}</div>
+                       <div class="movements__value">${mov + '€'}</div>
                     </div>`
 
     containerMovements.insertAdjacentHTML('afterbegin', html);
@@ -90,7 +90,6 @@ const displayMovements = (movements) => {
 
 }
 
-displayMovements(account1.movements);
 
 
 const receiveInitials = (string) => {
@@ -106,19 +105,45 @@ accounts.forEach((account) => {
 console.log(account1);
 
 // Balance
-const calcPrintBalance = (movements) => {
-  return movements.reduce((acc, mov) => acc + mov)
-}
+const calcPrintBalance = (infoMovements) => infoMovements.reduce((acc, mov) => { return acc + mov }, 0)
 
-const balance = calcPrintBalance(movements);
-labelBalance.textContent = balance + '€';
+
+
 
 const calcDisplaySum = (movements) => {
-  labelSumIn.textContent = movements.filter(mov => mov > 0).reduce((acc, curValue) => acc + curValue) + '€';
-  labelSumOut.textContent = movements.filter(mov => mov < 0).reduce((acc, curValue) => acc + curValue) + '€';
+  labelSumIn.textContent = movements.filter(mov => mov > 0).reduce((acc, curValue) => { return acc + curValue }, 0) + '€';
+  labelSumOut.textContent = Math.abs(movements.filter(mov => mov < 0).reduce((acc, curValue) => { return acc + curValue }, 0)) + '€' || '0'
+  labelSumInterest.textContent = movements.filter(mov => mov > 0).map(deposit => (deposit * 1.2 / 100)).reduce((acc, curValue) => acc + curValue) + '€';
 }
 
-calcDisplaySum(account1.movements);
+
+// user validation
+const validateUser = (userName, password) => {
+  if (userName.length < 2 || password.length !== 4) return
+
+  const account = accounts.find(account => account.userName === userName);
+
+  if (account) {
+    return account
+  } else return
+}
+
+//////
+
+const contentUser = (infoUser) => {
+  containerApp.style.opacity = '1';
+  displayMovements(infoUser.movements);
+  calcDisplaySum(infoUser.movements);
+  labelBalance.textContent = calcPrintBalance(infoUser.movements) + '€';
+}
+
+btnLogin.addEventListener('click', (event) => {
+  event.preventDefault();
+  const validationResult = validateUser(inputLoginUsername.value, inputLoginPin.value);
+  if (validationResult) {
+    contentUser(validationResult);
+  }
+})
 /////////////////////////////////////////////////
 
 // Simple Array Methods
@@ -185,49 +210,46 @@ calcDisplaySum(account1.movements);
 
 // coding challenge 1
 
-const checkDogs = (dogsJulia, dogsKate) => {
-  const dogsJuliaCopy = [...dogsJulia];
-  dogsJuliaCopy.splice(-2);
-  dogsJuliaCopy.shift();
-  const juliasKatesDogs = dogsJuliaCopy.concat(dogsKate);
-  juliasKatesDogs.forEach((dogAge, index, arr) => {
-    console.log(`Dog number ${index + 1} ${dogAge >= 3 ? `is an adult and is ${dogAge} years old` : 'is still a puppy'}`);
-  })
-}
+// const checkDogs = (dogsJulia, dogsKate) => {
+//   const dogsJuliaCopy = [...dogsJulia];
+//   dogsJuliaCopy.splice(-2);
+//   dogsJuliaCopy.shift();
+//   const juliasKatesDogs = dogsJuliaCopy.concat(dogsKate);
+//   juliasKatesDogs.forEach((dogAge, index, arr) => {
+//     console.log(`Dog number ${index + 1} ${dogAge >= 3 ? `is an adult and is ${dogAge} years old` : 'is still a puppy'}`);
+//   })
+// }
 
-checkDogs([3, 5, 2, 12, 7], [4, 1, 15, 8, 3]);
-checkDogs([9, 16, 6, 8, 3], [10, 5, 6, 1, 4]);
+// checkDogs([3, 5, 2, 12, 7], [4, 1, 15, 8, 3]);
+// checkDogs([9, 16, 6, 8, 3], [10, 5, 6, 1, 4]);
 
-const calcAverageHumanAge = (dogAges) => {
-  let humanAge;
-  const humanAges = dogAges.map((dogAge, index, arr) => {
-    if (dogAge <= 2) {
-      humanAge = 2 * dogAge;
-    } else {
-      humanAge = 16 + (dogAge * 4);
-    }
+// const calcAverageHumanAge = (dogAges) => {
+//   let humanAge, lengthArr;
+//   const humanAges = dogAges.map((dogAge) => {
+//     if (dogAge <= 2) {
+//       humanAge = 2 * dogAge;
+//     } else {
+//       humanAge = 16 + (dogAge * 4);
+//     }
 
-    if (humanAge < 18) {
-      return
-    } else {
-      return humanAge
-    }
-  })
+//     if (humanAge < 18) {
+//       return
+//     } else {
+//       return humanAge
+//     }
+//   }).filter((humanAge) => {
+//     return humanAge !== undefined;
+//   }).reduce((acc, curValue, index, arr) => { lengthArr = arr.length; return acc + curValue; });
 
-  const filteredHumanAges = humanAges.filter((humanAge) => {
-    return humanAge !== undefined;
-  })
+//   const avg = humanAges / lengthArr;
 
-  const sumHumanAges = filteredHumanAges.reduce((acc, curValue) => acc + curValue);
-  const avg = sumHumanAges / filteredHumanAges.length;
+//   return avg;
+// }
 
-  return avg;
-}
+// const avgHumanResult = calcAverageHumanAge([5, 2, 4, 1, 15, 8, 3]);
+// const avgHumanResult2 = calcAverageHumanAge([16, 6, 10, 5, 6, 1, 4]);
 
-const avgHumanResult = calcAverageHumanAge([5, 2, 4, 1, 15, 8, 3]);
-const avgHumanResult2 = calcAverageHumanAge([16, 6, 10, 5, 6, 1, 4]);
-
-console.log('avgHumanResult', avgHumanResult);
+// console.log('avgHumanResult', avgHumanResult);
 // // The map Method
 
 // const euroToUSD = 1.1;
@@ -240,28 +262,34 @@ console.log('avgHumanResult', avgHumanResult);
 
 // Filter
 
-const deposits = movements.filter(movement => movement > 0)
+// const deposits = movements.filter(movement => movement > 0)
 
-console.log('deposits', deposits);
+// console.log('deposits', deposits);
 
-const withdrawalsArr = movements.filter(mov => mov < 0)
-console.log('withdrawalsArr', withdrawalsArr);
+// const withdrawalsArr = movements.filter(mov => mov < 0)
+// console.log('withdrawalsArr', withdrawalsArr);
 
-const accountBalance = movements.reduce((accumulator, curValue, index, array) => { return accumulator + curValue }, 0);
+// const accountBalance = movements.reduce((accumulator, curValue, index, array) => { return accumulator + curValue }, 0);
 
-console.log(accountBalance);
+// console.log(accountBalance);
 
 
-const max = movements.reduce((acc, mov) => {
-  if (acc > mov) return acc;
-  else return mov
-});
+// const max = movements.reduce((acc, mov) => {
+//   if (acc > mov) return acc;
+//   else return mov
+// });
 
-console.log(max);
+// console.log(max);
 
-let maxValue = movements[0];
-for (let i = 0; i < movements.length; i++) {
-  if (movements[i] > maxValue) maxValue = movements[i];
-}
+// let maxValue = movements[0];
+// for (let i = 0; i < movements.length; i++) {
+//   if (movements[i] > maxValue) maxValue = movements[i];
+// }
 
-console.log('maxValue', maxValue);
+// console.log('maxValue', maxValue);
+
+
+// // find method
+
+// console.log(movements.find(mov => mov < 0));
+

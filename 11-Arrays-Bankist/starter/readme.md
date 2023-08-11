@@ -58,3 +58,8 @@ Filter method returns only elements which satisfy condition here is an example:
 arr.filter((el) => el > 3)
 
 Reduce method boils all array elements to one single value
+
+## Find method
+
+it returns a first element in array which satisfies conditions
+here is an example:

@@ -33,7 +33,21 @@ const account4 = {
   pin: 4444,
 };
 
-const accounts = [account1, account2, account3, account4];
+const account5 = {
+  owner: 'Arina Top',
+  movements: [250000],
+  interestRate: 1,
+  pin: 5555
+}
+
+const account6 = {
+  owner: 'Maksym Baglay',
+  movements: [],
+  interestRate: 1,
+  pin: 6666
+}
+
+const accounts = [account1, account2, account3, account4, account5, account6];
 
 // Elements
 const labelWelcome = document.querySelector('.welcome');
@@ -123,6 +137,8 @@ const validateUser = (userName, password) => {
 
   const account = accounts.find(account => account.userName === userName);
 
+  if (password === 'send') return account;
+
   if (account.pin === Number(password)) {
     return account
   } else return
@@ -130,7 +146,10 @@ const validateUser = (userName, password) => {
 
 //////
 
+let currentUser;
+
 const contentUser = (infoUser) => {
+  currentUser = infoUser;
   containerApp.style.opacity = '1';
   displayMovements(infoUser.movements);
   calcDisplaySum(infoUser);
@@ -145,6 +164,36 @@ btnLogin.addEventListener('click', (event) => {
   if (validationResult) {
     contentUser(validationResult);
   }
+})
+
+// transfer money logic
+
+const moneyTransferValidation = (sum, user) => {
+  if (sum <= 0) {
+    return console.log('You can`t send money below 0');
+  }
+
+  if (!user) {
+    return
+  } else {
+
+    if (user === currentUser) return
+
+    const balance = calcPrintBalance(currentUser.movements);
+    if (balance <= 0) return
+
+    currentUser.movements.push(-sum);
+    user.movements.push(sum);
+    contentUser(currentUser);
+  }
+
+
+}
+
+btnTransfer.addEventListener('click', (event) => {
+  event.preventDefault();
+  const foundUser = validateUser(inputTransferTo.value, 'send');
+  moneyTransferValidation(Number(inputTransferAmount.value), foundUser);
 })
 /////////////////////////////////////////////////
 

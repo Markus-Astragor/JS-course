@@ -63,3 +63,24 @@ Reduce method boils all array elements to one single value
 
 it returns a first element in array which satisfies conditions
 here is an example:
+
+## FindINdex method
+
+so it is useful when we want to get the index of method which is in object for example:
+const index = accounts.findIndex(account => account === userObject);
+
+it gives us the index where this statement is true
+
+## Some and evey methods
+
+The difference between includes and some is that includes checks for equality but some checks for condition here is example:
+
+const arr = [1, 2, -100, 5000];
+
+arr.includes(2) // true
+
+// some method
+arr.some((number) => number > 0) // true
+
+Every method returns true if all elements in array satisfy the condition
+arr.every((el) => el >= 1) // false

@@ -195,6 +195,38 @@ btnTransfer.addEventListener('click', (event) => {
   const foundUser = validateUser(inputTransferTo.value, 'send');
   moneyTransferValidation(Number(inputTransferAmount.value), foundUser);
 })
+
+// deleting account
+
+const deleteAccount = (userObject) => {
+  const index = accounts.findIndex(account => account === userObject);
+  accounts.splice(index, 1);
+  containerApp.style.opacity = '0';
+}
+
+btnClose.addEventListener('click', (event) => {
+  event.preventDefault();
+  const foundUserForDelete = validateUser(inputCloseUsername.value, inputClosePin.value);
+  deleteAccount(foundUserForDelete);
+})
+
+// requesting loan
+
+const requestLoan = (amount) => {
+  console.log(currentUser.movements.some((mov) => mov * 0.1 >= amount));
+  if (amount <= 0 || !(currentUser.movements.some((mov) => mov * 0.1 >= amount))) {
+    return
+  } else {
+    currentUser.movements.push(amount);
+    contentUser(currentUser);
+  }
+}
+
+btnLoan.addEventListener('click', (event) => {
+  event.preventDefault();
+
+  requestLoan(Number(inputLoanAmount.value))
+})
 /////////////////////////////////////////////////
 
 // Simple Array Methods
@@ -343,4 +375,17 @@ btnTransfer.addEventListener('click', (event) => {
 // // find method
 
 // console.log(movements.find(mov => mov < 0));
+
+// every method
+
+const arr = [1, 2, -100, 5000];
+console.log(arr.every((el) => el >= 1)) // false
+
+const array = [[1, 2, 3], [4, 5, 6], [7, 8, 9]];
+console.log(array.flat());
+
+// if we need deeper result we can do
+
+const array2 = [[[1, 2], 3], [[4, 5], 6], [7, [8, 9]]];
+console.log(array2.flat(2)); // here is the argument of depth
 

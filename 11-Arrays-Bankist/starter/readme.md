@@ -84,3 +84,100 @@ arr.some((number) => number > 0) // true
 
 Every method returns true if all elements in array satisfy the condition
 arr.every((el) => el >= 1) // false
+
+## More ways of creating arrays programmatically
+
+If you want to create array you can do like this:
+
+const arr = new Array(1,2,3,4,5);
+console.log(" arr  ", arr); // [1,2,3,4,5];
+
+But if we create array like this:
+const testArr = new Array(7)
+console.log(testArr) // [ ] empty array length 7
+
+This weird behaviour of construction array.
+
+Fill method
+One of a few array methods that you can apply to such kind of arrays is that you can use fill method.
+
+Here is an example:
+
+const testArr = new Array(5);
+testArr.fill(2, 3, 5);
+// first argument is which number do you want to fill an array 3 -> is the starter index including and 5 is end index included
+
+console.log(testArr.fill(2, 1, 5))
+
+const y = Array.from({ length: 7 }, () => 7); // creates an array which is filled with 7
+
+console.log(y)
+
+const z = Array.from({length : 7}, (\_, index) => index + 1)
+// returns us on each iteration value + 1 in order not to start from zero
+
+## Which array method to choose?
+
+1. To mutate original array:
+
+- Add to original array:
+  .push() ---> end
+  .unshift() ---> start
+
+- Remove from original:
+  .pop() ---> end
+  .shift() ---> start
+  .splice()
+
+- Others:
+  .reverse() ---> change sequence
+  .sort() ----> sorting strings or if numbers pass callBack
+  .fill() ---> fills an array
+
+2. A new array
+
+- Computed from original
+- loop creates new array with all changed elements
+  .map()
+- creates new array with satisying condition
+  .filter()
+- creates new array with changes
+  .slice()
+- Adding original to other:
+  .concat();
+- Flattering the original:
+  .falt()
+  .flatMap()
+
+3. An array index
+
+- Based on value
+  .indexOf()
+
+- Based on test conditions:
+  .findIndex()
+
+4. An array element
+
+- Based on test condition:
+  .find()
+
+5. Know if array includes
+
+- Based on value:
+  .includes()
+
+- Based on test condition:
+  .some()
+  .every()
+
+6. A new string
+   .join()
+
+7. To transform to value
+
+- Based on accumulator:
+  .reduce()
+
+8. Just loop an array
+   .forEach() ---> callBack

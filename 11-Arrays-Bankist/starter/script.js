@@ -88,10 +88,11 @@ const currencies = new Map([
 const movements = [200, 450, -400, 3000, -650, -130, 70, 1300];
 
 // Display movements
-const displayMovements = (movements) => {
-  containerMovements.innerHTML = ''
+const displayMovements = (movements, sort = false) => {
+  containerMovements.innerHTML = '';
 
-  movements.forEach((mov, index) => {
+  const sortMovs = sort ? movements.slice().sort((curValue, nextValue) => curValue - nextValue) : movements
+  sortMovs.forEach((mov, index) => {
     const type = mov > 0 ? 'deposit' : 'withdrawal';
 
     const html = ` <div class="movements__row">
@@ -226,6 +227,13 @@ btnLoan.addEventListener('click', (event) => {
   event.preventDefault();
 
   requestLoan(Number(inputLoanAmount.value))
+})
+
+let stateSort = true
+btnSort.addEventListener('click', (event) => {
+  event.preventDefault();
+  displayMovements(currentUser.movements, stateSort);
+  stateSort = !stateSort
 })
 /////////////////////////////////////////////////
 
@@ -417,3 +425,9 @@ const mySort = (arr) => {
 }
 
 mySort(movements);
+
+// practice
+
+// 1 task to create where are all deposits throughout account
+const bankDeposits = accounts.flatMap((account) => account.movements).filter((mov) => mov > 0);
+console.log('bankDeposits', bankDeposits);

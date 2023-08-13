@@ -386,6 +386,34 @@ console.log(array.flat());
 
 // if we need deeper result we can do
 
-const array2 = [[[1, 2], 3], [[4, 5], 6], [7, [8, 9]]];
-console.log(array2.flat(2)); // here is the argument of depth
+const array2 = [[[4, 5], 6], [[1, 2], 3], [7, [8, 9]]];
+console.log(array2.flat(2).sort()); // here is the argument of depth
 
+console.log('default', movements);
+
+// sorting array
+// return < 0 A, B (keep order)
+// return > 0 B, A (switch order)
+console.log(movements.sort((curValue, nextValue) => curValue - nextValue));
+
+console.log(movements.sort((curValue, nextValue) => -(curValue - nextValue)));
+
+const mySort = (arr) => {
+
+  for (let j = 0; j < arr.length; j++) {
+    for (let i = 0; i < arr.length; i++) {
+      if (arr[i] > arr[i + 1]) {
+        const temp = arr[i];
+        arr[i] = arr[i + 1];
+        arr[i + 1] = temp;
+      }
+
+      if (arr[i] < arr[i + 1]) {
+        continue
+      }
+    }
+  }
+  console.log('arr', arr);
+}
+
+mySort(movements);

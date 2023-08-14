@@ -453,10 +453,100 @@ console.log('sums', sums);
 
 const convertTitleCase = (title) => {
   const exceptions = ['a', 'an', 'the', 'but', 'or', 'on', 'with', 'in'];
-  const titleCase = title.toLowerCase().map((word) => exceptions.includes(word) ? word : word[0].toUpperCase(+ word.slice(1)));
-  return titleCase;
+  const titleCase = title.toLowerCase().split(' ');
+  const changedTitle = titleCase.map((word) => exceptions.includes(word) ? word : word[0].toUpperCase() + word.slice(1));
+  return changedTitle;
 
 }
 
 const resultConverting = convertTitleCase('this is a nice title') // should return This Is a Nice Title 
 console.log('resultConverting', resultConverting);
+
+
+// coding challenge 4
+const dogs = [
+  { weight: 22, curFood: 250, owners: ['Alice', 'Bob'] },
+  { weight: 8, curFood: 200, owners: ['Matilda'] },
+  { weight: 13, curFood: 275, owners: ['Sarah', 'John'] },
+  { weight: 32, curFood: 340, owners: ['Michael'] },
+];
+
+// task 1
+dogs.map((dog) => dog.recommendedFood = dog.weight * 0.75 * 28);
+console.log('dogs', dogs);
+
+// task 2
+
+const checkNormalEating = (dog) => {
+  if (dog.curFood > dog.recommendedFood + dog.recommendedFood * 0.1) {
+    return 'Your dog is eating too much'
+  } else if (dog.curFood < dog.recommendedFood - dog.recommendedFood * 0.1) {
+    return 'Your dog is eating too little'
+  } else if (dog.curFood === dog.recommendedFood) return true
+  else return 'Your dog is eating normal'
+}
+
+let resultDog;
+dogs.forEach((dog) => {
+  if (dog.owners.includes('Sarah')) {
+    resultDog = checkNormalEating(dog);
+    return
+  }
+});
+console.log('resultSarahsDog', resultDog);
+
+// task 3
+
+// too many
+const ownersEatTooMuch = []
+dogs.filter((dog) => {
+  if (checkNormalEating(dog) === 'Your dog is eating too much') {
+    ownersEatTooMuch.push(dog.owners);
+    return
+  }
+});
+console.log('dogsMuch', ownersEatTooMuch);
+
+// too little
+
+const ownersEatTooLittle = [];
+dogs.filter((dog) => {
+  if (checkNormalEating(dog) === 'Your dog is eating too little') {
+    ownersEatTooLittle.push(dog.owners);
+    return
+  }
+})
+
+console.log('dogsTooLittle', ownersEatTooLittle);
+
+// task 4
+const printStr = (arr) => {
+  const checkWord = ownersEatTooLittle[0][0];
+  console.log('check', checkWord);
+  console.log(`${arr.join(' and ')} dogs are eating ${arr.includes(checkWord) ? 'too little' : 'too much'}`);
+}
+
+printStr(...ownersEatTooLittle);
+printStr(...ownersEatTooMuch);
+
+// task 5
+const exactlyRecommned = dogs.filter((dog) => {
+  return checkNormalEating(dog) === true || false
+})
+
+console.log('exactlyRecommned', exactlyRecommned === [] ? false : true);
+
+// task 6 and task 7
+const normalEatingDogsArr = [];
+const resultNormalEating = dogs.filter((dog) => {
+  if (checkNormalEating(dog) === 'Your dog is eating normal') {
+    normalEatingDogsArr.push(dog);
+    return true
+  }
+}) !== [] ? true : false;
+console.log('resultNormalEating', resultNormalEating);
+console.log('normalEatingDogsArr', normalEatingDogsArr);
+
+const shallowCopy = dogs.flatMap((dog) => dog.recommendedFood);
+console.log('shallowCopy', shallowCopy);
+console.log(shallowCopy.sort((curValue, nextValue) => curValue - nextValue));

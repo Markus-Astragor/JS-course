@@ -429,5 +429,34 @@ mySort(movements);
 // practice
 
 // 1 task to create where are all deposits throughout account
-const bankDeposits = accounts.flatMap((account) => account.movements).filter((mov) => mov > 0);
+const bankDeposits = accounts.flatMap((account) => account.movements).filter((mov) => mov > 0).reduce((acc, curValue) => acc + curValue)
 console.log('bankDeposits', bankDeposits);
+
+// 2 task
+
+// 1 variant
+const numDeposits1000 = accounts.flatMap((account) => account.movements).filter((mov) => mov >= 1000).length;
+console.log('numDeposits1000', numDeposits1000);
+
+// 2 variant
+const secondVariabntCountDeposits = accounts.flatMap((account) => account.movements).reduce((acc, curValue) => curValue >= 1000 ? acc + 1 : acc, 0);
+console.log('secondVariabntCountDeposits', secondVariabntCountDeposits);
+
+// 3 ex
+
+const sums = accounts.flatMap((account) => account.movements).reduce((acc, curValue) => {
+  // curValue >= 0 ? acc.deposits += curValue : acc.withDrawals += curValue
+  acc[curValue >= 0 ? 'deposits' : 'withDrawals'] += curValue
+  return acc
+}, { deposits: 0, withDrawals: 0 });
+console.log('sums', sums);
+
+const convertTitleCase = (title) => {
+  const exceptions = ['a', 'an', 'the', 'but', 'or', 'on', 'with', 'in'];
+  const titleCase = title.toLowerCase().map((word) => exceptions.includes(word) ? word : word[0].toUpperCase(+ word.slice(1)));
+  return titleCase;
+
+}
+
+const resultConverting = convertTitleCase('this is a nice title') // should return This Is a Nice Title 
+console.log('resultConverting', resultConverting);

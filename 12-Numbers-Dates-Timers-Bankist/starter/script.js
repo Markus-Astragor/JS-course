@@ -230,6 +230,15 @@ btnSort.addEventListener('click', (event) => {
   stateSort = !stateSort
 })
 
+
+// every third row in green
+labelBalance.addEventListener('click', () => {
+  [...document.querySelectorAll('.movements__row')].forEach((row, index) => {
+    if (index % 3 === 0) row.style.backgroundColor = 'green';
+  })
+})
+
+
 /////////////////////////////////////////////////
 /////////////////////////////////////////////////
 // LECTURES
@@ -255,13 +264,13 @@ console.log(Math.min(1, 10, 17, '23'));
 
 // Math.PI
 
-console.log(Math.PI * Number.parseFloat('10px') ** 2);
+console.log('math pi', Math.trunc(Math.PI * Number.parseFloat('10px') ** 2));
 console.log(Math.trunc(Math.random() * 6) + 1);
-console.log(Math.trunc(23.3333)); // removes decimal part
+console.log('trunc', Math.trunc(23.3333)); // removes decimal part
 
 // Math.ceil
 
-console.log(Math.ceil(23.9));
+console.log('264', Math.ceil(23.9)); // 24
 
 //Math.floor()
 
@@ -269,4 +278,24 @@ console.log(Math.floor(24.5)); // 24
 
 //toFixed()
 
-console.log(+(20.345).toFixed(2));
+console.log(+(20.345).toFixed(1)); // 20.3
+
+//Numeric Separators 
+// f.e these underScores _ 100_000_000
+
+const diameterSolarSystem = 287_460_000_000;
+
+// it doesn't work with strings
+
+console.log(Number('23_000')); // NaN
+
+
+// Working with BigInt
+console.log(2 ** 53 - 1); // the biggest number which js can represent safely
+console.log(Number.MAX_SAFE_INTEGER); // the biggest number which js can represent safely
+
+//
+console.log(21368126873617283128637816286636128637612731286386127368126738154326128343912n);
+console.log(BigInt(21368126873617283128637816286636128637612731286386127368126738154326128343912));
+
+// Operations

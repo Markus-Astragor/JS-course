@@ -37,3 +37,19 @@ console.log(Math.floor(24.5)); // 24
 
 // toFixed()
 console.log(+(20.345).toFixed(2)); // 20.34
+
+## The Remainder Operator
+
+console.log(20 % 2) // 0 because the result of division is 10
+
+## Numeric Separators
+
+// it doesn't work with strings
+const diameterSolarSystem = 287_460_000_000;
+
+console.log(Number('23_000')); // NaN
+
+## Working with BigInt
+
+ES2020 was added BIGInt
+it can't mix big ints with usual numbers

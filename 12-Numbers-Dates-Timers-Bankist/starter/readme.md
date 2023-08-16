@@ -53,3 +53,31 @@ console.log(Number('23_000')); // NaN
 
 ES2020 was added BIGInt
 it can't mix big ints with usual numbers
+
+const myBigInt = 1000000000000000000000000000000000000000000000000n
+const regNum = 23;
+console.log(myBigInt \* regNum); // Uncaught TypeError: can't convert BigInt to number
+
+// we can't do math operations on bigInts
+
+console.log(Math.sqrt(myBigInt)); // Uncaught TypeError: can't convert BigInt to number
+
+// in divisions it cuts off decimal part
+console.log(11n / 3n); // 3n
+
+## Creating Dates
+
+## Internationalizing Dates (Intl)
+
+ const optionsDate = {
+    hour: 'numeric',
+    minute: 'numeric',
+    day: 'numeric',
+    month: 'long',
+    year: 'numeric',
+    weekday: 'long',
+  }
+  const now = new Date();
+  labelDate.textContent = new Intl.DateTimeFormat('uk', optionsDate).format(now);
+
+//http://www.lingoes.net/en/translator/langcode.htm table codes

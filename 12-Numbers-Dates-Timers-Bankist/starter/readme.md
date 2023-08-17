@@ -81,3 +81,45 @@ console.log(11n / 3n); // 3n
   labelDate.textContent = new Intl.DateTimeFormat('uk', optionsDate).format(now);
 
 //http://www.lingoes.net/en/translator/langcode.htm table codes
+
+## Internationalizing Numbers (Intl)
+const formatCur = (value, locale, currency) => {
+  return new Intl.NumberFormat(locale, {
+    style: 'currency',
+    currency: currency
+  }).format(value)
+}
+
+formatCur(1000, 'uk', 'UAH') //  1 000,00 ₴
+
+## Timers: setTimeout and setInterval
+
+We specify when we exactly want to call this callBack function setTimeout first argument is a function and the second one is the time
+setTimeout(() => console.log('It will be called after two seconds'), 2000);
+
+if you need to pass arguments into this function you can write the after argument about time here is an example: 
+setTimeout((ing1, ing2) => console.log(`It will be called after two seconds ${ing1} and ${ing2}`), 2000, 'olives', 'cheese');
+
+
+Moreover, we can cancel this function to execute before the time elapsed:
+
+Here is an example:
+----
+const ingredients = ['olives', 'cheese'];
+const pizzaTimer = setTimeout((ing1, ing2) => console.log(`It will be called after two seconds ${ing1} and ${ing2}`), 2000, ...ingredients);
+
+if (ingredients.includes('cheese')) clearTimeout(pizzaTimer); // it just cancels timer and don't execute this line of code
+----
+
+--- 
+interval it will repeat every x seconds which you pass as arument here is an example of clock:
+
+setInterval(() => {
+  const currentDate = new Date();
+  const currentHour = currentDate.getHours();
+  const currentMinutes = currentDate.getMinutes();
+  const currentSeconds = currentDate.getSeconds();
+  console.log(`${currentHour}:${currentMinutes}:${currentSeconds}`);
+}, 1000);
+
+---

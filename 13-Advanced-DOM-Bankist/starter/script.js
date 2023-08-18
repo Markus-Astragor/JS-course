@@ -83,7 +83,7 @@ console.log(message.style); // it gives only styles which we passed
 console.log(getComputedStyle(message)); // and we receive a really big object with styles
 console.log(getComputedStyle(message).color); // rgb(187, 187, 187)
 
-document.documentElement.style.setProperty('--color-primary', 'orangered') // here we pass css variable as first argument and color on which we want to change the second one
+// document.documentElement.style.setProperty('--color-primary', 'orangered') // here we pass css variable as first argument and color on which we want to change the second one
 
 // attributes
 
@@ -117,3 +117,20 @@ console.log(logo.dataset.versionNumber);
 // Classes
 // don't use
 // logo.className = 'jonas' // overwrite all classes which are existing on dom elemets
+
+// const btnScroll = document.querySelector('.btn--scroll-to');
+// const section1 = document.querySelector('#section--1');
+
+// btnScroll.addEventListener('click', (e) => {
+//   const coordinatesSection = section1.getBoundingClientRect(); // receiving coordinates from section 1
+//   console.log(e.target.getBoundingClientRect());
+
+//   console.log('height/width viewport', document.documentElement.clientHeight, document.documentElement.clientWidth);
+
+//   // old school way
+//   // window.scrollTo(coordinatesSection.left + window.pageXOffset,
+//   //   coordinatesSection.top + window.pageYOffset
+//   // )
+
+//   section1.scrollIntoView({ behavior: 'smooth' })
+// })

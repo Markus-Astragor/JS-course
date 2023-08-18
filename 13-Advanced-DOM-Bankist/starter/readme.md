@@ -74,3 +74,56 @@ logo.classList.add()
 logo.classList.remove()
 logo.classList.toggle()
 logo.classList.contains()
+
+
+## Event Propagation: Bubbling and Capturing
+
+first of all when we attach click event to the element it goes through the all tags and then when it goes to the target element it begins to use that target event listener 
+
+capturing phase --> target phase --> bubbling phase 
+
+Capturing when we just clicked on the link
+
+Target when the tag on which this click was handled through all parent tags
+
+Bubling phase from the root it uses this event
+
+So if we have such html structure
+
+ <nav class="nav">
+      <img src="img/logo.png" alt="Bankist logo" class="nav__logo" id="logo" designer="jonasschmedtman"
+        data-version-number="3.0" />
+      <ul class="nav__links">
+        <li class="nav__item">
+          <a class="nav__link" href="#section--1">Features</a>
+        </li>
+        <li class="nav__item">
+          <a class="nav__link" href="#section--2">Operations</a>
+        </li>
+        <li class="nav__item">
+          <a class="nav__link" href="#section--3">Testimonials</a>
+        </li>
+        <li class="nav__item">
+          <a class="nav__link nav__link--btn btn--show-modal" href="#">Open account</a>
+        </li>
+      </ul>
+    </nav>
+
+
+const ul = document.querySelector('ul');
+const nav = document.querySelector('.nav');
+
+nav.addEventListener('click', () => {
+  console.log('clicked nav');
+})
+
+ul.addEventListener('click', () => {
+  console.log('clicked ul');
+})
+
+nav element is the parent and if we click on ul and we have eventListener on parent element it will also execute
+
+! Not all events have bubbling and capturing phases
+
+## DOM Traversing
+

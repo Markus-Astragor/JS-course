@@ -30,6 +30,28 @@ document.addEventListener('keydown', function (e) {
   }
 });
 
+const scrollFunc = (id) => {
+
+  document.querySelector(id).scrollIntoView({ behavior: 'smooth' });
+}
+
+
+document.querySelector('.nav__links').addEventListener('click', function (e) {
+  e.preventDefault();
+
+  console.log(e.target);
+
+  if (e.target.classList.contains('nav__link')) {
+    const id = e.target.getAttribute('href');
+    scrollFunc(id)
+  }
+})
+
+document.querySelector('.btn--scroll-to').addEventListener('click', (e) => {
+  e.preventDefault();
+  const id = e.target.getAttribute('href');
+  scrollFunc(id);
+})
 
 // Lectures
 
@@ -134,3 +156,52 @@ console.log(logo.dataset.versionNumber);
 
 //   section1.scrollIntoView({ behavior: 'smooth' })
 // })
+
+
+// Event Propagation: Bubbling and Capturing
+
+// const ul = document.querySelector('ul');
+// const nav = document.querySelector('.nav');
+
+
+
+// const randomInt = (min, max) => Math.trunc(Math.random() * (max - min) + min);
+
+// console.log(randomInt(1, 255));
+
+// const randomColor = () => `rgb(${randomInt(0, 255)}, ${randomInt(0, 255)}, ${randomInt(0, 255)})`;
+
+
+// document.querySelector('ul').addEventListener('click', function (event) {
+//   this.style.backgroundColor = randomColor();
+//   console.log('ul', event.target, event.currentTarget); // when we click on ul ul is a target
+//   // event.stopPropagation() // not recommmended but you can use if you need
+// })
+
+// document.querySelector('.nav').addEventListener('click', function (event) {
+//   this.style.backgroundColor = randomColor();
+//   console.log('container', event.target, event.currentTarget);// when we click on nav is only a target, current targer is on element which has this event attached
+// }, true) // bubling phase when we set to true it will be first
+
+
+const header__title = document.querySelector('.header__title');
+const h1 = header__title.querySelector('h1');
+// selecting a child
+
+console.log(h1); // js will go as deep as needed + if there are some other tags with h1 they won't be selected, because they are not children of header__title
+console.log(header__title.childNodes); // [ #text, h1, #text, h4, #text, button.btn--text.btn--scroll-to, #text, img.header__img, #text ]
+console.log(header__title.children); // just html elements only for direct children { 0: h1, 1: h4, 2: button.btn--text.btn--scroll-to, 3: img.header__img, length: 4 }
+header__title.firstElementChild.style.color = 'orangered'; // brings only first child
+
+
+// Selecting a parent
+
+console.log(header__title.parentNode); // <header class="header">
+console.log(header__title.parentElement); // usually what we use but in this situations they are the same <header class="header">
+
+h1.closest('header').style.backgroundColor = 'orange';
+
+// going sideways selecting siblings
+
+console.log(header__title.previousElementSibling); // <nav class="nav">
+console.log(header__title.nextElementSibling); // null

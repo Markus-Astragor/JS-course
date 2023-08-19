@@ -53,6 +53,24 @@ document.querySelector('.btn--scroll-to').addEventListener('click', (e) => {
   scrollFunc(id);
 })
 
+
+// components wsitching
+const btnTabs = document.querySelectorAll('.operations__tab');
+const btnTabsArr = [...btnTabs];
+
+const operationsTab = document.querySelectorAll('.operations__content');
+const opeationsTabArr = [...operationsTab];
+let currentTab, currentOperationTab;
+
+const foundBtnTab = btnTabsArr.find((btnTab) => btnTab.classList.contains('operations__tab--active'));
+const foundCurrentOperationTab = opeationsTabArr.find(operatoinTab => operatoinTab.classList.contains('operations__content--active'));
+console.log('foundCurrentOperationTab', foundCurrentOperationTab);
+currentTab = foundBtnTab;
+currentOperationTab = foundCurrentOperationTab;
+// implement logic of deleting class for current tab and assign to new one
+
+
+
 // Lectures
 
 console.log(document.documentElement);
@@ -111,32 +129,32 @@ console.log(getComputedStyle(message).color); // rgb(187, 187, 187)
 
 // there are standard ways of getting attributes
 
-const logo = document.querySelector('.nav__logo');
-console.log(logo.src);
+// const logo = document.querySelector('.nav__logo');
+// console.log(logo.src);
 
-// non-standard
+// // non-standard
 
-// this way doesn't work
-// console.log(logo.designer);
-console.log(logo.getAttribute('designer')); // jonasschmedtman
-
-
-// we can also set values for attributes
-// standard way
-logo.alt = 'Beautful minimalist logo';
-
-// non-standard way
-logo.setAttribute('company', 'Bankist');
-
-logo.getAttribute('src') // we get absolute url
+// // this way doesn't work
+// // console.log(logo.designer);
+// console.log(logo.getAttribute('designer')); // jonasschmedtman
 
 
-// data attributes
+// // we can also set values for attributes
+// // standard way
+// logo.alt = 'Beautful minimalist logo';
 
-console.log(logo.dataset.versionNumber);
+// // non-standard way
+// logo.setAttribute('company', 'Bankist');
+
+// logo.getAttribute('src') // we get absolute url
 
 
-// Classes
+// // data attributes
+
+// console.log(logo.dataset.versionNumber);
+
+
+// // Classes
 // don't use
 // logo.className = 'jonas' // overwrite all classes which are existing on dom elemets
 
@@ -184,24 +202,24 @@ console.log(logo.dataset.versionNumber);
 // }, true) // bubling phase when we set to true it will be first
 
 
-const header__title = document.querySelector('.header__title');
-const h1 = header__title.querySelector('h1');
-// selecting a child
+// const header__title = document.querySelector('.header__title');
+// const h1 = header__title.querySelector('h1');
+// // selecting a child
 
-console.log(h1); // js will go as deep as needed + if there are some other tags with h1 they won't be selected, because they are not children of header__title
-console.log(header__title.childNodes); // [ #text, h1, #text, h4, #text, button.btn--text.btn--scroll-to, #text, img.header__img, #text ]
-console.log(header__title.children); // just html elements only for direct children { 0: h1, 1: h4, 2: button.btn--text.btn--scroll-to, 3: img.header__img, length: 4 }
-header__title.firstElementChild.style.color = 'orangered'; // brings only first child
+// console.log(h1); // js will go as deep as needed + if there are some other tags with h1 they won't be selected, because they are not children of header__title
+// console.log(header__title.childNodes); // [ #text, h1, #text, h4, #text, button.btn--text.btn--scroll-to, #text, img.header__img, #text ]
+// console.log(header__title.children); // just html elements only for direct children { 0: h1, 1: h4, 2: button.btn--text.btn--scroll-to, 3: img.header__img, length: 4 }
+// header__title.firstElementChild.style.color = 'orangered'; // brings only first child
 
 
-// Selecting a parent
+// // Selecting a parent
 
-console.log(header__title.parentNode); // <header class="header">
-console.log(header__title.parentElement); // usually what we use but in this situations they are the same <header class="header">
+// console.log(header__title.parentNode); // <header class="header">
+// console.log(header__title.parentElement); // usually what we use but in this situations they are the same <header class="header">
 
-h1.closest('header').style.backgroundColor = 'orange';
+// h1.closest('header').style.backgroundColor = 'orange';
 
-// going sideways selecting siblings
+// // going sideways selecting siblings
 
-console.log(header__title.previousElementSibling); // <nav class="nav">
-console.log(header__title.nextElementSibling); // null
+// console.log(header__title.previousElementSibling); // <nav class="nav">
+// console.log(header__title.nextElementSibling); // null

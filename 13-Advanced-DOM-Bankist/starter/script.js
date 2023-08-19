@@ -59,15 +59,54 @@ const btnTabs = document.querySelectorAll('.operations__tab');
 const btnTabsArr = [...btnTabs];
 
 const operationsTab = document.querySelectorAll('.operations__content');
-const opeationsTabArr = [...operationsTab];
+const operations__tab_container = document.querySelector('.operations__tab-container');
+const operationsTabArr = [...operationsTab];
 let currentTab, currentOperationTab;
 
 const foundBtnTab = btnTabsArr.find((btnTab) => btnTab.classList.contains('operations__tab--active'));
-const foundCurrentOperationTab = opeationsTabArr.find(operatoinTab => operatoinTab.classList.contains('operations__content--active'));
+const foundCurrentOperationTab = operationsTabArr.find(operatoinTab => operatoinTab.classList.contains('operations__content--active'));
 console.log('foundCurrentOperationTab', foundCurrentOperationTab);
 currentTab = foundBtnTab;
 currentOperationTab = foundCurrentOperationTab;
-// implement logic of deleting class for current tab and assign to new one
+
+
+operations__tab_container.addEventListener('click', (e) => {
+  const clicked = e.target.closest('.operations__tab');
+  console.log(clicked);
+
+  // guard clause
+  if (!clicked) return
+
+  btnTabs.forEach(btnTab => btnTab.classList.remove('operations__tab--active')); // firstly delete all active classws
+  operationsTab.forEach(operationTab => operationTab.classList.remove('operations__content--active'));
+  clicked.classList.add('operations__tab--active'); // add needed class
+
+  console.log('clicked.dataset.tab', clicked.dataset.test);
+  document.querySelector(`.operations__content--${clicked.dataset.tab}`).classList.add('operations__content--active');
+})
+
+// btnTabs.forEach((btnTab) => {
+//   btnTab.addEventListener('click', (e) => {
+//     if (e.target.classList === currentTab.classList) return
+//     console.log(e.target.classList);
+//     const [, , classNeeded] = e.target.classList;
+//     const lastNum = classNeeded[classNeeded.length - 1]; // we need it for operations__content
+//     console.log('lastNum', lastNum);
+//     console.log('classNeeded', classNeeded);
+//     currentTab.classList.remove('operations__tab--active');
+//     const neededTab = btnTabsArr.find((btnTab) => btnTab.classList === e.target.classList);
+//     neededTab.classList.add('operations__tab--active');
+//     currentTab = neededTab;
+//     const [, operation__content,] = currentOperationTab.classList;
+//     const changedOperationContent = operation__content.replace(operation__content[operation__content.length - 1], lastNum);
+//     currentOperationTab.classList.remove('operations__content--active');
+//     const neededOperationTab = operationsTabArr.find(operationTab => operationTab.classList.contains(changedOperationContent));
+//     neededOperationTab.classList.add('operations__content--active');
+//     currentOperationTab = neededOperationTab;
+//   })
+// })
+
+
 
 
 

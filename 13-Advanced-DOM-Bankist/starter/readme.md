@@ -127,3 +127,16 @@ nav element is the parent and if we click on ul and we have eventListener on par
 
 ## DOM Traversing
 
+const clicked = e.target.closest('.operations__tab');
+data-tab attribute in html
+clicked.dataset.tab
+
+## The Intersection Observer API
+
+We need it in order to create an observer which will observe changes in event we need for example scroll and then track these changes and react on them
+
+
+const observer = new IntersectionObserver(callback, options) // we need to pass a callback function and options which is an object
+
+observer.observe(section1); // set for which object should we observe 
+

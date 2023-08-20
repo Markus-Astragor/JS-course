@@ -7,6 +7,19 @@ const modal = document.querySelector('.modal');
 const overlay = document.querySelector('.overlay');
 const btnCloseModal = document.querySelector('.btn--close-modal');
 const btnsOpenModal = document.querySelectorAll('.btn--show-modal');
+const section1 = document.querySelector('#section--1 ');
+let currentTab, currentOperationTab;
+const btnTabs = document.querySelectorAll('.operations__tab');
+const btnTabsArr = [...btnTabs];
+
+const operationsTab = document.querySelectorAll('.operations__content');
+const operations__tab_container = document.querySelector('.operations__tab-container');
+const operationsTabArr = [...operationsTab];
+const nav = document.querySelector('.nav');
+const section2 = document.querySelector('#section--2');
+const container__sections = document.querySelector('.container__sections');
+const header = document.querySelector('header');
+
 
 const openModal = function (event) {
   event.preventDefault();
@@ -55,13 +68,8 @@ document.querySelector('.btn--scroll-to').addEventListener('click', (e) => {
 
 
 // components wsitching
-const btnTabs = document.querySelectorAll('.operations__tab');
-const btnTabsArr = [...btnTabs];
 
-const operationsTab = document.querySelectorAll('.operations__content');
-const operations__tab_container = document.querySelector('.operations__tab-container');
-const operationsTabArr = [...operationsTab];
-let currentTab, currentOperationTab;
+
 
 const foundBtnTab = btnTabsArr.find((btnTab) => btnTab.classList.contains('operations__tab--active'));
 const foundCurrentOperationTab = operationsTabArr.find(operatoinTab => operatoinTab.classList.contains('operations__content--active'));
@@ -72,8 +80,6 @@ currentOperationTab = foundCurrentOperationTab;
 
 operations__tab_container.addEventListener('click', (e) => {
   const clicked = e.target.closest('.operations__tab');
-  console.log(clicked);
-
   // guard clause
   if (!clicked) return
 
@@ -81,7 +87,6 @@ operations__tab_container.addEventListener('click', (e) => {
   operationsTab.forEach(operationTab => operationTab.classList.remove('operations__content--active'));
   clicked.classList.add('operations__tab--active'); // add needed class
 
-  console.log('clicked.dataset.tab', clicked.dataset.test);
   document.querySelector(`.operations__content--${clicked.dataset.tab}`).classList.add('operations__content--active');
 })
 
@@ -106,6 +111,72 @@ operations__tab_container.addEventListener('click', (e) => {
 //   })
 // })
 
+// implementing fading link
+
+const handleHover = function (e) {
+  if (e.target.classList.contains('nav__link')) {
+    const link = e.target;
+    const siblings = link.closest('.nav').querySelectorAll('.nav__link');
+    const logo = link.closest('.nav').querySelector('img');
+    siblings.forEach(el => {
+      if (el !== link) el.style.opacity = this;
+    })
+    logo.style.opacity = this;
+  }
+}
+
+
+
+nav.addEventListener('mouseover', handleHover.bind(0.5));
+
+nav.addEventListener('mouseout', handleHover.bind(1));
+
+
+
+
+// const intitialcoords = section1.getBoundingClientRect();
+// console.log('intitialcoords', intitialcoords);
+// window.addEventListener('scroll', () => {
+//   if (window.scrollY > intitialcoords.top) nav.classList.add('sticky');
+//   else nav.classList.remove('sticky');
+// })
+
+
+// const obsFunc = (entries, observerObj) => {
+//   // activates each time when the observed element is being intersected
+//   entries.forEach(entry => {
+//     console.log(entry);
+//   })
+// }
+// const observeOptions = {
+//   // the target which is being intersected in our case section 1 is a target or as alternative we can pass null in order to have all portion recatangle to be observed
+//   root: null,
+//   threshold: 0.2 // at which percentage callback will be called, moreover, we can have there(threshold) an array of entries in callBack function obsFunc is this element in threshold 
+// }
+
+// const observer = new IntersectionObserver(obsFunc, observeOptions);
+
+// observer.observe(section1);
+const navHeight = nav.getBoundingClientRect().height;
+const headerObserverFunc = (entries, observerObj) => {
+  const [entry] = entries;
+  if (entry.isIntersecting) nav.classList.remove('sticky'); // isIntersecting if it false it means that our target el is not in focus
+  else nav.classList.add('sticky');
+}
+
+const optionsHeaderObs = {
+  root: null,
+  threshold: 0, // when it comes out of our view
+  rootMargin: `-${navHeight}px`
+}
+
+const headerObs = new IntersectionObserver(headerObserverFunc, optionsHeaderObs);
+
+headerObs.observe(header);
+
+
+
+
 
 
 
@@ -120,7 +191,6 @@ const allSections = document.querySelectorAll('.section');
 console.log('allSections', allSections);
 const allBtnss = document.getElementsByTagName('button');
 console.log('allBtnss', allBtnss);
-const header = document.querySelector('header');
 
 //Creating and inserting elements
 

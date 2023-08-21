@@ -140,3 +140,12 @@ const observer = new IntersectionObserver(callback, options) // we need to pass 
 
 observer.observe(section1); // set for which object should we observe 
 
+## Lazy Loading Images
+
+if you wan to implement this feature you need two images one with the bad quality you can name it like card-lazy.jpg. In default src attribute we put this lazy image and then and then put normal image as we need. In our case as we are intersecting it we can show it, it improves our performance because to show all images at the same time is difficult but to show one is way more wasily.
+
+## Efficient Script Loading: defer and async
+
+Defer is probably the best method to use when we have the script tag
+
+<img src='./theory js.png'>

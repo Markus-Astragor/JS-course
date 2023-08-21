@@ -19,6 +19,7 @@ const nav = document.querySelector('.nav');
 const section2 = document.querySelector('#section--2');
 const container__sections = document.querySelector('.container__sections');
 const header = document.querySelector('header');
+const allSections = document.querySelectorAll('.section');
 
 
 const openModal = function (event) {
@@ -176,8 +177,131 @@ headerObs.observe(header);
 
 
 
+// reveailing sections
+
+const revealSection = (entries, observer) => {
+  const [entry] = entries;
+  if (entry.isIntersecting) entry.target.classList.remove('section--hidden');
+  else return
+
+  observer.unobserve(entry.target); // optimizing in order not to do a work when we have already observed needed elements 
+}
+
+const optionsRevealingSections = {
+  root: null,
+  threshold: 0.15 // it will be visible as it is 15% visible
+}
+
+const sectionObserver = new IntersectionObserver(revealSection, optionsRevealingSections);
+
+allSections.forEach(section => {
+  section.classList.add('section--hidden');
+  sectionObserver.observe(section);
+})
 
 
+// lazy-loading images
+
+const allImages = document.querySelectorAll('img[data-src]'); // all that have a property as data src
+
+const revealImages = (entries, observer) => {
+  const [entry] = entries;
+  if (!entry.isIntersecting) return
+
+  entry.target.src = entry.target.dataset.src
+  entry.target.addEventListener('load', () => {
+    entry.target.classList.remove('lazy-img');
+    observer.unobserve(entry.target);
+  })
+}
+
+const revealingImagesOptions = {
+  root: null,
+  threshold: 0.1
+}
+
+const imagesObserver = new IntersectionObserver(revealImages, revealingImagesOptions);
+
+allImages.forEach(img => {
+  imagesObserver.observe(img);
+})
+
+// slider
+let curSlide = 0;
+const slides = document.querySelectorAll('.slide');
+const dotContainer = document.querySelector('.dots');
+
+
+
+const createDots = () => {
+  slides.forEach((_, index) => {
+    const html = `<button class="dots__dot" data-slide="${index}"></button>`;
+    dotContainer.insertAdjacentHTML('beforeend', html);
+  })
+}
+
+const dots = document.querySelectorAll('.dots__dot');
+
+
+
+const moveSlides = (currentSlide) => {
+  slides.forEach((slide, i) => {
+    slide.style.transform = `translateX(${(i - currentSlide) * 100}%)`;
+  })
+}
+
+const activateDot = (slide) => {
+  dots.forEach(dot => dot.classList.remove('dots__dot--active'));
+  document.querySelector(`.dots__dot[data-slide="${slide}"]`).classList.add('dots__dot--active');
+}
+
+dotContainer.addEventListener('click', (e) => {
+  if (e.target.classList.contains('dots__dot')) {
+    const { slide } = e.target.dataset;
+    moveSlides(Number(slide));
+    activateDot(Number(slide));
+  }
+})
+
+
+
+
+slides.forEach((slide, i) => {
+  slide.style.transform = `translateX(${i * 100}%)`;
+})
+
+const leftSliderBtn = document.querySelector('.slider__btn--left');
+const rightSliderBtn = document.querySelector('.slider__btn--right');
+
+
+
+const moveToLeft = () => {
+  if (curSlide === 0) curSlide = slides.length - 1
+  else curSlide--;
+  moveSlides(curSlide);
+  activateDot(curSlide)
+}
+
+leftSliderBtn.addEventListener('click', moveToLeft);
+const moveToRight = () => {
+  if (curSlide === slides.length - 1) curSlide = 0;
+  else curSlide++;
+  moveSlides(curSlide);
+  activateDot(curSlide);
+}
+
+rightSliderBtn.addEventListener('click', moveToRight);
+
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'ArrowRight') moveToRight();
+  if (e.key === 'ArrowLeft') moveToLeft();
+});
+
+const init = () => {
+  moveSlides(0);
+  createDots();
+  activateDot(0);
+}
 
 
 
@@ -187,7 +311,6 @@ console.log(document.documentElement);
 console.log(document.head);
 console.log(document.body);
 
-const allSections = document.querySelectorAll('.section');
 console.log('allSections', allSections);
 const allBtnss = document.getElementsByTagName('button');
 console.log('allBtnss', allBtnss);
@@ -332,3 +455,17 @@ console.log(getComputedStyle(message).color); // rgb(187, 187, 187)
 
 // console.log(header__title.previousElementSibling); // <nav class="nav">
 // console.log(header__title.nextElementSibling); // null
+
+document.addEventListener('DOMContentLoaded', (e) => {
+  console.log('Html parsed and DOM tree is built', e);
+})
+
+
+window.addEventListener('load', (e) => {
+  console.log('Page fully loaded');
+})
+
+// window.addEventListener('beforeunload', (e) => {
+//   e.preventDefault();
+//   e.returnValue = '';
+// }) // when we try to close the browser we can use sth like this in order to confirm actions

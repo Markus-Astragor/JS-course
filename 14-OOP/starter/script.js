@@ -94,3 +94,139 @@ carObj2.accelerate(); // 105
 
 carObj1.brake();// 125
 carObj2.brake();// 100
+
+
+// ES6 Classes
+
+// class expression
+// const PersonCL = class {
+
+// }
+
+// class declaration
+class PersonCl {
+  constructor(fullName, birthYear) {
+    this.fullName = fullName;
+    this.birthYear = birthYear;
+  }
+
+  // Methods
+
+  calcAge() {
+    return new Date().getFullYear() - this.birthYear;
+  }
+
+  get age() {
+    return new Date().getFullYear() - this.birthYear;
+  }
+
+
+  // setting property that already exists
+  set fullName(name) {
+    if (name.includes(' ')) this._fullName = name;
+    else console.log(`The name ${name} you provided is not valid becuase it is not full`);
+  }
+
+  get fullName() {
+    return this._fullName; // just replace _fullName to fullName 
+  }
+
+  // static methods
+
+  static hey() {
+    console.log('Hey');
+  }
+}
+
+
+const jessica = new PersonCl('Jessica Davis', 2004);
+console.log('jessica', jessica);
+
+const jessicasAge = jessica.calcAge();
+
+console.log('jessicasAge', jessicasAge);
+
+// Setters and Getters
+
+const account = {
+  name: 'Oleg',
+  movements: [200, 530, 40, 120],
+
+  get latest() {
+    return this.movements[this.movements.length - 1];
+  },
+
+  set latest(mov) {
+    this.movements.push(mov);
+  }
+}
+
+account.latest = 60;
+
+console.log(account.movements);
+
+console.log(jessica.age);
+
+console.log('Array', Array);
+
+PersonCl.hey();
+
+// Object.create
+
+const PersonProto = {
+  calcAge() {
+    return new Date().getFullYear() - this.birthYear;
+  },
+
+  init(firstName, birthYear) {
+    this.firstName = firstName;
+    this.birthYear = birthYear;
+  }
+}
+
+const Steven = Object.create(PersonProto);
+
+console.log('Steven', Steven);
+
+
+Steven.init('Steven', 1990);
+const stevensAge = Steven.calcAge();
+
+console.log('stevensAge', stevensAge);
+
+
+class CarCl {
+  constructor(make, speed) {
+    this.make = make;
+    this.speed = speed;
+  }
+
+  accelerate() {
+    this.speed = this.speed + 10
+    return this.speed
+  }
+
+  brake() {
+    this.speed = this.speed - 5;
+    return this.speed;
+  }
+
+  get speedUS() {
+    return this.speed / 1.6
+  }
+
+  set speedUS(speed) {
+    return this.speed = speed * 1.6;
+  }
+
+}
+
+
+
+const ford = new CarCl('Ford', 120);
+
+console.log(ford.accelerate()); // 130
+console.log(ford.brake()); // 125
+
+console.log(ford.speedUS); // 125 / 1.6
+

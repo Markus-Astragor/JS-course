@@ -127,8 +127,49 @@ functions are objects and on objects we can call methods as bind, apply or call 
 
 
 
+## ES6 Classes
+
+There are two types of decalring classes class declaration and class expression
+
+Here is an example:
+
+// class expression
+const PersonCL = class {
+
+}
+
+// class declaration
+
+class PersonCl {
+  constructor(firstName, birthYear) {
+    this.firstName = firstName;
+    this.birthYear = birthYear;
+  }
+}
+
+Several rules, which you should keep in mind about classes:
+<b>
+1. Classes are not hoisted(that means that you can't use them before you declared it)
+2. Classes are first-class citizens we can pass them into functions and return them from functions
+3. Classes are executed in strict mode
+</b>
 
 
+## Setters and Getters
+
+We type them just like normal functions but with key words get/set.
+
+They can be very useful when we use data validation
+
+## Static Methods
+
+Static method means that it is attached to constructor but not in prototype
+Here are some examples: 
+
+Number.parseFloat(12) ---> it is not exist on usual numbers, but only on Number constructor function
 
 
+## Object.create
+
+<img src="./img/object_create_works.png">
 

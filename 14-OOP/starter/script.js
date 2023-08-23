@@ -71,5 +71,26 @@ console.log('array`s prototype', arr.__proto__); // prototype is a mechanism in 
 
 // Coding challenge 1
 
+const Car = function (make, speed) {
+  this.make = make;
+  this.speed = speed
+}
 
+Car.prototype.accelerate = function () {
+  this.speed = this.speed + 10
+  console.log(this.speed);
+}
 
+Car.prototype.brake = function () {
+  this.speed = this.speed - 5
+  console.log(this.speed);
+}
+
+const carObj1 = new Car('BMW', 120);
+const carObj2 = new Car('Mercedes', 95)
+
+carObj1.accelerate(); // 130
+carObj2.accelerate(); // 105
+
+carObj1.brake();// 125
+carObj2.brake();// 100

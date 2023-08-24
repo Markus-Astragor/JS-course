@@ -173,3 +173,12 @@ Number.parseFloat(12) ---> it is not exist on usual numbers, but only on Number 
 
 <img src="./img/object_create_works.png">
 
+##  Inheritance Between "Classes": Constructor Functions
+
+For instance if we have class Person and class Student we can create inheeritance because Student is also subtype of Person. They have name, surname calcAge method but student can have their unique methods such as calcMark and number of course or group
+
+<img src="./img/inheritance_between_classes.png">
+
+<img src="./img/implement_inheritance.png">
+
+<img src="./img/object_create_better.png">

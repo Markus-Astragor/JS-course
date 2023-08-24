@@ -15,53 +15,49 @@
 // 3. this object is linked to a prototype
 // 4. function automatically return that empty object {}
 // --------------------------------------
-const Person = function (name, birthYear) {
-  this.name = name;
-  this.birthYear = birthYear;
-  // this.calcAge = function () {
-  //   console.log(new Date().getFullYear() - this.birthYear);
-  // } // don't do this
-}
+// const Person = function (name, birthYear) {
+//   this.name = name;
+//   this.birthYear = birthYear;
+//   // this.calcAge = function () {
+//   //   console.log(new Date().getFullYear() - this.birthYear);
+//   // } // don't do this
+// }
 
-const jonas = new Person('Jonas', 1991);
-console.log('jonas', jonas);
 
-const matilda = new Person('Matilda', 1999);
-const jack = new Person('Jack Sparrow', 1976);
 
-console.log(jonas instanceof Person) // true if jonas object is actually the item of class Person
+// console.log(jonas instanceof Person) // true if jonas object is actually the item of class Person
 
 
 // Prototypes
 
 // this constructor function will get access to all of these properties 
 // basic prototype inheritance
-Person.prototype.calcAge = function () {
-  console.log(new Date().getFullYear() - this.birthYear)
-} // objects can reuse this method and it positively impacts on performance because this method is not in object itself
+// Person.prototype.calcAge = function () {
+//   console.log(new Date().getFullYear() - this.birthYear)
+// } // objects can reuse this method and it positively impacts on performance because this method is not in object itself
 
 
-jonas.calcAge();
+// jonas.calcAge();
 
-console.log('jonas proto', jonas.__proto__); // we can check the prototypes jonas proto ​
-// calcAge: function calcAge()
-// constructor: function Person(name, birthYear)​
-// <prototype>: Object { … }
+// console.log('jonas proto', jonas.__proto__); // we can check the prototypes jonas proto ​
+// // calcAge: function calcAge()
+// // constructor: function Person(name, birthYear)​
+// // <prototype>: Object { … }
 
-console.log(jonas.__proto__ === Person.prototype); // true
+// console.log(jonas.__proto__ === Person.prototype); // true
 
-console.log('check if prototype', Person.prototype.isPrototypeOf(jonas));
+// console.log('check if prototype', Person.prototype.isPrototypeOf(jonas));
 
-Person.prototype.species = 'Homo sapience';
-console.log(jonas.species, matilda.species);
-console.log('hasOwnProperty', jonas.hasOwnProperty('name')); // check if exists field with the name 'name' true
+// Person.prototype.species = 'Homo sapience';
+// console.log(jonas.species, matilda.species);
+// console.log('hasOwnProperty', jonas.hasOwnProperty('name')); // check if exists field with the name 'name' true
 
 
 
 // Prototypal Inheritance and The Prototype Chain
 // Object.prototype top of the chain
-console.log('jonas', jonas.__proto__.__proto__);
-console.log('top of the chain', jonas.__proto__.__proto__.__proto__);
+// console.log('jonas', jonas.__proto__.__proto__);
+// console.log('top of the chain', jonas.__proto__.__proto__.__proto__);
 
 // if we look for example on arrays they don't contain these methods they inherit them
 // Here is an example
@@ -76,9 +72,9 @@ const Car = function (make, speed) {
   this.speed = speed
 }
 
-Car.prototype.accelerate = function () {
+Car.prototype.accelerate = function (car, charge) {
   this.speed = this.speed + 10
-  console.log(this.speed);
+  console.log(`${car} goind at ${this.speed} km/h ${charge ? 'with a' + charge + '%' : ''}`);
 }
 
 Car.prototype.brake = function () {
@@ -94,6 +90,22 @@ carObj2.accelerate(); // 105
 
 carObj1.brake();// 125
 carObj2.brake();// 100
+
+// coding challenge 3
+
+const ElectricCar = function (make, speed, charge) {
+  Car.call(this, make, speed);
+  this.charge = charge;
+}
+
+ElectricCar.prototype.chargeTo = function (chargeTo) {
+  return this.charge = chargeTo;
+}
+
+ElectricCar.prototype = Object.create(Car.prototype);
+
+const tesla = new ElectricCar('Tesla', 120, 22);
+tesla.accelerate('Tesla', 22);
 
 
 // ES6 Classes
@@ -230,3 +242,51 @@ console.log(ford.brake()); // 125
 
 console.log(ford.speedUS); // 125 / 1.6
 
+
+//  Inheritance Between "Classes": Constructor Functions
+
+const Person = function (firstName, birthYear) {
+  this.firstName = firstName;
+  this.birthYear = birthYear;
+}
+
+Person.prototype.calcAge = function () {
+  return new Date().getFullYear() - this.birthYear
+}
+
+const jonas = new Person('Jonas', 1991);
+
+const matilda = new Person('Matilda', 1999);
+const jack = new Person('Jack Sparrow', 1976);
+
+
+const Student = function (firstName, birthYear, course) {  // pass the same arguments but with additional ones
+  Person.call(this, firstName, birthYear);
+  this.course = course;
+}
+
+
+// we should write it before methods becuase Object.create overwrites field prototype
+// Student.prototype = Person.prototype; // wrong variant
+Student.prototype = Object.create(Person.prototype) // correct variant
+
+
+
+Student.prototype.introduce = function () {
+  return `My name is ${this.firstName} and study at ${this.course}`
+}
+
+
+const marko = new Student('Markuss', 2004, 'Computer Science');
+
+console.log(marko.introduce());
+
+
+
+console.log(marko.calcAge());
+
+
+console.log(marko instanceof Person);
+console.log(marko instanceof Student);
+
+Student.prototype.constructor = Student;

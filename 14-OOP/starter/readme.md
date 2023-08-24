@@ -182,3 +182,151 @@ For instance if we have class Person and class Student we can create inheeritanc
 <img src="./img/implement_inheritance.png">
 
 <img src="./img/object_create_better.png">
+
+## Inheritance Between "Classes": ES6 Classes
+
+In ES6 classes you can easily inherit parent class you should just type extends
+
+here is an example 
+
+class Parent {
+  constructor(name, surname, birthYear) {
+    this.name = name;
+    this.surname = surname;
+    this.birthYear = birthYear;
+  }
+
+  calcAge() {
+    return new Date().getFullYear() - this.birthYear;
+  }
+}
+
+class Child extends Parent {
+  constructor(name, surname, birthYear, gifts) {
+    super(name, surname, birthYear);
+    this.gifts = gifts;
+  }
+  // if we want to overwrite for example
+  calcAge() {
+    return 2037 - this.birthYear;
+  }
+}
+
+We can call method calcAge but if we want to overwrite it we can easily do this
+
+const nazar = new Child('Nazarchikk', 'Kosyk', 2003, 'PC');
+
+nazar.calcAge();
+
+## Inheritance Between "Classes": Object.create
+It is not used widely as ES6 classes and constructor functions but nevertheless it also can be used
+
+
+const PersonProto = {
+  calcAge() {
+    return new Date().getFullYear() - this.birthYear;
+  },
+
+  init(firstName, birthYear) {
+    this.firstName = firstName;
+    this.birthYear = birthYear;
+  }
+}
+
+const Steven = Object.create(PersonProto);
+
+const StudentProto = Object.create(PersonProto);
+
+StudentProto.init = function (firstName, birthYear, course) {
+  PersonProto.init.call(this, firstName, birthYear)
+  this.course = course;
+}
+
+const jay = Object.create(StudentProto);
+jay.init('Jay Stedhem', 2004, 'Actor');
+
+## Encapsulation: Protected Properties and Methods
+
+it means to keep some methods and properties hidden in class.
+
+There are two big reasonst why we need Encapsulation:
+1. To prevent our code accidentally manipulate our data outside from the class
+2. We can change other code with more confidence because we know that it doens't rely on outer code so in the outer code we can't use inner methods in class
+
+In js there is not actual encapsulation but if you want to mark that this variable shouldn't be used out of the class you can use underscore here is an example:
+
+class Account {
+  constructor(owner, currency, pin) {
+    this.owner = owner;
+    this.currency = currency;
+    this._pin = pin;
+    this._movements = [];
+    this.locale = navigator.language;
+    console.log(`Thanks for opening account, ${owner}`);
+  }
+
+  // Public interface
+  getMovements() {
+    
+  }
+
+  deposit(sum) {
+    this._movements.push(sum);
+  }
+
+  withdrawal(sum) {
+    this._movements.push(-sum);
+  }
+}
+
+## Encapsulation: Private Class Fields and Methods
+
+1. Public fields
+2. Private fields
+3. Public methods
+4. Private methods
+
+Here is an example on how we implment it:
+
+class Account {
+  //1. Public field
+  locale = navigator.language;
+
+
+  //2. Private fields
+  #movements = []; // # in order to make them private
+  #pin;
+
+  constructor(owner, currency, pin) {
+    this.owner = owner;
+    this.currency = currency;
+    this.#pin = pin;
+    console.log(`Thanks for opening account, ${owner}`);
+  }
+
+  // Public interface
+  //3. Public methods
+  getMovements() {
+    return this.#movements
+  }
+
+  deposit(sum) {
+    this.#movements.push(sum);
+    return this;
+  }
+
+  withdrawal(sum) {
+    this.#movements.push(-sum);
+    return this;
+  }
+
+  // 4. Private methods
+  #approveLoan() {
+    return true
+  }
+}
+
+
+##  ES6 Classes Summary
+
+<img src="./img/ES6_Classes_Summary.png">

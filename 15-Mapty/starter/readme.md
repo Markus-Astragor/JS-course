@@ -61,4 +61,16 @@ if (navigator.geolocation) { // in order to check if browsers have this feature
   })
 }
 
-##  Displaying a Map Using Leaflet Library
+## Project Architecture
+
+As a user, i want to log my running workouts with location, distance, time, pace and steps/minute, so i can keep a log of all my running. 
+
+This is the user storie and this is from what will we receive data.
+
+Here is an example:
+Location, distance, time, pace and steps/minute
+
+Also:
+location, distance, time, speed and elevation gain
+
+<img src="./img/project_architecture.png">

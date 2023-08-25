@@ -43,3 +43,22 @@ Example on Mapty OOP:
 3. Flowchart
 
 <img src="./img/plan_web_project.png">
+
+## Using the Geolocation API
+
+In order to use geolocation just type navigator.geolocation() --> it takes two arguments two callbcack functions first on success and the error callBack
+
+if (navigator.geolocation) { // in order to check if browsers have this feature
+  navigator.geolocation.getCurrentPosition((position) => {
+    console.log('position', position);
+    const { latitude } = position.coords;
+    const { longitude } = position.coords;
+    console.log('latitude', latitude);
+    console.log('longtitude', longitude);
+  }, (error) => {
+    alert('Couldn`t get your geolocation');
+    console.log('error', error);
+  })
+}
+
+##  Displaying a Map Using Leaflet Library

@@ -67,6 +67,7 @@ const runner = new Running(4, 30, [30, 50], 100);
 //////////////////////////////////////////////////
 class App {
   #map;
+  #mapZoomLevel = 13;
   #mapEvent;
   #workouts = [];
   constructor() {
@@ -74,7 +75,11 @@ class App {
 
     form.addEventListener('submit', this.#newWorkout.bind(this))
 
-    inputType.addEventListener('change', this.#toggleElevationField)
+    inputType.addEventListener('change', this.#toggleElevationField);
+    containerWorkouts.addEventListener('click', this.#moveToPopUp.bind(this));
+
+    const resultLocal = this.#getLocalStorage();
+    resultLocal.forEach((parsedWorkout) => this.#renderWorkout(parsedWorkout));
   }
 
   #getPosition() {
@@ -95,7 +100,7 @@ class App {
     const { longitude } = position.coords;
 
     const coords = [latitude, longitude]
-    this.#map = L.map('map').setView(coords, 13);
+    this.#map = L.map('map').setView(coords, this.#mapZoomLevel);
 
     L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
       attribution:
@@ -111,6 +116,8 @@ class App {
       this.#mapEvent = mapE
       this.#showForm()
     })
+
+    this.#workouts.forEach(work => this.#renderWorkoutMarker(work));
   }
 
   #showForm() {
@@ -161,6 +168,7 @@ class App {
     inputDuration.value = inputCadence.value = inputDistance.value = '';
     this.#renderWorkoutMarker(workout);
     this.#renderWorkout(workout);
+    this.#setToLocalStorage();
   }
 
   #renderWorkoutMarker(workout) {
@@ -223,6 +231,34 @@ class App {
     `
     typeWorkoutHTML.insertAdjacentHTML('beforeend', html);
     this.#hideForm();
+  }
+
+  #moveToPopUp(e) {
+    const workoutEl = e.target.closest('.workout');
+    console.log(workoutEl);
+
+    if (!workoutEl) return;
+
+    const workout = this.#workouts.find(work => work.id === workoutEl.dataset.id);
+    this.#map.setView(workout.coords, this.#mapZoomLevel, {
+      animation: true,
+      pan: {
+        duration: 1
+      }
+    })
+  }
+
+  #setToLocalStorage() {
+    localStorage.setItem('workoutArray', JSON.stringify(this.#workouts));
+  }
+
+  #getLocalStorage() {
+    const data = localStorage.getItem('workoutArray');
+    if (!data) return;
+
+    const parsedData = JSON.parse(data);
+    this.#workouts = parsedData;
+    return parsedData;
   }
 }
 

@@ -105,3 +105,31 @@ console.log("This executes no matter if request is fullfilled or not. Good examp
 } 
 
 apiCall("notExist")
+
+## Asynchronous Behind the Scenes: The Event Loop
+
+<img src='./img/Asynchronous_Behind_the_Scenes.png'>
+
+How can async tasks execute if there is only a one thread of execution?
+
+So each async function such as setTimeOut, el.src, setInterval and so on are executing in web apis environment 
+
+Exists microtasks queue where such as fetch callbacks execute they have higher priority than callback queue. 
+
+<img src="./img/async_behind_scenes_2.png">
+
+## The Event Loop in Practice
+---------
+console.log('Test start'); // 1
+setTimeout(() => console.log('0 seconds left'), 0); // 2 // 4
+Promise.resolve('promise resolved 1').then(res => console.log('res', res)); // 4 // 3
+console.log('Test end'); // 3 // 2
+----------
+Any global code runs faster than callbcak functions so in this case that's why console.logs here will be faster
+about promises and timers it is a bit tricky but promise will be faster because <b>it has additional callback</b> which then is put to the microtasks queue which is executed faster than callback queue that's why promise will be faster than timer
+
+Promise.resolve('resolved promise') // it means that it is a successfull promise
+
+if onw microtask is delayed to run callback queue is also delayed and will be run later
+
+## Building a Simple Promise

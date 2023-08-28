@@ -36,3 +36,72 @@ tcp - transmition control protocol, it defines how data travels accross the brow
 http - hypertext transfer protocol. It allows clients and servers to communicate
 
 <img src="./img/web_behind_scenes.png">
+
+Fetch 
+
+When we fetch api we immediately return promises
+Promises can be two types. They have two states: pending and settled. 
+
+Pending is when task is not finished yet and settled it is the finshed task with positive or negative result. 
+
+In most cases we don't build options for promises but sometimes you can need it 
+
+## Consuming promises 
+
+When returns postive fulfilled response we use then method in order to make further steps. 
+
+fetch('some url').then((response) => {
+console.log("It is successful promise", response) // but we can't read property body. In order to read it we should use json method, which returns a new promis which we also should handle 
+
+return response.json();
+}).then((data) => {
+console.log("Needed data", data);
+}).catch((error) => {
+console.log("it is promise with error", error)
+}) 
+
+## Chaining promises 
+
+If you have to handle one error you can do like this 
+
+fetch("some url").then(response => response.json(), err => console.log(err)).then(data => console.log(data))
+
+But if you need to handle all errors just catch at the end of request 
+
+fetch("some url").then(response => response.json()).then(data => console.log(data)).catch(err => console.log(err)) 
+
+Any error has property message
+You can type like this: 
+
+console.log(err.message) 
+
+Moreover, there is one more interesting method: 
+
+fetch("some url")
+.then(response => response.json())
+.then(data => console.log(data))
+.catch(err => console.log(err))
+.finally(() => {
+console.log("This executes no matter if request is fullfilled or not. Good example of using is to stop loader")
+})
+
+
+## Throw errors manually 
+
+const apiCall = (countryName) => {
+fetch(some url/${countryName})
+.then(response => {
+if(!response.ok) return throw new Error("Country was not found"); 
+
+return response.json();
+})
+.then(data => console.log(data))
+.catch(err => console.log(err))
+.finally(() => {
+console.log("This executes no matter if request is fullfilled or not. Good example of using is to stop loader")
+})
+
+
+} 
+
+apiCall("notExist")

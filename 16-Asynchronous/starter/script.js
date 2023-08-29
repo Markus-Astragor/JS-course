@@ -51,23 +51,24 @@ const errParagraph = document.querySelector('p');
 // better variant ajax call
 
 // coding challenge 1
-// const renderCountry = (dataParsed, className = '') => {
-//   const [firstArg] = Object.values(dataParsed.currencies);
-//   const html = `
-//     <article class="country ${className}">
-//     <img class="country__img" src="${dataParsed.flags.png}" />
-//     <div class="country__data">
-//       <h3 class="country__name">${dataParsed.name.official}</h3>
-//       <h4 class="country__region">${dataParsed.region}</h4>
-//       <p class="country__row"><span>👫</span>${Math.round(+dataParsed.population)}</p>
-//       <p class="country__row"><span>🗣️</span>${Object.values(dataParsed.languages)}</p>
-//       <p class="country__row"><span>💰</span>${firstArg.name + ' ' + firstArg.symbol}</p>
-//     </div>
-//   </article>
-//     `
+const renderCountry = (dataParsed, className = '') => {
+  const [firstArg] = Object.values(dataParsed.currencies);
+  const html = `
+    <article class="country ${className}">
+    <img class="country__img" src="${dataParsed.flags.png}" />
+    <div class="country__data">
+      <h3 class="country__name">${dataParsed.name.official}</h3>
+      <h4 class="country__region">${dataParsed.region}</h4>
+      <p class="country__row"><span>👫</span>${Math.round(+dataParsed.population)}</p>
+      <p class="country__row"><span>🗣️</span>${Object.values(dataParsed.languages)}</p>
+      <p class="country__row"><span>💰</span>${firstArg.name + ' ' + firstArg.symbol}</p>
+    </div>
+  </article>
+    `
 
-//   countriesContainer.insertAdjacentHTML('beforeend', html);
-// }
+  countriesContainer.insertAdjacentHTML('beforeend', html);
+  countriesContainer.style.opacity = 1;
+}
 
 // const renderError = (msg) => {
 //   countriesContainer.insertAdjacentText('beforeend', msg);
@@ -173,51 +174,86 @@ const errParagraph = document.querySelector('p');
 
 // // promisifying
 
-const wait = (secc) => {
-  return new Promise((resolved, reject) => {
-    setTimeout(resolved, secc * 1000)
-  })
-}
-
-// wait(2)
-//   .then(() => {
-//     console.log('I waited for two seconds');
-//     return wait(1)
+// const wait = (secc) => {
+//   return new Promise((resolved, reject) => {
+//     setTimeout(resolved, secc * 1000)
 //   })
-//   .then(() => {
-//     console.log('I waited for 1 second');
+// }
+
+// // wait(2)
+// //   .then(() => {
+// //     console.log('I waited for two seconds');
+// //     return wait(1)
+// //   })
+// //   .then(() => {
+// //     console.log('I waited for 1 second');
+// //   })
+
+// // coding challenge 2
+// let i = 0;
+// const createImgFunc = (res) => {
+//   const images = document.querySelectorAll('img');
+//   if (images.length !== 0) {
+//     images[i].style.display = 'none';
+//     i++;
+//   }
+//   const createdImg = document.createElement('img');
+//   createdImg.src = res;
+//   createdImg.classList.add('images')
+//   document.body.appendChild(createdImg);
+// }
+
+// const createImage = (imgPath) => {
+//   return new Promise((resolved, reject) => {
+//     resolved(imgPath);
 //   })
+// }
 
-// coding challenge 2
+// const asyncCreationImg = (imgPath) => {
+//   createImage(imgPath)
+//     .then(res => {
+//       createImgFunc(res)
+//       return wait(2)
+//     })
+//     .then(() => {
+//       createImgFunc('./img/img-2.jpg');
+//       return wait(2)
+//     })
+//     .then(() => {
+//       createImgFunc('./img/img-3.jpg');
+//     })
+//     .catch(err => console.log(err))
+// }
 
 
-const createImage = (imgPath) => {
-  return new Promise((resolved, reject) => {
-    resolved(imgPath);
-  })
+// asyncCreationImg('./img/img-1.jpg');
+
+const whereAmI = async (lat, long) => {
+  const response = await fetch(`https://geocode.xyz/${lat},${long}?geoit=json&auth=185819744345461136256x60106`);
+  const data = await response.json();
+  console.log('data', data);
+  const countryRes = await fetch(`https://restcountries.com/v3.1/name/${data.country}`);
+  console.log('countryRes', countryRes);
+  const dataCountry = await countryRes.json();
+  console.log('dataCountry', dataCountry);
+  renderCountry(dataCountry[0])
 }
 
-const asyncCreationImg = (imgPath) => {
-  createImage(imgPath)
-    .then(res => {
-      const createdImg = document.createElement('img');
-      createdImg.src = res;
-      createdImg.classList.add('images')
-      document.body.appendChild(createdImg);
-      return wait(2)
-    })
-    .then(() => {
-      asyncCreationImg('./img/img-2.jpg');
-      return wait(2)
-    })
-    .then(() => {
-      asyncCreationImg('./img/img-3.jpg');
-    })
-    .catch(err => console.log(err))
+const getCoords = function (position) {
+  const { latitude, longitude } = position.coords;
+  console.log(latitude, longitude);
+  whereAmI(latitude, longitude)
+}
+
+const getPosition = function () {
+  if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(getCoords.bind(this), err => console.log(err))
+  }
 }
 
 
-asyncCreationImg('./img/img-1.jpg');
 
+getPosition();
+console.log('bla');
 
 

@@ -132,4 +132,6 @@ Promise.resolve('resolved promise') // it means that it is a successfull promise
 
 if onw microtask is delayed to run callback queue is also delayed and will be run later
 
-## Building a Simple Promise
+
+
+## Consuming Promises with Async/Await

@@ -143,47 +143,71 @@ const errParagraph = document.querySelector('p');
 
 // The Event Loop in Practice
 
-console.log('Test start'); // global scop
-setTimeout(() => console.log('0 seconds left'), 0); //
-Promise.resolve('promise resolved 1').then(res => console.log('res', res)); // additiional callback it will be faster than timer
-Promise.resolve('resolved promise 2').then((res) => {
-  // for (let i = 0; i < 1000000; i++) {
+// console.log('Test start'); // global scop
+// setTimeout(() => console.log('0 seconds left'), 0); //
+// Promise.resolve('promise resolved 1').then(res => console.log('res', res)); // additiional callback it will be faster than timer
+// Promise.resolve('resolved promise 2').then((res) => {
+//   // for (let i = 0; i < 1000000; i++) {
 
-  // }
+//   // }
 
-  console.log(res);
-}) // it puts this before timer because of microtask queue
-console.log('Test end'); // global scope
+//   console.log(res);
+// }) // it puts this before timer because of microtask queue
+// console.log('Test end'); // global scope
 
 
-const lotteryPromise = new Promise((resolve, reject) => {
+// const lotteryPromise = new Promise((resolve, reject) => {
 
-  console.log('Lottery is runniing');
-  setTimeout(() => {
-    if (Math.random() >= 0.5) {
-      resolve('Congrats you won your money')
-    } else {
-      reject('You lost your money ((')
-    }
-  }, 2000)
+//   console.log('Lottery is runniing');
+//   setTimeout(() => {
+//     if (Math.random() >= 0.5) {
+//       resolve('Congrats you won your money')
+//     } else {
+//       reject('You lost your money ((')
+//     }
+//   }, 2000)
 
-})
+// })
 
-lotteryPromise.then(res => console.log(res)).catch(err => console.log(err));
+// lotteryPromise.then(res => console.log(res)).catch(err => console.log(err));
 
-// promisifying
+// // promisifying
 
-const wait = (secc) => {
+// const wait = (secc) => {
+//   return new Promise((resolved, reject) => {
+//     setTimeout(resolved, secc * 1000)
+//   })
+// }
+
+// wait(2)
+//   .then(() => {
+//     console.log('I waited for two seconds');
+//     return wait(1)
+//   })
+//   .then(() => {
+//     console.log('I waited for 1 second');
+//   })
+
+// coding challenge 2
+
+
+const createImage = (imgPath) => {
   return new Promise((resolved, reject) => {
-    setTimeout(resolved, secc * 1000)
+    resolved(imgPath);
   })
 }
 
-wait(2)
-  .then(() => {
-    console.log('I waited for two seconds');
-    return wait(1)
-  })
-  .then(() => {
-    console.log('I waited for 1 second');
-  })
+const asyncCreationImg = (imgPath) => {
+  createImage(imgPath)
+    .then(res => {
+      const createdImg = document.createElement('img');
+      createdImg.src = res;
+      document.body.appendChild(createdImg);
+    })
+    .catch(err => console.log(err))
+}
+
+
+asyncCreationImg('./img/img-1.jpg');
+asyncCreationImg('./img/img-2.jpg');
+asyncCreationImg('./img/img-3.jpg');

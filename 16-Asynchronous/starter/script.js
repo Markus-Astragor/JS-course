@@ -173,11 +173,11 @@ const errParagraph = document.querySelector('p');
 
 // // promisifying
 
-// const wait = (secc) => {
-//   return new Promise((resolved, reject) => {
-//     setTimeout(resolved, secc * 1000)
-//   })
-// }
+const wait = (secc) => {
+  return new Promise((resolved, reject) => {
+    setTimeout(resolved, secc * 1000)
+  })
+}
 
 // wait(2)
 //   .then(() => {
@@ -202,12 +202,22 @@ const asyncCreationImg = (imgPath) => {
     .then(res => {
       const createdImg = document.createElement('img');
       createdImg.src = res;
+      createdImg.classList.add('images')
       document.body.appendChild(createdImg);
+      return wait(2)
+    })
+    .then(() => {
+      asyncCreationImg('./img/img-2.jpg');
+      return wait(2)
+    })
+    .then(() => {
+      asyncCreationImg('./img/img-3.jpg');
     })
     .catch(err => console.log(err))
 }
 
 
 asyncCreationImg('./img/img-1.jpg');
-asyncCreationImg('./img/img-2.jpg');
-asyncCreationImg('./img/img-3.jpg');
+
+
+

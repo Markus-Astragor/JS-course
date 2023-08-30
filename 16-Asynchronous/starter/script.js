@@ -175,11 +175,11 @@ const renderError = (msg) => {
 
 // // promisifying
 
-// const wait = (secc) => {
-//   return new Promise((resolved, reject) => {
-//     setTimeout(resolved, secc * 1000)
-//   })
-// }
+const wait = (secc) => {
+  return new Promise((resolved, reject) => {
+    setTimeout(resolved, secc * 1000)
+  })
+}
 
 // // wait(2)
 // //   .then(() => {
@@ -319,57 +319,156 @@ const renderError = (msg) => {
 
 // if you have the async functins always should be try catch block
 
-const getJSON = (url, errorMsg = 'Somtehing went wrong') => {
-  return fetch(url)
-    .then(response => {
-      if (!response.ok) throw new Error(`${errorMsg} ${response.status}`)
-      return response.json();
-    })
+// const getJSON = (url, errorMsg = 'Somtehing went wrong') => {
+//   return fetch(url)
+//     .then(response => {
+//       if (!response.ok) throw new Error(`${errorMsg} ${response.status}`)
+//       return response.json();
+//     })
 
 
-}
+// }
 
-const get3Countries = async (c1, c2, c3) => {
-  try {
+// const get3Countries = async (c1, c2, c3) => {
+//   try {
 
-    // bad variant it slows down effeciency of your app
-    // const [dataC1] = await getJSON(`https://restcountries.com/v3.1/name/${c1}`);
-    // const [dataC2] = await getJSON(`https://restcountries.com/v3.1/name/${c2}`);
-    // const [dataC3] = await getJSON(`https://restcountries.com/v3.1/name/${c3}`);
+//     // bad variant it slows down effeciency of your app
+//     // const [dataC1] = await getJSON(`https://restcountries.com/v3.1/name/${c1}`);
+//     // const [dataC2] = await getJSON(`https://restcountries.com/v3.1/name/${c2}`);
+//     // const [dataC3] = await getJSON(`https://restcountries.com/v3.1/name/${c3}`);
 
-    // console.log([dataC1.capital, dataC2.capital, dataC3.capital]);
+//     // console.log([dataC1.capital, dataC2.capital, dataC3.capital]);
 
-    // run promises in parallel in order to save time
+//     // run promises in parallel in order to save time
 
-    const data3Countries = await Promise.all(
-      [
-        getJSON(`https://restcountries.com/v3.1/name/${c1}`),
-        getJSON(`https://restcountries.com/v3.1/name/${c2}`),
-        getJSON(`https://restcountries.com/v3.1/name/${c3}`)
-      ]
-    )
+//     const data3Countries = await Promise.all(
+//       [
+//         getJSON(`https://restcountries.com/v3.1/name/${c1}`),
+//         getJSON(`https://restcountries.com/v3.1/name/${c2}`),
+//         getJSON(`https://restcountries.com/v3.1/name/${c3}`)
+//       ]
+//     )
 
-    console.log('data3Countries', data3Countries);
+//     console.log('data3Countries', data3Countries);
 
-    console.log('test', data3Countries.map(coountryInfo => coountryInfo[0].capital[0]));
+//     console.log('test', data3Countries.map(coountryInfo => coountryInfo[0].capital[0]));
 
-  } catch (err) {
-    console.log(err);
-  }
-}
+//   } catch (err) {
+//     console.log(err);
+//   }
+// }
 
-get3Countries('ukraine', 'belarus', 'poland');
+// get3Countries('ukraine', 'belarus', 'poland');
 
 // Other Promise Combinators: race, allSettled and any
 
 // Promise.race
 
-(async function () {
-  const res = await Promise.race([
-    getJSON(`https://restcountries.com/v3.1/name/estonia`),
-    getJSON(`https://restcountries.com/v3.1/name/latvia`),
-    getJSON(`https://restcountries.com/v3.1/name/Lithuania`)
-  ])
+// (async function () {
+//   const res = await Promise.race([
+//     getJSON(`https://restcountries.com/v3.1/name/estonia`),
+//     getJSON(`https://restcountries.com/v3.1/name/latvia`),
+//     getJSON(`https://restcountries.com/v3.1/name/Lithuania`)
+//   ])
 
-  console.log(res);
-})()
+//   console.log(res);
+// })()
+
+
+
+// const loadNPause = () => {
+
+// }
+
+// allSettled
+// (async function () {
+//   const response = await Promise.allSettled(
+//     [
+//       getJSON(`https://restcountries.com/v3.1/name/estonia`),
+//       getJSON(`https://restcountries.com/v3.1/name/latvia`),
+//       getJSON(`https://restcountries.com/v3.1/name/Lithuania`)
+//     ]
+//   )
+//   console.log('response', response);
+// })()
+
+
+// Promise.any() retunrs first successful promise
+
+// (async function () {
+//   const response = await Promise.any(
+//     [
+//       getJSON(`https://restcountries.com/v3.1/name/estonia`),
+//       getJSON(`https://restcountries.com/v3.1/name/latvia`),
+//       getJSON(`https://restcountries.com/v3.1/name/Lithuania`)
+//     ]
+//   )
+//   console.log('response', response);
+// })()
+
+// coding challenge 3
+
+// // coding challenge 2
+let i = 0;
+const createImgFunc = (res) => {
+  const images = document.querySelectorAll('img');
+  if (images.length !== 0) {
+    images[i].style.display = 'none';
+    i++;
+  }
+  const createdImg = document.createElement('img');
+  createdImg.src = res;
+  createdImg.classList.add('images')
+  document.body.appendChild(createdImg);
+}
+
+// const createImage = (imgPath) => {
+//   return new Promise((resolved, reject) => {
+//     resolved(imgPath);
+//   })
+// }
+
+// const asyncCreationImg = (imgPath) => {
+//   createImage(imgPath)
+//     .then(res => {
+//       createImgFunc(res)
+//       return wait(2)
+//     })
+//     .then(() => {
+//       createImgFunc('./img/img-2.jpg');
+//       return wait(2)
+//     })
+//     .then(() => {
+//       createImgFunc('./img/img-3.jpg');
+//     })
+//     .catch(err => console.log(err))
+// }
+
+
+// asyncCreationImg('./img/img-1.jpg');
+
+
+const createImg = async (imgPath) => {
+  try {
+    await createImgFunc(imgPath);
+    await wait(2);
+    // await createImgFunc('./img/img-2.jpg')
+    // await wait(2)
+    // await createImgFunc('./img/img-3.jpg')
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+// createImg('./img/img-1.jpg');
+
+
+const loadAll = async (imgArr) => {
+  const imgs = imgArr.map(async img => await createImg(img));
+  console.log(imgs);
+  const gotImgs = await Promise.all(imgs);
+  console.log('gotImgs', gotImgs);
+
+}
+
+loadAll(['img/img-1.jpg', 'img/img-2.jpg', 'img/img-3.jpg']);

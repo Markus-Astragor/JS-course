@@ -176,4 +176,61 @@ get3Countries('ukraine', 'belarus', 'poland');
 
 ## Other Promise Combinators: race, allSettled and any
 
-1. Promise.race receives array of promises and return one as others
+1. Promise.race receives array of promises and return one which is completed the fastest. It doesn't matter if it is really successful or not.
+
+Here is an example:
+
+const getJSON = (url, errorMsg = 'Somtehing went wrong') => {
+  return fetch(url)
+    .then(response => {
+      if (!response.ok) throw new Error(`${errorMsg} ${response.status}`)
+      return response.json();
+    })
+
+
+}
+
+(async function () {
+  const res = await Promise.race([
+    getJSON(`https://restcountries.com/v3.1/name/estonia`),
+    getJSON(`https://restcountries.com/v3.1/name/latvia`),
+    getJSON(`https://restcountries.com/v3.1/name/Lithuania`)
+  ])
+
+  console.log(res);
+})()
+
+2. Promise.allSettled has the diffrence between promise.all that promise.all if one of them rejects Promise.allSettled executes until end. Here is the example:
+
+
+(async function () {
+  const response = await Promise.allSettled(
+    [
+      getJSON(`https://restcountries.com/v3.1/name/estonia`),
+      getJSON(`https://restcountries.com/v3.1/name/latvia`),
+      getJSON(`https://restcountries.com/v3.1/name/Lithuania`)
+    ]
+  )
+  console.log('response', response);
+})()
+
+returns all of them, all fullfilled
+
+3. Promise.any() returns one of methods which is successfull
+
+(async function () {
+  const response = await Promise.any(
+    [
+      getJSON(`https://restcountries.com/v3.1/name/estonia`),
+      getJSON(`https://restcountries.com/v3.1/name/latvia`),
+      getJSON(`https://restcountries.com/v3.1/name/Lithuania`)
+    ]
+  )
+  console.log('response', response);
+})()
+
+// ​0: Object { cca2: "EE", ccn3: "233", cca3: "EST", … }
+
+rejected promises are ignored
+
+## An Overview of Modern JavaScript Development

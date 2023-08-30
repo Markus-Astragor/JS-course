@@ -135,3 +135,45 @@ if onw microtask is delayed to run callback queue is also delayed and will be ru
 
 
 ## Consuming Promises with Async/Await
+
+Running Promises in Parallel
+
+if you have the async functins always should be try catch block
+
+In order to save time here is an example:
+
+const get3Countries = async (c1, c2, c3) => {
+  try {
+
+    // bad variant it slows down effeciency of your app
+    const [dataC1] = await getJSON(`https://restcountries.com/v3.1/name/${c1}`);
+    const [dataC2] = await getJSON(`https://restcountries.com/v3.1/name/${c2}`);
+    const [dataC3] = await getJSON(`https://restcountries.com/v3.1/name/${c3}`);
+
+    console.log([dataC1.capital, dataC2.capital, dataC3.capital]);
+
+    // run promises in parallel in order to save time
+
+    const data3Countries = await Promise.all(
+      [
+        getJSON(`https://restcountries.com/v3.1/name/${c1}`),
+        getJSON(`https://restcountries.com/v3.1/name/${c2}`),
+        getJSON(`https://restcountries.com/v3.1/name/${c3}`)
+      ]
+    )
+
+    console.log('data3Countries', data3Countries);
+
+    console.log('test', data3Countries.map(coountryInfo => coountryInfo[0].capital[0]));
+
+  } catch (err) {
+    console.log(err);
+  }
+}
+
+get3Countries('ukraine', 'belarus', 'poland');
+
+
+## Other Promise Combinators: race, allSettled and any
+
+1. Promise.race receives array of promises and return one as others

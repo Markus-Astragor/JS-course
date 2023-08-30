@@ -269,49 +269,107 @@ const renderError = (msg) => {
 // }
 
 
-const whereAmI = async (lat, long) => {
-  try {
-    const response = await fetch(`https://geocode.xyz/${lat},${long}?geoit=json&auth=185819744345461136256x60106`);
+// const whereAmI = async (lat, long) => {
+//   try {
+//     const response = await fetch(`https://geocode.xyz/${lat},${long}?geoit=json&auth=185819744345461136256x60106`);
 
-    if (!response.ok) throw new Error('Problem getting location data')
-    const data = await response.json();
-    const countryRes = await fetch(`https://restcountries.com/v3.1/name/${data.country}`);
-    if (!countryRes.ok) throw new Error('Problem getting country')
-    const dataCountry = await countryRes.json();
-    renderCountry(dataCountry[0]);
+//     if (!response.ok) throw new Error('Problem getting location data')
+//     const data = await response.json();
+//     const countryRes = await fetch(`https://restcountries.com/v3.1/name/${data.country}`);
+//     if (!countryRes.ok) throw new Error('Problem getting country')
+//     const dataCountry = await countryRes.json();
+//     renderCountry(dataCountry[0]);
 
-    return `You are ${data.city}, ${data.country}`
-  }
-  catch (err) {
-    console.log(err);
-    renderError(`Something went wrong ${err}`)
+//     return `You are ${data.city}, ${data.country}`
+//   }
+//   catch (err) {
+//     console.log(err);
+//     renderError(`Something went wrong ${err}`)
 
-    throw err;
-  }
-}
+//     throw err;
+//   }
+// }
 
-const getCoords = function (position) {
-  const { latitude, longitude } = position.coords;
-  console.log(latitude, longitude);
-  console.log('Log 1');
-  // const resultWhere = whereAmI(latitude, longitude); // instead of this it returns a promise
-  (async function () {
-    const whereAmIRes = await whereAmI(latitude, longitude);
-    console.log(whereAmIRes);
-  })()
+// const getCoords = function (position) {
+//   const { latitude, longitude } = position.coords;
+//   console.log(latitude, longitude);
+//   console.log('Log 1');
+//   // const resultWhere = whereAmI(latitude, longitude); // instead of this it returns a promise
+//   (async function () {
+//     const whereAmIRes = await whereAmI(latitude, longitude);
+//     console.log(whereAmIRes);
+//   })()
 
-  // whereAmI(latitude, longitude).then(res => console.log(res)).catch(err => console.log(err)).finally(console.log('3'))   // do this
+//   // whereAmI(latitude, longitude).then(res => console.log(res)).catch(err => console.log(err)).finally(console.log('3'))   // do this
 
-  console.log('Log 2');
-  // whereAmI('10', '10'); // check error handling
-}
+//   console.log('Log 2');
+//   // whereAmI('10', '10'); // check error handling
+// }
 
-const getPosition = function () {
-  if (navigator.geolocation) {
-    navigator.geolocation.getCurrentPosition(getCoords.bind(this), err => console.log(err))
-  }
-}
-getPosition();
+// const getPosition = function () {
+//   if (navigator.geolocation) {
+//     navigator.geolocation.getCurrentPosition(getCoords.bind(this), err => console.log(err))
+//   }
+// }
+// getPosition();
 
 // Returning Values from Async Functions
 
+// Running Promises in Parallel
+
+// if you have the async functins always should be try catch block
+
+const getJSON = (url, errorMsg = 'Somtehing went wrong') => {
+  return fetch(url)
+    .then(response => {
+      if (!response.ok) throw new Error(`${errorMsg} ${response.status}`)
+      return response.json();
+    })
+
+
+}
+
+const get3Countries = async (c1, c2, c3) => {
+  try {
+
+    // bad variant it slows down effeciency of your app
+    // const [dataC1] = await getJSON(`https://restcountries.com/v3.1/name/${c1}`);
+    // const [dataC2] = await getJSON(`https://restcountries.com/v3.1/name/${c2}`);
+    // const [dataC3] = await getJSON(`https://restcountries.com/v3.1/name/${c3}`);
+
+    // console.log([dataC1.capital, dataC2.capital, dataC3.capital]);
+
+    // run promises in parallel in order to save time
+
+    const data3Countries = await Promise.all(
+      [
+        getJSON(`https://restcountries.com/v3.1/name/${c1}`),
+        getJSON(`https://restcountries.com/v3.1/name/${c2}`),
+        getJSON(`https://restcountries.com/v3.1/name/${c3}`)
+      ]
+    )
+
+    console.log('data3Countries', data3Countries);
+
+    console.log('test', data3Countries.map(coountryInfo => coountryInfo[0].capital[0]));
+
+  } catch (err) {
+    console.log(err);
+  }
+}
+
+get3Countries('ukraine', 'belarus', 'poland');
+
+// Other Promise Combinators: race, allSettled and any
+
+// Promise.race
+
+(async function () {
+  const res = await Promise.race([
+    getJSON(`https://restcountries.com/v3.1/name/estonia`),
+    getJSON(`https://restcountries.com/v3.1/name/latvia`),
+    getJSON(`https://restcountries.com/v3.1/name/Lithuania`)
+  ])
+
+  console.log(res);
+})()

@@ -70,9 +70,10 @@ const renderCountry = (dataParsed, className = '') => {
   countriesContainer.style.opacity = 1;
 }
 
-// const renderError = (msg) => {
-//   countriesContainer.insertAdjacentText('beforeend', msg);
-// }
+const renderError = (msg) => {
+  countriesContainer.insertAdjacentText('beforeend', msg);
+  countriesContainer.style.opacity = 1;
+}
 
 
 
@@ -228,21 +229,81 @@ const renderCountry = (dataParsed, className = '') => {
 
 // asyncCreationImg('./img/img-1.jpg');
 
+// const whereAmI = async (lat, long) => {
+//   const response = await fetch(`https://geocode.xyz/${lat},${long}?geoit=json&auth=185819744345461136256x60106`);
+//   const data = await response.json();
+//   console.log('data', data);
+//   const countryRes = await fetch(`https://restcountries.com/v3.1/name/${data.country}`);
+//   console.log('countryRes', countryRes);
+//   const dataCountry = await countryRes.json();
+//   console.log('dataCountry', dataCountry);
+//   renderCountry(dataCountry[0])
+// }
+
+// const getCoords = function (position) {
+//   const { latitude, longitude } = position.coords;
+//   console.log(latitude, longitude);
+//   whereAmI(latitude, longitude)
+// }
+
+// const getPosition = function () {
+//   if (navigator.geolocation) {
+//     navigator.geolocation.getCurrentPosition(getCoords.bind(this), err => console.log(err))
+//   }
+// }
+
+
+
+// getPosition();
+// console.log('bla');
+
+
+
+// Error Handling With try...catch
+// try {
+//   let y = 4;
+//   const x = 3
+//   x = 2;
+// } catch (err) {
+//   console.log(err); // TypeError: invalid assignment to const 'x'
+// }
+
+
 const whereAmI = async (lat, long) => {
-  const response = await fetch(`https://geocode.xyz/${lat},${long}?geoit=json&auth=185819744345461136256x60106`);
-  const data = await response.json();
-  console.log('data', data);
-  const countryRes = await fetch(`https://restcountries.com/v3.1/name/${data.country}`);
-  console.log('countryRes', countryRes);
-  const dataCountry = await countryRes.json();
-  console.log('dataCountry', dataCountry);
-  renderCountry(dataCountry[0])
+  try {
+    const response = await fetch(`https://geocode.xyz/${lat},${long}?geoit=json&auth=185819744345461136256x60106`);
+
+    if (!response.ok) throw new Error('Problem getting location data')
+    const data = await response.json();
+    const countryRes = await fetch(`https://restcountries.com/v3.1/name/${data.country}`);
+    if (!countryRes.ok) throw new Error('Problem getting country')
+    const dataCountry = await countryRes.json();
+    renderCountry(dataCountry[0]);
+
+    return `You are ${data.city}, ${data.country}`
+  }
+  catch (err) {
+    console.log(err);
+    renderError(`Something went wrong ${err}`)
+
+    throw err;
+  }
 }
 
 const getCoords = function (position) {
   const { latitude, longitude } = position.coords;
   console.log(latitude, longitude);
-  whereAmI(latitude, longitude)
+  console.log('Log 1');
+  // const resultWhere = whereAmI(latitude, longitude); // instead of this it returns a promise
+  (async function () {
+    const whereAmIRes = await whereAmI(latitude, longitude);
+    console.log(whereAmIRes);
+  })()
+
+  // whereAmI(latitude, longitude).then(res => console.log(res)).catch(err => console.log(err)).finally(console.log('3'))   // do this
+
+  console.log('Log 2');
+  // whereAmI('10', '10'); // check error handling
 }
 
 const getPosition = function () {
@@ -250,10 +311,7 @@ const getPosition = function () {
     navigator.geolocation.getCurrentPosition(getCoords.bind(this), err => console.log(err))
   }
 }
-
-
-
 getPosition();
-console.log('bla');
 
+// Returning Values from Async Functions
 

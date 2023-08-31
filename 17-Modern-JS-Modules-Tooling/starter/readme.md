@@ -13,3 +13,26 @@ They can be used in different methods:
 - reuse code: modules allow us to reuse code easly
 
 modules are imported synchronously 
+
+## Top-Level await (ES2022)
+
+We can use top level await in modules
+
+if we use that it blocks our entire module
+
+##  A Brief Introduction to the Command Line
+
+ls - we need to see the content in current folder
+
+Mode                 LastWriteTime         Length Name
+----                 -------------         ------ ----
+------        07.02.2022     10:18             52 .prettierrc
+------        07.02.2022     10:18           1546 clean.js
+-a----        31.08.2023     21:41            772 index.html
+-a----        31.08.2023     23:03            924 readme.md
+-a----        31.08.2023     23:25           1969 script.js
+-a----        31.08.2023     22:00            522 shoppingCart.js
+
+## Introduction to NPM
+
+cool methods in lodash library

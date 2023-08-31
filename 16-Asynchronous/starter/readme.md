@@ -232,5 +232,3 @@ returns all of them, all fullfilled
 // ​0: Object { cca2: "EE", ccn3: "233", cca3: "EST", … }
 
 rejected promises are ignored
-
-## An Overview of Modern JavaScript Development

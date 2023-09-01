@@ -5,14 +5,16 @@
   "main": "clean.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start" : "parcel index.html",
+    "start": "parcel index.html",
     "build": "parcel build index.html"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "core-js": "^3.32.1",
     "leaflet": "^1.9.4",
     "lodash-es": "^4.17.21",
-    "parcel-bundler": "^1.12.5"
+    "parcel-bundler": "^1.12.5",
+    "regenerator-runtime": "^0.14.0"
   }
 }

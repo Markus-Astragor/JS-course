@@ -83,3 +83,14 @@ ShoppingCart2.addToCart('apples', 2); // we also have the access to functions or
 if (module.hot) {
   module.hot.accept();
 }
+
+// Configuring Babel and Polyfilling
+
+console.log(ShoppingCart.cart.filter(el => el.quantity >= 2));
+
+// polyfiing es6 methods on arrays f.e
+import 'core-js/stable';
+
+
+// polyfiing async functions
+import 'regenerator-runtime/runtime.js'

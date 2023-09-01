@@ -36,3 +36,43 @@ Mode                 LastWriteTime         Length Name
 ## Introduction to NPM
 
 cool methods in lodash library
+
+## Review: Writing Clean and Modern JavaScript
+
+Readable code:
+- Write code so that others can understand it
+- Write understandable code in order you to understand it if you return back in 1 year
+- Avoid too clever and overcomplicated solutions
+- Using descriptive variable names: what they contain
+- use descriptive function names: what they do
+
+General principles: 
+- Use DRY principle (refactor your code)
+- Don't pollute global namespace
+- Don't use var
+- Use strong type checks (=== and !==)
+
+Functions:
+- Generally, functions should do only one thing
+- Don't use more than 3 function parameters
+- Use default parameters whenever possible
+- Generally, return the same data type as received
+- Use arrow functions when they make code more readable
+
+OOP:
+- Use ES6 classes
+- Encapsulate data and don't mutate it from outside of the class
+- Implement method chaining 
+- Do not use arrow functions as methods in regular objects (they don't have thir own this keyword)
+
+Avoid nested code:
+- Use early return (guard classes)
+- Use ternary operator instead of if
+- Use multiple if instead of if/else-if // multiple if is better
+- Avoid for loops, use array methods instead
+- Avoid callback-based async apis 
+
+Async code: 
+- Consume promises with async/await for best readability
+- Whenever it is possible, run code in parallel
+- Handle errors and promise rejections

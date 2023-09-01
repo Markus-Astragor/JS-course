@@ -76,3 +76,68 @@ Async code:
 - Consume promises with async/await for best readability
 - Whenever it is possible, run code in parallel
 - Handle errors and promise rejections
+
+## Declarative and Functional JavaScript Principles
+
+There are different paradigms of writing code: 
+Declarative and Imperative
+
+When we do imperative programming we need to explain how to do things:
+- We explain every single step it has to follow to achieve a result
+
+Example: 
+
+1. Step-by-step recipe of a cake 
+
+Example of code of imperative programm: 
+
+const arr = [2, 4, 6, 8]; // create array with these elements
+const doubled = []; // create an empty arr
+for(let i = 0; i < arr.length; i++) {
+  doubled[i] = arr[i] * 2;
+}
+
+Declarative programming is when we tell computer what to do:
+
+- We simply describe the way the computer should achieve the result
+- The How (step-by-step instructins) gets abstracted away
+
+Declarative example: 
+const arr = [2, 4, 6, 8];
+const doubled = arr.map(el => el * 2);
+
+Functional programming: 
+- Declarative programming paradigm 
+- Based on the idea of writing software by combining many pure functions, avoiding side effects and mutating data
+
+<b style="color: red">Side effect:<b> Modification mutation any data otside of function (mutating external variables, logging to console, writing to DOM)
+<b>Pure function:</b> it is a function without side effects. Doesn't depend on external variables. Given the same inputs, always returns the same output
+
+So pure functions are all about avoiding mutating data
+
+State(data) is not modified but copy can be changed and modified
+
+Examples of using functional programming are: react, redux
+
+Functional programming techniques: 
+- Try to avoid data mutations
+- Use built-in methods that don't produce side effects
+- Do data transformations with methods such as: map and filter and reduce
+- Try to avoid side effects in functions: this is of course not always possible
+
+Decalarative syntax:
+- use array and object destructuring
+- use the spread operator
+- use the ternary operator 
+- use template literals
+
+## Let's Fix Some Bad Code: Part 2
+
+const spendingLimits = Object.freeze({
+  jonas: 1500,
+  matilda: 100
+})
+
+Object.freeze makes object immutable because we can't add new properties to this object
+
+functions which mutate data are called impure functions

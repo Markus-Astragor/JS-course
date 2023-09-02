@@ -579,16 +579,11 @@ var _webImmediateJs = require("core-js/modules/web.immediate.js");
 var _modelJs = require("./model.js");
 var _recipeViewJs = require("./views/recipeView.js");
 var _recipeViewJsDefault = parcelHelpers.interopDefault(_recipeViewJs);
+var _searchViewJs = require("./views/searchView.js");
+var _searchViewJsDefault = parcelHelpers.interopDefault(_searchViewJs);
 var _runtime = require("regenerator-runtime/runtime");
 const recipeContainer = document.querySelector(".recipe");
 const searchInput = document.querySelector(".search__field");
-const timeout = function(s) {
-    return new Promise(function(_, reject) {
-        setTimeout(function() {
-            reject(new Error(`Request took too long! Timeout after ${s} second`));
-        }, s * 1000);
-    });
-};
 // https://forkify-api.herokuapp.com/v2
 ///////////////////////////////////////
 const getRecipes = async ()=>{
@@ -603,15 +598,27 @@ const getRecipes = async ()=>{
         (0, _recipeViewJsDefault.default).render(_modelJs.state.recipe);
     } catch (error) {
         console.log("error", error);
+        (0, _recipeViewJsDefault.default).renderError();
     }
 };
 getRecipes();
-[
-    "hashchange",
-    "load"
-].forEach((e)=>window.addEventListener(e, getRecipes));
+const controlSearch = async ()=>{
+    try {
+        const query = (0, _searchViewJsDefault.default).getQuery();
+        if (!query) return;
+        await _modelJs.loadSearch(query);
+        console.log("model", _modelJs.state.search.results);
+    } catch (error) {
+        console.log(error);
+    }
+};
+const init = ()=>{
+    (0, _recipeViewJsDefault.default).handleRender(getRecipes); //  THis is the subscriber. publisher and subscriber method
+    (0, _searchViewJsDefault.default).addHandlerSearch(controlSearch);
+};
+init();
 
-},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","core-js/modules/web.immediate.js":"49tUX","regenerator-runtime/runtime":"dXNgZ","./model.js":"Y4A21","./views/recipeView.js":"l60JC"}],"gkKU3":[function(require,module,exports) {
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","core-js/modules/web.immediate.js":"49tUX","regenerator-runtime/runtime":"dXNgZ","./model.js":"Y4A21","./views/recipeView.js":"l60JC","./views/searchView.js":"9OQAM"}],"gkKU3":[function(require,module,exports) {
 exports.interopDefault = function(a) {
     return a && a.__esModule ? a : {
         default: a
@@ -2475,15 +2482,20 @@ var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "state", ()=>state);
 parcelHelpers.export(exports, "loadRecipe", ()=>loadRecipe);
+parcelHelpers.export(exports, "loadSearch", ()=>loadSearch);
+var _configJs = require("./config.js");
+var _helpersJs = require("./helpers.js");
 const state = {
-    recipe: {}
+    recipe: {},
+    search: {
+        query: "",
+        results: []
+    }
 };
 const loadRecipe = async (id)=>{
     try {
         // const response = await fetch('https://forkify-api.herokuapp.com/api/v2/recipes?search=pizza&key=67ba5058-2d87-4be0-9da8-284779f91248');
-        const response = await fetch(`https://forkify-api.herokuapp.com/api/v2/recipes/${id}?key=67ba5058-2d87-4be0-9da8-284779f91248`);
-        const responseData = await response.json();
-        if (!response.ok) throw new Error(`${responseData.data} ${responseData.status}`);
+        const responseData = await (0, _helpersJs.getJSON)(`${(0, _configJs.API_URL)}${id}?key=67ba5058-2d87-4be0-9da8-284779f91248`);
         const { recipe } = responseData.data;
         state.recipe = {
             id: recipe.id,
@@ -2498,27 +2510,86 @@ const loadRecipe = async (id)=>{
         console.log(state.recipe);
     } catch (error) {
         console.log("error", error);
+        throw error;
+    }
+};
+const loadSearch = async (query)=>{
+    try {
+        state.search.query = query;
+        const responseData = await (0, _helpersJs.getJSON)(`${(0, _configJs.API_URL)}?search=${query}`);
+        state.search.results = responseData.data.recipes.map((rec)=>{
+            return {
+                id: rec.id,
+                image: rec.image_url,
+                publisher: rec.publisher,
+                title: rec.title
+            };
+        });
+    } catch (error) {
+        throw error;
     }
 };
 
-},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"l60JC":[function(require,module,exports) {
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","./config.js":"k5Hzs","./helpers.js":"hGI1E"}],"k5Hzs":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
+parcelHelpers.export(exports, "API_URL", ()=>API_URL);
+parcelHelpers.export(exports, "TIME_SEC", ()=>TIME_SEC);
+const API_URL = "https://forkify-api.herokuapp.com/api/v2/recipes/";
+const TIME_SEC = 10;
+
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"hGI1E":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+parcelHelpers.export(exports, "getJSON", ()=>getJSON);
+var _configJs = require("./config.js");
+const timeout = function(s) {
+    return new Promise(function(_, reject) {
+        setTimeout(function() {
+            reject(new Error(`Request took too long! Timeout after ${s} second`));
+        }, s * 1000);
+    });
+};
+const getJSON = async (url)=>{
+    try {
+        const response = await Promise.race([
+            fetch(url),
+            timeout((0, _configJs.TIME_SEC))
+        ]);
+        const responseData = await response.json();
+        if (!response.ok) throw new Error(`${responseData.data} ${responseData.status}`);
+        return responseData;
+    } catch (error) {
+        throw error;
+    }
+};
+
+},{"./config.js":"k5Hzs","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"l60JC":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+var _viewJs = require("./View.js");
+var _viewJsDefault = parcelHelpers.interopDefault(_viewJs);
 var _iconsSvg = require("url:../../img/icons.svg");
 var _iconsSvgDefault = parcelHelpers.interopDefault(_iconsSvg);
 var _fractional = require("fractional");
 console.log("Fraction", (0, _fractional.Fraction));
 class RecipeView {
     #parentElement = document.querySelector(".recipe");
+    #errorMessage = "We can't find such recipe with this id. Please try another one";
+    #successMessage = "";
     #data;
     render(data) {
         this.#data = data;
         const markup = this.#generateMarkup();
         this.#clear();
         this.#parentElement.insertAdjacentHTML("afterbegin", markup);
+    // this.#buttonSearch.addEventListener('click', this.#handleSearch)
     }
-    #clear() {
-        this.#parentElement.innerHTML = "";
+    handleRender(handler = this.#errorMessage) {
+        [
+            "hashchange",
+            "load"
+        ].forEach((e)=>window.addEventListener(e, handler)); // publisher
     }
     showSpinner() {
         const markUpSpinner = `
@@ -2530,6 +2601,37 @@ class RecipeView {
       `;
         this.#clear();
         this.#parentElement.insertAdjacentHTML("afterbegin", markUpSpinner);
+    }
+    renderError(message) {
+        const markupError = `
+      <div class="error">
+        <div>
+          <svg>
+             <use href="${(0, _iconsSvgDefault.default)}#icon-alert-triangle"></use>
+          </svg>
+        </div>
+          <p>${message}</p>
+       </div> 
+    `;
+        this.#clear();
+        this.#parentElement.insertAdjacentHTML("afterbegin", markupError);
+    }
+    renderMessage(message = this.#successMessage) {
+        const markupMessage = `
+      <div class="error">
+        <div>
+          <svg>
+             <use href="${(0, _iconsSvgDefault.default)}#icon-smile"></use>
+          </svg>
+        </div>
+          <p>${message}</p>
+       </div> 
+    `;
+        this.#clear();
+        this.#parentElement.insertAdjacentHTML("afterbegin", markupMessage);
+    }
+    #clear() {
+        this.#parentElement.innerHTML = "";
     }
     #generateMarkup() {
         return `
@@ -2627,7 +2729,7 @@ class RecipeView {
 }
 exports.default = new RecipeView();
 
-},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","url:../../img/icons.svg":"loVOp","fractional":"3SU56"}],"loVOp":[function(require,module,exports) {
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","url:../../img/icons.svg":"loVOp","fractional":"3SU56","./View.js":"5cUXS"}],"loVOp":[function(require,module,exports) {
 module.exports = require("9bcc84ee5d265e38").getBundleURL("hWUTQ") + "icons.dfd7a6db.svg" + "?" + Date.now();
 
 },{"9bcc84ee5d265e38":"lgJ39"}],"lgJ39":[function(require,module,exports) {
@@ -2918,6 +3020,34 @@ Fraction.primeFactors = function(n) {
 };
 module.exports.Fraction = Fraction;
 
-},{}]},["aD7Zm","aenu9"], "aenu9", "parcelRequire3a11")
+},{}],"5cUXS":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+class View {
+}
+exports.default = View;
+
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"9OQAM":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+class SearchView {
+    #parentElement = document.querySelector(".search");
+    getQuery() {
+        return this.#parentElement.querySelector(".search__field").value;
+    }
+    addHandlerSearch(handler) {
+        this.#parentElement.addEventListener("submit", (e)=>{
+            e.preventDefault();
+            handler();
+            this.#clearInput();
+        });
+    }
+    #clearInput() {
+        this.#parentElement.querySelector(".search__field").value = "";
+    }
+}
+exports.default = new SearchView();
+
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}]},["aD7Zm","aenu9"], "aenu9", "parcelRequire3a11")
 
 //# sourceMappingURL=index.e37f48ea.js.map

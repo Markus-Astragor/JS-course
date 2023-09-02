@@ -1,19 +1,24 @@
+import View from './View.js';
 import icons from 'url:../../img/icons.svg';
 import { Fraction } from 'fractional';
 console.log('Fraction', Fraction);
 
 class RecipeView {
   #parentElement = document.querySelector('.recipe');
+  #errorMessage = "We can't find such recipe with this id. Please try another one";
+  #successMessage = '';
+
   #data;
   render(data) {
     this.#data = data;
     const markup = this.#generateMarkup()
     this.#clear();
     this.#parentElement.insertAdjacentHTML('afterbegin', markup);
+    // this.#buttonSearch.addEventListener('click', this.#handleSearch)
   }
 
-  #clear() {
-    this.#parentElement.innerHTML = '';
+  handleRender(handler = this.#errorMessage) {
+    ['hashchange', 'load'].forEach(e => window.addEventListener(e, handler)); // publisher
   }
 
   showSpinner() {
@@ -26,6 +31,40 @@ class RecipeView {
       `
     this.#clear();
     this.#parentElement.insertAdjacentHTML('afterbegin', markUpSpinner);
+  }
+
+  renderError(message) {
+    const markupError = `
+      <div class="error">
+        <div>
+          <svg>
+             <use href="${icons}#icon-alert-triangle"></use>
+          </svg>
+        </div>
+          <p>${message}</p>
+       </div> 
+    `
+    this.#clear();
+    this.#parentElement.insertAdjacentHTML('afterbegin', markupError);
+  }
+
+  renderMessage(message = this.#successMessage) {
+    const markupMessage = `
+      <div class="error">
+        <div>
+          <svg>
+             <use href="${icons}#icon-smile"></use>
+          </svg>
+        </div>
+          <p>${message}</p>
+       </div> 
+    `
+    this.#clear();
+    this.#parentElement.insertAdjacentHTML('afterbegin', markupMessage);
+  }
+
+  #clear() {
+    this.#parentElement.innerHTML = '';
   }
 
   #generateMarkup() {
@@ -122,6 +161,7 @@ class RecipeView {
       </li>
         `
   }
+
 }
 
 export default new RecipeView();

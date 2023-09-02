@@ -141,3 +141,5 @@ const spendingLimits = Object.freeze({
 Object.freeze makes object immutable because we can't add new properties to this object
 
 functions which mutate data are called impure functions
+
+// if you need to show the same recipe if someone shares with you recepy f.e just do window.addEventListener('load', getRecipes) -> function that do ajax request in order to receive information by id

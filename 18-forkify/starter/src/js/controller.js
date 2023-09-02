@@ -1,5 +1,6 @@
 import * as model from './model.js';
 import RecipeView from './views/recipeView.js';
+import resultsViews from './views/resultsViews.js';
 import SearchView from './views/searchView.js';
 import 'core-js/stable';
 import 'regenerator-runtime/runtime';
@@ -12,7 +13,9 @@ const searchInput = document.querySelector('.search__field');
 
 ///////////////////////////////////////
 
-
+if (module.hot) {
+  module.hot.accept();
+}
 
 const getRecipes = async () => {
   try {
@@ -42,12 +45,14 @@ getRecipes();
 
 const controlSearch = async () => {
   try {
+    resultsViews.showSpinner()
     const query = SearchView.getQuery();
 
     if (!query) return;
 
     await model.loadSearch(query);
     console.log('model', model.state.search.results);
+    resultsViews.render(model.state.search.results);
   } catch (error) {
     console.log(error);
   }

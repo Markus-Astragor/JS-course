@@ -1,11 +1,13 @@
-import { API_URL } from './config.js';
+import { API_URL, RESULTS_PER_PAGE } from './config.js';
 import { getJSON } from './helpers.js';
 
 export const state = {
   recipe: {},
   search: {
     query: '',
-    results: []
+    results: [],
+    resultsPerPage: RESULTS_PER_PAGE,
+    page: 1
   }
 }
 
@@ -27,7 +29,7 @@ export const loadRecipe = async (id) => {
       cookingTime: recipe.cooking_time,
       ingredients: recipe.ingredients
     }
-    console.log(state.recipe);
+    console.log('state.recipe', state.recipe);
   } catch (error) {
     console.log('error', error);
     throw error;
@@ -49,4 +51,20 @@ export const loadSearch = async (query) => {
   } catch (error) {
     throw error;
   }
+}
+
+export const getSearchResultsPage = (page = state.search.page) => {
+  state.search.page = page;
+
+  const start = (page - 1) * state.search.resultsPerPage;
+  const end = (page * state.search.resultsPerPage) - 1;
+  return state.search.results.slice(start, end);
+}
+
+export const updateServings = (newServings) => {
+  state.recipe.ingredients.forEach(ing => {
+    ing.quantity = ing.quantity / state.recipe.servings * newServings;
+  });
+
+  state.recipe.servings = newServings;
 }

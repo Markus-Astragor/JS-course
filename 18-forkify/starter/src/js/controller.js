@@ -2,11 +2,10 @@ import * as model from './model.js';
 import RecipeView from './views/recipeView.js';
 import resultsViews from './views/resultsViews.js';
 import SearchView from './views/searchView.js';
+import paginationView from './views/paginationView.js';
+
 import 'core-js/stable';
 import 'regenerator-runtime/runtime';
-
-const recipeContainer = document.querySelector('.recipe');
-const searchInput = document.querySelector('.search__field');
 
 
 // https://forkify-api.herokuapp.com/v2
@@ -33,6 +32,7 @@ const getRecipes = async () => {
 
     RecipeView.render(model.state.recipe);
 
+    controlServings();
 
 
   } catch (error) {
@@ -52,15 +52,38 @@ const controlSearch = async () => {
 
     await model.loadSearch(query);
     console.log('model', model.state.search.results);
-    resultsViews.render(model.state.search.results);
+
+    // Rendering results
+    resultsViews.render(model.getSearchResultsPage(1));
+
+    // Render pagination
+
+    paginationView.render(model.state.search)
   } catch (error) {
     console.log(error);
   }
 }
 
+const paginationController = (page) => {
+  resultsViews.render(model.getSearchResultsPage(page));
+  paginationView.render(model.state.search)
+}
+
+const controlServings = (newServings) => {
+
+  // Update the recipe servings in state
+  model.updateServings(newServings);
+
+  // Update the recipe view
+
+  RecipeView.render(model.state.recipe);
+}
+
 const init = () => {
   RecipeView.handleRender(getRecipes); //  THis is the subscriber. publisher and subscriber method
   SearchView.addHandlerSearch(controlSearch);
+  paginationView.addHandlerClick(paginationController);
+  // RecipeView.addHandlerUpdateServings(controlServings);
 }
 
 init();

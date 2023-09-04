@@ -12,7 +12,6 @@ export default class View {
     const markup = this._generateMarkup()
     this._clear();
     this._parentElement.insertAdjacentHTML('afterbegin', markup);
-    // this._buttonSearch.addEventListener('click', this._handleSearch)
   }
 
 

@@ -22,17 +22,16 @@ const getRecipes = async () => {
     console.log('id', id);
 
     if (!id) return;
-
     RecipeView.showSpinner();
 
-    // const response = await fetch('https://forkify-api.herokuapp.com/api/v2/recipes?search=pizza&key=67ba5058-2d87-4be0-9da8-284779f91248');
+    resultsViews.update(model.getSearchResultsPage());
+
     await model.loadRecipe(id);
 
     // rendering recipe
 
     RecipeView.render(model.state.recipe);
 
-    controlServings();
 
 
   } catch (error) {
@@ -75,15 +74,14 @@ const controlServings = (newServings) => {
   model.updateServings(newServings);
 
   // Update the recipe view
-
-  RecipeView.render(model.state.recipe);
+  RecipeView.update(model.state.recipe);
 }
 
 const init = () => {
   RecipeView.handleRender(getRecipes); //  THis is the subscriber. publisher and subscriber method
   SearchView.addHandlerSearch(controlSearch);
   paginationView.addHandlerClick(paginationController);
-  // RecipeView.addHandlerUpdateServings(controlServings);
+  RecipeView.addHandlerUpdateServings(controlServings);
 }
 
 init();

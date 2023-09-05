@@ -595,11 +595,10 @@ const getRecipes = async ()=>{
         console.log("id", id);
         if (!id) return;
         (0, _recipeViewJsDefault.default).showSpinner();
-        // const response = await fetch('https://forkify-api.herokuapp.com/api/v2/recipes?search=pizza&key=67ba5058-2d87-4be0-9da8-284779f91248');
+        (0, _resultsViewsJsDefault.default).update(_modelJs.getSearchResultsPage());
         await _modelJs.loadRecipe(id);
         // rendering recipe
         (0, _recipeViewJsDefault.default).render(_modelJs.state.recipe);
-        controlServings();
     } catch (error) {
         console.log("error", error);
         (0, _recipeViewJsDefault.default).renderError();
@@ -629,13 +628,13 @@ const controlServings = (newServings)=>{
     // Update the recipe servings in state
     _modelJs.updateServings(newServings);
     // Update the recipe view
-    (0, _recipeViewJsDefault.default).render(_modelJs.state.recipe);
+    (0, _recipeViewJsDefault.default).update(_modelJs.state.recipe);
 };
 const init = ()=>{
     (0, _recipeViewJsDefault.default).handleRender(getRecipes); //  THis is the subscriber. publisher and subscriber method
     (0, _searchViewJsDefault.default).addHandlerSearch(controlSearch);
     (0, _paginationViewJsDefault.default).addHandlerClick(paginationController);
-// RecipeView.addHandlerUpdateServings(controlServings);
+    (0, _recipeViewJsDefault.default).addHandlerUpdateServings(controlServings);
 };
 init();
 
@@ -2628,7 +2627,7 @@ class RecipeView extends (0, _viewJsDefault.default) {
             if (!btn) return;
             const updateTo = btn.dataset.updateTo;
             console.log("updateTo", updateTo);
-        // handler(updateTo);
+            handler(updateTo);
         });
     }
     _generateMarkup() {
@@ -2656,12 +2655,12 @@ class RecipeView extends (0, _viewJsDefault.default) {
         <span class="recipe__info-text">servings</span>
 
         <div class="recipe__info-buttons">
-          <button class="btn--tiny btn--increase-servings" data-update-to="${this._data.servings - 1}">
+          <button class="btn--tiny btn--increase-servings" data-update-to="${+this._data.servings === 1 ? 1 : +this._data.servings - 1}">
             <svg>
               <use href="${0, _iconsSvgDefault.default}#icon-minus-circle"></use>
             </svg>
           </button>
-          <button class="btn--tiny btn--increase-servings" data-update-to="${this._data.servings + 1}">
+          <button class="btn--tiny btn--increase-servings" data-update-to="${+this._data.servings + 1}">
             <svg>
               <use href="${0, _iconsSvgDefault.default}#icon-plus-circle"></use>
             </svg>
@@ -2771,11 +2770,27 @@ var _iconsSvgDefault = parcelHelpers.interopDefault(_iconsSvg);
 class View {
     _data;
     render(data) {
-        if (!data || Array.isArray(data) && data.length === 0) return this.renderError();
         this._data = data;
         const markup = this._generateMarkup();
         this._clear();
         this._parentElement.insertAdjacentHTML("afterbegin", markup);
+    }
+    update(data) {
+        this._data = data;
+        const newMarkup = this._generateMarkup();
+        const newDom = document.createRange().createContextualFragment(newMarkup); // converts string to real dom objects
+        const newElements = Array.from(newDom.querySelectorAll("*"));
+        const curElements = Array.from(this._parentElement.querySelectorAll("*"));
+        newElements.forEach((newEl, i)=>{
+            const curEl = curElements[i];
+            console.log(curEl, newEl.isEqualNode(curEl));
+            // updates changed text
+            if (!newEl.isEqualNode(curEl) && newEl?.firstChild.nodeValue.trim() !== "") curEl.textContent = newEl.textContent;
+            // updates changed attribute
+            if (!newEl.isEqualNode(curEl)) Array.from(newEl.attributes).forEach((attr)=>{
+                curEl.setAttribute(attr.name, attr.value);
+            });
+        });
     }
     showSpinner() {
         const markUpSpinner = `
@@ -3092,9 +3107,10 @@ class ResultView extends (0, _viewJsDefault.default) {
         return this._data.map(this._generateMarkupPreview).join("");
     }
     _generateMarkupPreview(result) {
+        const id = window.location.hash.slice(1);
         return `
     <li class="preview">
-          <a class="preview__link preview__link--active" href="#${result.id}">
+          <a class="preview__link ${id === result.id ? "preview__link--active" : ""}" href="#${result.id}">
             <figure class="preview__fig">
               <img src="${result.image}" alt="Test" />
             </figure>

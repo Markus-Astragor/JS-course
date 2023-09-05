@@ -6,6 +6,7 @@ import paginationView from './views/paginationView.js';
 
 import 'core-js/stable';
 import 'regenerator-runtime/runtime';
+import bookMarkView from './views/bookMarkView.js';
 
 
 // https://forkify-api.herokuapp.com/v2
@@ -25,6 +26,7 @@ const getRecipes = async () => {
     RecipeView.showSpinner();
 
     resultsViews.update(model.getSearchResultsPage());
+    bookMarkView.update(model.state.bookMarks);
 
     await model.loadRecipe(id);
 
@@ -77,11 +79,34 @@ const controlServings = (newServings) => {
   RecipeView.update(model.state.recipe);
 }
 
+
+const controlAddBookMark = () => {
+  // delete bookmark
+  if (model.state.recipe?.bookMarked) {
+    model.deleteBookMark(model.state.recipe.id);
+    RecipeView.update(model.state.recipe)
+    bookMarkView.update(model.state.bookMarks);
+  }
+  // add bookMark
+  else {
+    model.addBookMark(model.state.recipe);
+    console.log('model.state.recipe', model.state.recipe);
+    RecipeView.update(model.state.recipe)
+
+    // display it
+    bookMarkView.render(model.state.bookMarks);
+  }
+
+
+}
+
+
 const init = () => {
   RecipeView.handleRender(getRecipes); //  THis is the subscriber. publisher and subscriber method
   SearchView.addHandlerSearch(controlSearch);
   paginationView.addHandlerClick(paginationController);
   RecipeView.addHandlerUpdateServings(controlServings);
+  RecipeView.addHandlerAddBookMark(controlAddBookMark);
 }
 
 init();

@@ -85,7 +85,7 @@ const controlAddBookMark = () => {
   if (model.state.recipe?.bookMarked) {
     model.deleteBookMark(model.state.recipe.id);
     RecipeView.update(model.state.recipe)
-    bookMarkView.update(model.state.bookMarks);
+    bookMarkView.render(model.state.bookMarks, false);
   }
   // add bookMark
   else {

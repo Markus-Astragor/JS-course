@@ -8,7 +8,12 @@ class BookMarkView extends View {
   _errorMessage = 'No bookmarks added. Find a nice recipe and bookmark it';
 
   _generateMarkup() {
-    return this._data.map(result => previewView.render(result, false)).join('')
+    if (this._data.length === 0) {
+      return this.renderError(this._errorMessage);
+    } else {
+      return this._data.map(result => previewView.render(result, false)).join('')
+    }
+
   }
 }
 

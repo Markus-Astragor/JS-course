@@ -638,7 +638,7 @@ const controlAddBookMark = ()=>{
     if (_modelJs.state.recipe?.bookMarked) {
         _modelJs.deleteBookMark(_modelJs.state.recipe.id);
         (0, _recipeViewJsDefault.default).update(_modelJs.state.recipe);
-        (0, _bookMarkViewJsDefault.default).update(_modelJs.state.bookMarks);
+        (0, _bookMarkViewJsDefault.default).render(_modelJs.state.bookMarks, false);
     } else {
         _modelJs.addBookMark(_modelJs.state.recipe);
         console.log("model.state.recipe", _modelJs.state.recipe);
@@ -3276,7 +3276,8 @@ class BookMarkView extends (0, _viewJsDefault.default) {
     _parentElement = document.querySelector(".bookmarks__list");
     _errorMessage = "No bookmarks added. Find a nice recipe and bookmark it";
     _generateMarkup() {
-        return this._data.map((result)=>(0, _previewViewJsDefault.default).render(result, false)).join("");
+        if (this._data.length === 0) return this.renderError(this._errorMessage);
+        else return this._data.map((result)=>(0, _previewViewJsDefault.default).render(result, false)).join("");
     }
 }
 exports.default = new BookMarkView();

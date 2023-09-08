@@ -597,7 +597,6 @@ if (module.hot) module.hot.accept();
 const getRecipes = async ()=>{
     try {
         const id = window.location.hash.slice(1);
-        console.log("id", id);
         if (!id) return;
         (0, _recipeViewJsDefault.default).showSpinner();
         (0, _resultsViewsJsDefault.default).update(_modelJs.getSearchResultsPage());
@@ -618,7 +617,6 @@ const controlSearch = async ()=>{
         const query = (0, _searchViewJsDefault.default).getQuery();
         if (!query) return;
         await _modelJs.loadSearch(query);
-        console.log("model", _modelJs.state.search.results);
         // Rendering results
         (0, _resultsViewsJsDefault.default).render(_modelJs.getSearchResultsPage(1));
         // Render pagination
@@ -645,7 +643,6 @@ const controlAddBookMark = ()=>{
         (0, _bookMarkViewJsDefault.default).render(_modelJs.state.bookMarks, false);
     } else {
         _modelJs.addBookMark(_modelJs.state.recipe);
-        console.log("model.state.recipe", _modelJs.state.recipe);
         (0, _recipeViewJsDefault.default).update(_modelJs.state.recipe);
         // display it
         (0, _bookMarkViewJsDefault.default).render(_modelJs.state.bookMarks);
@@ -688,7 +685,7 @@ const init = ()=>{
 };
 init();
 
-},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","core-js/modules/web.immediate.js":"49tUX","regenerator-runtime/runtime":"dXNgZ","./model.js":"Y4A21","./views/recipeView.js":"l60JC","./views/resultsViews.js":"4tKYq","./views/searchView.js":"9OQAM","./views/paginationView.js":"6z7bi","./views/bookMarkView.js":"jpgVd","./views/addRecipeView.js":"i6DNj","./config.js":"k5Hzs"}],"gkKU3":[function(require,module,exports) {
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","core-js/modules/web.immediate.js":"49tUX","regenerator-runtime/runtime":"dXNgZ","./model.js":"Y4A21","./views/recipeView.js":"l60JC","./views/resultsViews.js":"4tKYq","./views/searchView.js":"9OQAM","./views/paginationView.js":"6z7bi","./views/bookMarkView.js":"jpgVd","./config.js":"k5Hzs","./views/addRecipeView.js":"i6DNj"}],"gkKU3":[function(require,module,exports) {
 exports.interopDefault = function(a) {
     return a && a.__esModule ? a : {
         default: a
@@ -2589,9 +2586,8 @@ const createRecipeObject = (data)=>{
 const loadRecipe = async (id)=>{
     try {
         // const response = await fetch('https://forkify-api.herokuapp.com/api/v2/recipes?search=pizza&key=67ba5058-2d87-4be0-9da8-284779f91248');
-        const responseData = await (0, _helpersJs.getJSON)(`${(0, _configJs.API_URL)}${id}?key=${(0, _configJs.API_KEY)}`);
+        const responseData = await (0, _helpersJs.AJAX)(`${(0, _configJs.API_URL)}${id}?key=${(0, _configJs.API_KEY)}`);
         state.recipe = createRecipeObject(responseData.data);
-        console.log("state.recipe", state.recipe);
         if (state.bookMarks.some((bookMark)=>bookMark.id === id)) state.recipe.bookMarked = true;
         else state.recipe.bookMarked = false;
     } catch (error) {
@@ -2602,7 +2598,7 @@ const loadRecipe = async (id)=>{
 const loadSearch = async (query)=>{
     try {
         state.search.query = query;
-        const responseData = await (0, _helpersJs.getJSON)(`${(0, _configJs.API_URL)}?search=${query}`);
+        const responseData = await (0, _helpersJs.AJAX)(`${(0, _configJs.API_URL)}?search=${query}&key=${(0, _configJs.API_KEY)}`);
         state.search.results = responseData.data.recipes.map((rec)=>{
             return {
                 id: rec.id,
@@ -2668,7 +2664,7 @@ const uploadRecipe = async (newRecipe)=>{
             servings: +newRecipe.servings,
             ingredients
         };
-        const data = await (0, _helpersJs.sendJSON)(`${(0, _configJs.API_URL)}?key=${(0, _configJs.API_KEY)}`, recipe);
+        const data = await (0, _helpersJs.AJAX)(`${(0, _configJs.API_URL)}?key=${(0, _configJs.API_KEY)}`, recipe);
         state.recipe = createRecipeObject(data.data);
         addBookMark(state.recipe);
     } catch (err) {
@@ -2694,8 +2690,6 @@ const MODAL_CLOSE_SEC = 1.5;
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "AJAX", ()=>AJAX);
-parcelHelpers.export(exports, "getJSON", ()=>getJSON);
-parcelHelpers.export(exports, "sendJSON", ()=>sendJSON);
 var _configJs = require("./config.js");
 const timeout = function(s) {
     return new Promise(function(_, reject) {
@@ -2704,11 +2698,18 @@ const timeout = function(s) {
         }, s * 1000);
     });
 };
-const AJAX = async (url, uploadData)=>{};
-const getJSON = async (url)=>{
+const AJAX = async (url, uploadData)=>{
     try {
+        const fetchPro = uploadData ? fetch(url, {
+            method: "POST",
+            //headers information about request itself
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(uploadData)
+        }) : fetch(url);
         const response = await Promise.race([
-            fetch(url),
+            fetchPro,
             timeout((0, _configJs.TIME_SEC))
         ]);
         const responseData = await response.json();
@@ -2717,27 +2718,34 @@ const getJSON = async (url)=>{
     } catch (error) {
         throw error;
     }
-};
-const sendJSON = async (url, uploadData)=>{
-    try {
-        const response = await Promise.race([
-            fetch(url, {
-                method: "POST",
-                //headers information about request itself
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify(uploadData)
-            }),
-            timeout((0, _configJs.TIME_SEC))
-        ]);
-        const responseData = await response.json();
-        if (!response.ok) throw new Error(`${responseData.data} ${responseData.status}`);
-        return responseData;
-    } catch (error) {
-        throw error;
-    }
-};
+} // export const getJSON = async (url) => {
+ //   try {
+ //     const response = await Promise.race([fetch(url), timeout(TIME_SEC)]);
+ //     const responseData = await response.json();
+ //     if (!response.ok) throw new Error(`${responseData.data} ${responseData.status}`)
+ //     return responseData;
+ //   } catch (error) {
+ //     throw error;
+ //   }
+ // }
+ // export const sendJSON = async (url, uploadData) => {
+ //   try {
+ //     const response = await Promise.race([fetch(url, {
+ //       method: 'POST',
+ //       //headers information about request itself
+ //       headers: {
+ //         'Content-Type': 'application/json',
+ //       },
+ //       body: JSON.stringify(uploadData)
+ //     }), timeout(TIME_SEC)]);
+ //     const responseData = await response.json();
+ //     if (!response.ok) throw new Error(`${responseData.data} ${responseData.status}`)
+ //     return responseData;
+ //   } catch (error) {
+ //     throw error;
+ //   }
+ // }
+;
 
 },{"./config.js":"k5Hzs","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"l60JC":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
@@ -2747,7 +2755,6 @@ var _viewJsDefault = parcelHelpers.interopDefault(_viewJs);
 var _iconsSvg = require("url:../../img/icons.svg");
 var _iconsSvgDefault = parcelHelpers.interopDefault(_iconsSvg);
 var _fractional = require("fractional");
-console.log("Fraction", (0, _fractional.Fraction));
 class RecipeView extends (0, _viewJsDefault.default) {
     _parentElement = document.querySelector(".recipe");
     _errorMessage = "We can't find such recipe with this id. Please try another one";
@@ -2763,7 +2770,6 @@ class RecipeView extends (0, _viewJsDefault.default) {
             const btn = e.target.closest(".btn--tiny");
             if (!btn) return;
             const updateTo = btn.dataset.updateTo;
-            console.log("updateTo", updateTo);
             handler(updateTo);
         });
     }
@@ -2812,8 +2818,10 @@ class RecipeView extends (0, _viewJsDefault.default) {
         </div>
       </div>
 
-      <div class="recipe__user-generated">
-        
+      <div class="recipe__user-generated ${this._data.key ? "" : "hidden"}">
+          <svg>
+              <use href="${0, _iconsSvgDefault.default}#icon-user"></use>
+          </svg>
       </div>
       <button class="btn--round btn--bookmark">
         <svg class="">
@@ -2913,7 +2921,11 @@ var _iconsSvg = require("../../img/icons.svg");
 var _iconsSvgDefault = parcelHelpers.interopDefault(_iconsSvg);
 class View {
     _data;
-    render(data, render = true) {
+    /**
+   * Render the received object to the dom
+   * @param {Object | Object[]} data
+   * @param {*} render
+  */ render(data, render = true) {
         this._data = data;
         const markup = this._generateMarkup();
         if (!render) return markup;
@@ -3280,7 +3292,13 @@ class PreviewView extends (0, _viewJsDefault.default) {
                   <use href="${0, _iconsSvgDefault.default}#icon-user"></use>
                 </svg>
               </div>
+              <div class="recipe__user-generated ${this._data.key ? "" : "hidden"}">
+                <svg>
+                  <use href="${0, _iconsSvgDefault.default}#icon-user"></use>
+                </svg>
+              </div>
             </div>
+            
           </a>
         </li>
     `;
@@ -3328,7 +3346,6 @@ class PaginationView extends (0, _viewJsDefault.default) {
     }
     _generateMarkup() {
         const numPages = Math.round(this._data.results.length / this._data.resultsPerPage);
-        console.log("numPages", numPages);
         // We are on 1 page and there are pages
         if (this._data.page === 1 && numPages > 1) return `
           <button data-goto="${this._data.page + 1}" class="btn--inline pagination__btn--next">

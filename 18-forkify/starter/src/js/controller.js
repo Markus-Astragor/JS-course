@@ -21,7 +21,6 @@ if (module.hot) {
 const getRecipes = async () => {
   try {
     const id = window.location.hash.slice(1);
-    console.log('id', id);
 
     if (!id) return;
     RecipeView.showSpinner();
@@ -53,7 +52,6 @@ const controlSearch = async () => {
     if (!query) return;
 
     await model.loadSearch(query);
-    console.log('model', model.state.search.results);
 
     // Rendering results
     resultsViews.render(model.getSearchResultsPage(1));
@@ -91,7 +89,6 @@ const controlAddBookMark = () => {
   // add bookMark
   else {
     model.addBookMark(model.state.recipe);
-    console.log('model.state.recipe', model.state.recipe);
     RecipeView.update(model.state.recipe)
 
     // display it

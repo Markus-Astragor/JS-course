@@ -1,5 +1,5 @@
 import { API_KEY, API_URL, RESULTS_PER_PAGE } from './config.js';
-import { getJSON, sendJSON } from './helpers.js';
+import { AJAX } from './helpers.js';
 
 export const state = {
   recipe: {},
@@ -30,10 +30,8 @@ const createRecipeObject = (data) => {
 export const loadRecipe = async (id) => {
   try {
     // const response = await fetch('https://forkify-api.herokuapp.com/api/v2/recipes?search=pizza&key=67ba5058-2d87-4be0-9da8-284779f91248');
-    const responseData = await getJSON(`${API_URL}${id}?key=${API_KEY}`);
+    const responseData = await AJAX(`${API_URL}${id}?key=${API_KEY}`);
     state.recipe = createRecipeObject(responseData.data)
-
-    console.log('state.recipe', state.recipe);
 
     if (state.bookMarks.some(bookMark => bookMark.id === id)) {
       state.recipe.bookMarked = true;
@@ -50,7 +48,7 @@ export const loadRecipe = async (id) => {
 export const loadSearch = async (query) => {
   try {
     state.search.query = query;
-    const responseData = await getJSON(`${API_URL}?search=${query}`);
+    const responseData = await AJAX(`${API_URL}?search=${query}&key=${API_KEY}`);
     state.search.results = responseData.data.recipes.map(rec => {
       return {
         id: rec.id,
@@ -129,7 +127,7 @@ export const uploadRecipe = async (newRecipe) => {
       servings: +newRecipe.servings,
       ingredients,
     }
-    const data = await sendJSON(`${API_URL}?key=${API_KEY}`, recipe);
+    const data = await AJAX(`${API_URL}?key=${API_KEY}`, recipe);
     state.recipe = createRecipeObject(data.data);
     addBookMark(state.recipe)
   }

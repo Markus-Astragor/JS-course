@@ -1,5 +1,5 @@
-import { API_URL, RESULTS_PER_PAGE } from './config.js';
-import { getJSON } from './helpers.js';
+import { API_KEY, API_URL, RESULTS_PER_PAGE } from './config.js';
+import { getJSON, sendJSON } from './helpers.js';
 
 export const state = {
   recipe: {},
@@ -17,7 +17,7 @@ export const state = {
 export const loadRecipe = async (id) => {
   try {
     // const response = await fetch('https://forkify-api.herokuapp.com/api/v2/recipes?search=pizza&key=67ba5058-2d87-4be0-9da8-284779f91248');
-    const responseData = await getJSON(`${API_URL}${id}?key=67ba5058-2d87-4be0-9da8-284779f91248`);
+    const responseData = await getJSON(`${API_URL}${id}?key=${API_KEY}`);
 
     const { recipe } = responseData.data;
     state.recipe = {
@@ -78,10 +78,15 @@ export const updateServings = (newServings) => {
   state.recipe.servings = newServings;
 }
 
+const persistBookmark = () => {
+  localStorage.setItem('bookmarks', JSON.stringify(state.bookMarks));
+}
+
 export const addBookMark = (recipe) => {
   state.bookMarks.push(recipe);
 
   if (recipe.id === state.recipe.id) state.recipe.bookMarked = true;
+  persistBookmark();
 }
 
 export const deleteBookMark = (id) => {
@@ -89,4 +94,45 @@ export const deleteBookMark = (id) => {
   state.bookMarks.splice(index, 1);
 
   if (state.recipe.id === id) state.recipe.bookMarked = false;
+  persistBookmark();
+}
+
+const init = () => {
+  const bookmarksStorage = localStorage.getItem('bookmarks');
+  if (bookmarksStorage) state.bookMarks = JSON.parse(bookmarksStorage);
+}
+
+init();
+
+export const uploadRecipe = async (newRecipe) => {
+  try {
+    const ingredients = Object.entries(newRecipe)
+      .filter(entry => entry[0].startsWith('ingredient') && entry[1] !== '')
+      .map(ing => {
+        const ingArr = ing[1].replaceAll(' ', '').split(',');
+        if (ingArr.length !== 3) throw new Error('Wrong ingredient format. Please use the correct format');
+        const [quantity, unit, description] = ingArr;
+        return {
+          quantity: quantity ? +quantity : null, unit, description
+        }
+      })
+
+    const recipe = {
+      title: newRecipe.title,
+      soure_url: newRecipe.sourceURL,
+      image_url: newRecipe.image,
+      publisher: newRecipe.publisher,
+      cooking_time: +newRecipe.cookingTime,
+      servings: +newRecipe.servings,
+      ingredients,
+    }
+    console.log('recipe', recipe);
+    const data = await sendJSON(`${API_URL}?key=${API_KEY}`, recipe);
+    console.log('data', data);
+  }
+  catch (err) {
+    throw err;
+  }
+
+
 }

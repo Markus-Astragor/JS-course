@@ -3,10 +3,10 @@ import RecipeView from './views/recipeView.js';
 import resultsViews from './views/resultsViews.js';
 import SearchView from './views/searchView.js';
 import paginationView from './views/paginationView.js';
-
+import bookMarkView from './views/bookMarkView.js';
+import addRecipeView from './views/addRecipeView.js';
 import 'core-js/stable';
 import 'regenerator-runtime/runtime';
-import bookMarkView from './views/bookMarkView.js';
 
 
 // https://forkify-api.herokuapp.com/v2
@@ -34,7 +34,7 @@ const getRecipes = async () => {
 
     RecipeView.render(model.state.recipe);
 
-
+    bookMarkView.update(model.state.bookMarks);
 
   } catch (error) {
     console.log('error', error);
@@ -96,17 +96,31 @@ const controlAddBookMark = () => {
     // display it
     bookMarkView.render(model.state.bookMarks);
   }
-
-
 }
 
 
+const controlBookmarks = () => {
+  bookMarkView.render(model.state.bookMarks);
+}
+
+const controlAddRecipe = async (newRecipe) => {
+  try {
+    await model.uploadRecipe(newRecipe)
+  } catch (error) {
+    console.log(error);
+    addRecipeView.renderError(error)
+  }
+  // function that uploads recipe
+}
+
 const init = () => {
+  bookMarkView.handleRender(controlBookmarks);
   RecipeView.handleRender(getRecipes); //  THis is the subscriber. publisher and subscriber method
   SearchView.addHandlerSearch(controlSearch);
   paginationView.addHandlerClick(paginationController);
   RecipeView.addHandlerUpdateServings(controlServings);
   RecipeView.addHandlerAddBookMark(controlAddBookMark);
+  addRecipeView.handleSubmit(controlAddRecipe);
 }
 
 init();

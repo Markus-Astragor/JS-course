@@ -12,24 +12,27 @@ export const state = {
   bookMarks: []
 }
 
-
+const createRecipeObject = (data) => {
+  const { recipe } = data;
+  return {
+    id: recipe.id,
+    title: recipe.title,
+    publisher: recipe.publisher,
+    sourceURL: recipe.soure_url,
+    image: recipe.image_url,
+    servings: recipe.servings,
+    cookingTime: recipe.cooking_time,
+    ingredients: recipe.ingredients,
+    ...(recipe.key && { key: recipe.key }) // add property key if it exists
+  }
+}
 
 export const loadRecipe = async (id) => {
   try {
     // const response = await fetch('https://forkify-api.herokuapp.com/api/v2/recipes?search=pizza&key=67ba5058-2d87-4be0-9da8-284779f91248');
     const responseData = await getJSON(`${API_URL}${id}?key=${API_KEY}`);
+    state.recipe = createRecipeObject(responseData.data)
 
-    const { recipe } = responseData.data;
-    state.recipe = {
-      id: recipe.id,
-      title: recipe.title,
-      publisher: recipe.publisher,
-      sourceURL: recipe.soure_url,
-      image: recipe.image_url,
-      servings: recipe.servings,
-      cookingTime: recipe.cooking_time,
-      ingredients: recipe.ingredients
-    }
     console.log('state.recipe', state.recipe);
 
     if (state.bookMarks.some(bookMark => bookMark.id === id)) {
@@ -119,16 +122,16 @@ export const uploadRecipe = async (newRecipe) => {
 
     const recipe = {
       title: newRecipe.title,
-      soure_url: newRecipe.sourceURL,
+      source_url: newRecipe.sourceUrl,
       image_url: newRecipe.image,
       publisher: newRecipe.publisher,
       cooking_time: +newRecipe.cookingTime,
       servings: +newRecipe.servings,
       ingredients,
     }
-    console.log('recipe', recipe);
     const data = await sendJSON(`${API_URL}?key=${API_KEY}`, recipe);
-    console.log('data', data);
+    state.recipe = createRecipeObject(data.data);
+    addBookMark(state.recipe)
   }
   catch (err) {
     throw err;

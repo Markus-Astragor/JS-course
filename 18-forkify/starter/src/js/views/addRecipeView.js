@@ -9,6 +9,7 @@ class AddRecipeView extends View {
   _btnOpen = document.querySelector('.nav__btn--add-recipe');
   _btnClose = document.querySelector('.btn--close-modal');
   _btnUpload = document.querySelector('.upload__btn');
+  _successMessage = 'You successfully added your recipe'
 
   constructor() {
     super();
@@ -17,18 +18,18 @@ class AddRecipeView extends View {
     // this.handleSubmit();
   }
 
-  _toggleWindow() {
+  toggleWindow() {
     this._window.classList.toggle('hidden');
     this._overlay.classList.toggle('hidden');
   }
 
   _addHandlerShowWindow() {
-    this._btnOpen.addEventListener('click', this._toggleWindow.bind(this));
+    this._btnOpen.addEventListener('click', this.toggleWindow.bind(this));
   }
 
   _closeModal() {
-    this._btnClose.addEventListener('click', this._toggleWindow.bind(this));
-    this._overlay.addEventListener('click', this._toggleWindow.bind(this));
+    this._btnClose.addEventListener('click', this.toggleWindow.bind(this));
+    this._overlay.addEventListener('click', this.toggleWindow.bind(this));
   }
 
   handleSubmit(handler) {

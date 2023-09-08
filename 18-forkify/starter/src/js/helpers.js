@@ -8,6 +8,10 @@ const timeout = function (s) {
   });
 };
 
+
+export const AJAX = async (url, uploadData = undefined) => {
+}
+
 export const getJSON = async (url) => {
   try {
     const response = await Promise.race([fetch(url), timeout(TIME_SEC)]);

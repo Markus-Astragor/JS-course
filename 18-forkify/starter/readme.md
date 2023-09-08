@@ -72,3 +72,20 @@ Architecture which has these three aspects is called perfect architecture
 - Http library
 2. Controller 
 - Application logic (bridge between model and views which don't know about one another)
+
+
+final interesting tricks:
+window.history.pushState(state, 'title', `hash change`) // it allows us to change url without reloading the page
+
+const { recipe } = data;
+  return {
+    id: recipe.id,
+    title: recipe.title,
+    publisher: recipe.publisher,
+    sourceURL: recipe.soure_url,
+    image: recipe.image_url,
+    servings: recipe.servings,
+    cookingTime: recipe.cooking_time,
+    ingredients: recipe.ingredients,
+    ...(recipe.key && { key: recipe.key }) // add property key if it exists
+  }

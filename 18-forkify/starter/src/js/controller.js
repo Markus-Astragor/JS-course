@@ -1,4 +1,5 @@
 import * as model from './model.js';
+import { MODAL_CLOSE_SEC } from './config.js';
 import RecipeView from './views/recipeView.js';
 import resultsViews from './views/resultsViews.js';
 import SearchView from './views/searchView.js';
@@ -105,7 +106,25 @@ const controlBookmarks = () => {
 
 const controlAddRecipe = async (newRecipe) => {
   try {
-    await model.uploadRecipe(newRecipe)
+    addRecipeView.showSpinner();
+
+    await model.uploadRecipe(newRecipe);
+    // render recie
+    RecipeView.render(model.state.recipe);
+    // close modal
+
+    // success message
+    addRecipeView.renderMessage();
+
+    // render bookMarkView
+    bookMarkView.render(model.state.bookMarks);
+
+    // change id in the url
+    window.history.pushState(null, '', `#${model.state.recipe.id}`) // it allows us to change url without reloading the page
+
+    setTimeout(() => {
+      addRecipeView.toggleWindow();
+    }, MODAL_CLOSE_SEC * 1000)
   } catch (error) {
     console.log(error);
     addRecipeView.renderError(error)

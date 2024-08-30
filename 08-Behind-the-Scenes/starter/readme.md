@@ -43,7 +43,7 @@ So that's how javascript can do multiple tasks simultaneously.
 
 ## Engine runtime process
 
-When we ended to write a programm it convertes to AST and in this stage it is checked if it has some syntax errors or not. After that this program convertes to machine code for 0 or 1
+When we ended to write a programm it convertes to AST and in this stage it is checked if it has some syntax errors or not. After that this program convertes to machine code for 0 or 1 and after that it immediately executes it. But it executes it several times because at first while performig code it creates unoptimized version in order execute it as fast as possible after that it recompiles it more times in order to execute it again and create more optimized version of code.
 
 ## CallStack and Heap
 
